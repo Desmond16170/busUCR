@@ -136,7 +136,7 @@ Cada aporte, por pequeño que sea, ayuda a costear el hosting y el tiempo dedica
 Este proyecto usa una **licencia personalizada**. En resumen:
  
 - ✅ Podés usarlo y estudiarlo libremente con fines personales o educativos
-- ✅ Debés dar crédito visible al autor original (BusUCR / Desmond)
+- ✅ Debés dar crédito visible al autor original (BusUCR / L. Fernando Herrera Vargas)
 - ❌ No podés usarlo con fines comerciales sin autorización escrita
 - ❌ No podés redistribuirlo como trabajo propio
  

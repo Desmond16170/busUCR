@@ -4,7 +4,7 @@
  
 [![Estado](https://img.shields.io/badge/estado-activo-brightgreen)](https://bus-ucr-externo.netlify.app)
 [![Licencia](https://img.shields.io/badge/licencia-personalizada-orange)](#licencia)
-[![Hecho con](https://img.shields.io/badge/hecho%20con-Firebase%20%2B%20Netlify-blue)](#)
+[![Hecho con](https://img.shields.io/badge/hecho%20con-HTML%20%2B%20CSS%20%2B%20JS%20%2B%20Firebase-purple)](#)
  
 ---
  

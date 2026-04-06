@@ -5,13 +5,13 @@ Web app estática para seguimiento comunitario de buses entre la UCR y Coronado.
 ## 🔍 Paginas 
 
 - https://bus-ucr-externo.netlify.app/ (Home)
-- https://bus-ucr-coronado.netlify.app/ (Ruta Coronado)
-- https://bus-ucr-sanramon-.netlify.app/ (Ruta San Ramon)
-- https://bus-ucr-tibas.netlify.app/ (Ruta Tibas)
-- https://bus-ucr-santaana-escazu.netlify.app/ (Ruta Santa Ana // Escazu)
-- https://bus-ucr-alajuela.netlify.app/ (Ruta Alajuela)
-- https://bus-ucr-acosta.netlify.app/ (Ruta Acosta)
-- https://bus-ucr-heredia.netlify.app/  (Ruta Heredia)
+- /coronado (Ruta Coronado)
+- /san_ramon (Ruta San Ramon)
+- /tibas (Ruta Tibas)
+- /santa_ana_escazu (Ruta Santa Ana // Escazu)
+- /alajuela (Ruta Alajuela)
+- /acosta (Ruta Acosta)
+- /heredia  (Ruta Heredia)
 ---
 
 ## 📁 Estructura del proyecto

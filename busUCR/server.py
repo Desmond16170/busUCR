@@ -25,6 +25,8 @@ REDIRECTS = {
     "/periferica":       "/periferica.html",
     "/pavas":            "/pavas.html",
     "/creditos":         "/creditos.html",
+    "/182930adminherrera": "/admin.html",
+    "/servicios": "/servicios.html",
 }
 
 class BusUCRHandler(http.server.SimpleHTTPRequestHandler):

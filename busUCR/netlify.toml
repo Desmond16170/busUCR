@@ -63,3 +63,13 @@
   from = "/creditos"
   to = "/creditos.html"
   status = 200
+
+[[redirects]]
+  from = "/182930adminherrera"
+  to = "/admin.html"
+  status = 200
+
+[[redirects]]
+  from = "/servicios"
+  to = "/servicios.html"
+  status = 200

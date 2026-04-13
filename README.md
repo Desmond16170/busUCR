@@ -151,4 +151,4 @@ Consultá el archivo [`LICENSE`](./LICENSE) para los términos completos en espa
  
 ---
  
-<p align="center">Hecho con mucho cariño para los estudiantes de la UCR 🎓</p>
+<p align="center">Hecho por Luis Fernando Herrera Vargas🎓</p>

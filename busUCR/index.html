@@ -57,6 +57,8 @@
   }
 
   .header-inner {
+justify-content: space-between;
+
     justify-content: space-between;
     align-items: center;
     gap: 12px;
@@ -411,8 +413,9 @@
     letter-spacing: -.05em;
     color: var(--accent);
     margin-bottom: 7px;
-    font-size: 2.1rem;
-    line-height: 1
+    font-size: clamp(1rem, 4vw, 1.6rem);
+    line-height: 1.1;
+    word-break: break-word
   }
 
   .summary-label {
@@ -1057,22 +1060,7 @@
     background: #f0a50033 !important
   }
 
-  @media(max-width:600px) {
-    .nav-tabs {
-      position: static;
-      transform: none;
-      overflow-x: auto;
-      flex-wrap: nowrap;
-      width: 100%
-    }
-
-    .header-inner {
-      flex-wrap: wrap;
-      gap: 8px
-    }
-
-
-  }
+  
 
 .services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:1rem}
 .service-card{border:1px solid var(--border);box-shadow:var(--shadow);background:linear-gradient(#ffffff05,#ffffff02);border-radius:18px;padding:1.2rem;transition:transform .18s,border-color .18s,box-shadow .18s;position:relative;overflow:hidden;text-decoration:none;display:block}
@@ -1114,15 +1102,209 @@
 .feature-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
 .feature-desc { color: var(--muted); font-size: 12px; line-height: 1.5; }
 @media (width <= 520px) { .install-guide { grid-template-columns: 1fr; } .features-grid { grid-template-columns: 1fr 1fr; } }
+
+.menu-btn{font-size:22px;cursor:pointer;display:none;margin-left:auto}
+.sidebar{position:fixed;top:0;right:-270px;width:260px;height:100%;background:#060b16;border-left:1px solid var(--border);z-index:200;padding-top:70px;transition:.3s}
+.sidebar a{display:block;padding:14px 18px;color:var(--text);text-decoration:none;font-size:14px;border-bottom:1px solid var(--border)}
+.sidebar a:hover{background:#ffffff0d}
+
+
+
+.overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.4);
+opacity:0;
+pointer-events:none;
+transition:0.3s;
+z-index:150;
+}
+.overlay.active{
+opacity:1;
+pointer-events:auto;
+}
+
+
+.header-actions{display:flex;align-items:center;gap:8px;margin-left:auto}
+.header-link{display:inline-flex;align-items:center;justify-content:center;padding:8px 12px;border-radius:10px;text-decoration:none;font-size:13px;font-weight:700;color:var(--text);background:var(--surface);border:1px solid var(--border)}
+.header-link:hover{background:#ffffff0d}
+.header-link-donate{color:var(--accent);background:#f0a5001f;border-color:#f0a50033}
+.header-link-donate:hover{background:#f0a50033}
+
+.menu-btn{
+  width:40px;
+  height:40px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:5px;
+  border-radius:11px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.04);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  transition:transform .2s ease, background .2s ease, border-color .2s ease;
+}
+.menu-btn:hover{background:rgba(255,255,255,.08)}
+.menu-btn span{
+  width:17px;
+  height:2px;
+  border-radius:999px;
+  background:var(--text);
+  transition:transform .28s ease, opacity .2s ease, width .2s ease;
+  display:block;
+}
+.menu-btn.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.menu-btn.active span:nth-child(2){opacity:0}
+.menu-btn.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+.sidebar{
+  background:rgba(6,11,22,.72) !important;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  box-shadow:-12px 0 36px rgba(0,0,0,.35);
+}
+.sidebar::before{
+  content:"";
+  position:absolute;
+  inset:0 0 auto 0;
+  height:3px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2),var(--purple));
+}
+.overlay{
+  backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+}
+
+
+
+
+
+.header-inner{
+  display:flex;
+  align-items:center;
+}
+.header-actions{
+  margin-left:auto;
+  gap:8px;
+}
+.menu-btn{
+  margin-left:8px;
+}
+
+
+/* ── HEADER MOBILE ─────────────────────────────── */
+@media(max-width:768px){
+  .nav-tabs{display:none}
+  .menu-btn{display:flex}
+  .header-inner{
+    display:flex !important;
+    flex-wrap:nowrap;
+    align-items:center;
+    gap:8px;
+  }
+  .logo{order:1;flex-shrink:0}
+  .nav-tabs{order:2}
+  .header-actions{order:3;margin-left:auto;gap:6px}
+  .header-link{padding:7px 9px;font-size:11px}
+  .menu-btn{order:4;margin-left:0;flex-shrink:0}
+}
+@media(min-width:769px){
+  .menu-btn{display:none !important}
+}
+
+/* ══ CAMPUS ══════════════════════════════════════════ */
+.campus-subtabs{display:flex;gap:6px;margin-bottom:1.2rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:4px}
+.campus-tab{flex:1;background:0 0;border:none;color:var(--muted);font-family:var(--font);font-size:13px;font-weight:600;padding:8px 10px;border-radius:8px;cursor:pointer;transition:all .15s;text-align:center}
+.campus-tab:hover{color:var(--text);background:#ffffff0d}
+.campus-tab.active{color:var(--accent);background:var(--gold-soft)}
+.campus-panel{display:none}.campus-panel.active{display:block}
+.campus-section-label{text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-size:10px;font-weight:700;margin-bottom:8px}
+
+/* Horario semanal */
+.horario-week{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:.5rem}
+.horario-day-col{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;min-height:80px}
+.horario-day-header{text-align:center;padding:6px 4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--border);color:var(--muted)}
+.horario-day-header.hoy{color:var(--accent)}
+.horario-block{margin:4px;border-radius:8px;padding:5px 6px;font-size:10px;font-weight:600;line-height:1.3;cursor:pointer;transition:opacity .15s}
+.horario-block:hover{opacity:.8}
+.horario-block .hb-nombre{font-size:10px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.horario-block .hb-hora{font-size:9px;opacity:.8;margin-top:1px}
+.horario-empty{color:var(--muted);font-size:11px;text-align:center;padding:10px 4px}
+
+/* Lista materias */
+.materia-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;position:relative;overflow:hidden}
+.materia-color-bar{width:4px;height:100%;position:absolute;left:0;top:0;bottom:0;border-radius:4px 0 0 4px}
+.materia-info{flex:1;min-width:0;padding-left:8px}
+.materia-nombre{font-size:14px;font-weight:700}
+.materia-meta{color:var(--muted);font-size:12px;margin-top:3px;display:flex;gap:10px;flex-wrap:wrap}
+.materia-dias{display:flex;gap:3px;margin-top:5px}
+.materia-dia-pill{font-size:10px;font-weight:700;border-radius:5px;padding:2px 6px}
+.materia-actions{display:flex;gap:6px;flex-shrink:0}
+.btn-materia-del{background:#e86a5720;color:var(--accent2);border:1px solid #e86a5733;border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer;font-family:var(--font)}
+.materias-empty{text-align:center;color:var(--muted);padding:2rem 1rem;font-size:13px;border:1px dashed var(--border);border-radius:14px}
+
+/* Modal */
+.campus-modal-overlay{position:fixed;inset:0;background:#0000008c;backdrop-filter:blur(4px);z-index:300;display:flex;justify-content:center;align-items:center;padding:16px}
+.campus-modal{background:var(--surface);border:1px solid var(--border2);border-radius:20px;width:min(480px,100%);padding:1.4rem;position:relative;overflow:hidden;max-height:90vh;overflow-y:auto}
+.campus-modal:before{content:"";background:linear-gradient(90deg,var(--accent),var(--accent2));height:3px;position:absolute;inset:0 0 auto}
+.campus-modal-title{font-family:var(--display);font-size:1.3rem;font-weight:800;letter-spacing:-.03em;margin-bottom:1rem}
+.campus-field{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.campus-field label{text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-size:10px;font-weight:700}
+.campus-field input,.campus-field select{background:var(--bg);color:var(--text);border:1px solid var(--border2);font-size:13px;font-family:var(--font);border-radius:8px;outline:none;padding:9px 11px;transition:border-color .15s;width:100%}
+.campus-field input:focus{border-color:var(--accent)}
+.dias-picker{display:flex;gap:6px;flex-wrap:wrap}
+.dia-btn{width:36px;height:36px;border-radius:8px;border:1px solid var(--border2);background:var(--bg);color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font);transition:all .15s}
+.dia-btn.selected{border-color:var(--accent);background:var(--gold-soft);color:var(--accent)}
+.color-picker-row{display:flex;gap:8px;flex-wrap:wrap}
+.color-opt{width:28px;height:28px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .15s}
+.color-opt.selected{border-color:var(--text);transform:scale(1.15)}
+.btn-campus-add{background:var(--gold-soft);color:var(--accent);border:1px solid #f0a50038;border-radius:10px;padding:8px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);transition:all .15s}
+.btn-campus-add:hover{background:#f0a50033}
+.btn-campus-save{background:var(--accent);color:#000;border:none;border-radius:8px;padding:9px 18px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font)}
+.btn-campus-cancel{background:var(--surface2);color:var(--text);border:1px solid var(--border2);border-radius:8px;padding:9px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font)}
+
+/* Edificios */
+.edificio-search-wrap{position:relative;margin-bottom:10px}
+.edificio-search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;pointer-events:none}
+.edificio-search{background:var(--surface);border:1px solid var(--border2);color:var(--text);font-family:var(--font);border-radius:10px;outline:none;padding:9px 12px 9px 36px;font-size:13px;width:100%;transition:border-color .15s}
+.edificio-search:focus{border-color:var(--blue)}
+.finca-filter{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.finca-filter-btn{background:var(--surface);border:1px solid var(--border2);color:var(--muted);font-family:var(--font);cursor:pointer;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;transition:all .15s}
+.finca-filter-btn.active{color:var(--accent);background:var(--gold-soft);border-color:#f0a50038}
+.edificios-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.edificio-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;position:relative;overflow:hidden;transition:all .18s;cursor:default}
+.edificio-card:before{content:"";height:3px;position:absolute;inset:0 0 auto}
+.edificio-card.f1:before{background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.edificio-card.f2:before{background:linear-gradient(90deg,var(--blue),var(--purple))}
+.edificio-card.f3:before{background:linear-gradient(90deg,var(--green),var(--blue))}
+.edificio-card:hover{transform:translateY(-2px);border-color:var(--border2)}
+.edificio-sigla{font-family:var(--display);font-size:1.8rem;font-weight:800;letter-spacing:-.03em;line-height:1;margin-bottom:5px}
+.edificio-card.f1 .edificio-sigla{color:var(--accent)}
+.edificio-card.f2 .edificio-sigla{color:var(--blue)}
+.edificio-card.f3 .edificio-sigla{color:var(--green)}
+.edificio-nombre{font-size:12px;font-weight:600;color:var(--text);line-height:1.3}
+.edificio-finca{font-size:10px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.06em}
+.edificios-empty{text-align:center;color:var(--muted);padding:2rem;font-size:13px}
+
+@media(max-width:520px){
+  .horario-week{grid-template-columns:repeat(3,1fr)}
+  .edificios-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+}
 </style>
 </head>
 
 <div class="header">
   <div class="header-inner">
-    <div class="logo" id="logo-easter-egg" title="BusUCR">🚌 <span>BusUCR</span></div>
-
+  <div class="logo" id="logo-easter-egg" title="BusUCR">🚌<span>BusUCR</span></div>
     <div class="nav-tabs">
       <button class="home-tab active" onclick="showHomeView('rutas')" id="tab-rutas">Rutas</button>
+
+      <button class="home-tab" onclick="showHomeView('campus')" id="tab-campus">Campus</button>
 
       <button class="home-tab" onclick="showHomeView('novedades')" id="tab-novedades">Novedades</button>
 
@@ -1130,15 +1312,28 @@
 
       <button class="home-tab" onclick="showHomeView('faq')" id="tab-faq">FAQ</button>
 
-      <a class="home-tab" href="https://bus-pronto.vercel.app/" target="_blank">
-        Bus Interno
-      </a>
 
-      <a class="home-tab home-tab-donate" href="https://ko-fi.com/Q5Q2187D5I" target="_blank">
-        Donar
-      </a>
+    </div>
+
+    <div class="header-actions">
+      <a class="header-link" href="https://bus-pronto.vercel.app/" target="_blank">Interno</a>
+      <a class="header-link header-link-donate" href="https://ko-fi.com/Q5Q2187D5I" target="_blank">Donar</a>
+    </div>
+    <div class="menu-btn" id="menuBtn" onclick="toggleMenu()" aria-label="Abrir menú" role="button" tabindex="0">
+      <span></span>
+      <span></span>
+      <span></span>
     </div>
   </div>
+</div>
+
+<div id="overlay" class="overlay" onclick="closeMenu()"></div>
+<div id="sidebar" class="sidebar">
+  <a href="#" onclick="showHomeView('rutas'); toggleMenu()">🚌 Rutas</a>
+  <a href="#" onclick="showHomeView('campus'); toggleMenu()">🏛️ Campus</a>
+  <a href="#" onclick="showHomeView('novedades'); toggleMenu()">📢 Novedades</a>
+  <a href="#" onclick="showHomeView('servicios'); toggleMenu()">🧩 Servicios</a>
+  <a href="#" onclick="showHomeView('faq'); toggleMenu()">❓ FAQ</a>
 </div>
 
   <div class=install-banner-wrap>
@@ -1262,14 +1457,17 @@
         <div class=summary-card>
           <div class=summary-value>11</div>
           <div class=summary-label>Rutas</div>
+          <div id=stat-routes-sub style="font-size:11px;color:#97a5bc;margin-top:5px;letter-spacing:.04em"></div>
         </div>
         <div class=summary-card>
-          <div class=summary-value>2026</div>
-          <div class=summary-label>Actualizado</div>
+          <div class=summary-value id=stat-clock>--:--</div>
+          <div class=summary-label>Hora actual</div>
+          <div id=stat-clock-sub style="font-size:11px;color:#97a5bc;margin-top:5px;letter-spacing:.04em;display:flex;align-items:center;gap:5px"><span id=stat-dot style="width:7px;height:7px;border-radius:50%;background:#6ee787;display:inline-block;flex-shrink:0"></span><span id=stat-status-text></span></div>
         </div>
         <div class=summary-card>
-          <div class=summary-value>Info</div>
-          <div class=summary-label>En vivo</div>
+          <div class=summary-value id=stat-peak>--</div>
+          <div class=summary-label>Próximo pico</div>
+          <div id=stat-peak-sub style="font-size:11px;color:#97a5bc;margin-top:5px;letter-spacing:.04em"></div>
         </div>
       </section>
       <div class=section-title>Aplicaciones disponibles</div>
@@ -1509,7 +1707,7 @@
     <div class=service-desc>Consultá los menús y horarios de las sodas del campus universitario.</div>
     <div class=service-arrow>Abrir →</div>
   </a>
-  <a class=service-card href="https://map.ucr.ac.cr" target=_blank rel=noopener>
+  <a class=service-card href="https://www.ucr.ac.cr/mapas" target=_blank rel=noopener>
     <div class=service-icon>🗺️</div>
     <div class=service-name>Mapa UCR</div>
     <div class=service-desc>Consultá los mapas de toda la UCR para ver dónde están los edificios.</div>
@@ -1685,6 +1883,119 @@
 </div>
 
 </div></div>
+
+<!-- ═══ CAMPUS VIEW ═══ -->
+<div class="home-view" id="view-campus">
+  <div class="container">
+
+    <!-- subtabs -->
+    <div class="campus-subtabs">
+      <button class="campus-tab active" id="ctab-horario" onclick="showCampusTab('horario')">📅 Mi Horario</button>
+      <button class="campus-tab" id="ctab-edificios" onclick="showCampusTab('edificios')">🏛️ Edificios</button>
+    </div>
+
+    <!-- ── MI HORARIO ── -->
+    <div class="campus-panel active" id="cpanel-horario">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:1rem">
+        <div>
+          <div style="font-family:var(--display);font-size:1.4rem;font-weight:800;letter-spacing:-.03em">Mi Horario</div>
+          <div style="color:var(--muted);font-size:13px;margin-top:2px">Guardado solo en este dispositivo</div>
+        </div>
+        <button class="btn-campus-add" onclick="openAddMateria()">+ Agregar materia</button>
+      </div>
+
+      <!-- Semana view -->
+      <div class="horario-week" id="horario-week"></div>
+
+      <!-- Lista de materias -->
+      <div style="margin-top:1.25rem">
+        <div class="campus-section-label">Todas las materias</div>
+        <div id="materias-list"></div>
+      </div>
+
+      <!-- Modal agregar materia -->
+      <div class="campus-modal-overlay" id="materia-modal" style="display:none" onclick="if(event.target===this)closeAddMateria()">
+        <div class="campus-modal">
+          <div class="campus-modal-title">Agregar materia</div>
+          <div class="campus-field">
+            <label>Nombre de la materia</label>
+            <input type="text" id="m-nombre" placeholder="Ej: Cálculo I">
+          </div>
+          <div class="campus-field">
+            <label>Edificio / Sigla</label>
+            <input type="text" id="m-edificio" placeholder="Ej: IF, ME, EG...">
+          </div>
+          <div class="campus-field">
+            <label>Aula</label>
+            <input type="text" id="m-aula" placeholder="Ej: 101">
+          </div>
+          <div class="campus-field">
+            <label>Grupo</label>
+            <input type="text" id="m-grupo" placeholder="Ej: 01, 02, 03...">
+          </div>
+          <div class="campus-field">
+            <label>Días</label>
+            <div class="dias-picker" id="dias-picker">
+              <button class="dia-btn" data-dia="L">L</button>
+              <button class="dia-btn" data-dia="K">K</button>
+              <button class="dia-btn" data-dia="M">M</button>
+              <button class="dia-btn" data-dia="J">J</button>
+              <button class="dia-btn" data-dia="V">V</button>
+              <button class="dia-btn" data-dia="S">S</button>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px">
+            <div class="campus-field" style="flex:1">
+              <label>Hora inicio</label>
+              <input type="time" id="m-inicio">
+            </div>
+            <div class="campus-field" style="flex:1">
+              <label>Hora fin</label>
+              <input type="time" id="m-fin">
+            </div>
+          </div>
+          <div class="campus-field">
+            <label>Color</label>
+            <div class="color-picker-row" id="color-picker"></div>
+          </div>
+          <div id="m-error" style="color:var(--accent2);font-size:12px;margin-top:4px;display:none"></div>
+          <div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end">
+            <button class="btn-campus-cancel" onclick="closeAddMateria()">Cancelar</button>
+            <button class="btn-campus-save" onclick="saveMateria()">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── EDIFICIOS ── -->
+    <div class="campus-panel" id="cpanel-edificios">
+      <div style="margin-bottom:1rem">
+        <div style="font-family:var(--display);font-size:1.4rem;font-weight:800;letter-spacing:-.03em">Guía de Edificios</div>
+        <div style="color:var(--muted);font-size:13px;margin-top:2px">Sede Rodrigo Facio — Finca 1, 2 y 3</div>
+      </div>
+
+      <!-- Buscador -->
+      <div class="edificio-search-wrap">
+        <span class="edificio-search-icon">🔍</span>
+        <input type="search" class="edificio-search" id="edificio-search" placeholder="Buscar por sigla o nombre... Ej: IF, Informática" oninput="filterEdificios()">
+      </div>
+
+      <!-- Filtro finca -->
+      <div class="finca-filter" id="finca-filter">
+        <button class="finca-filter-btn active" data-finca="all" onclick="setFincaFilter('all',this)">Todas</button>
+        <button class="finca-filter-btn" data-finca="1" onclick="setFincaFilter('1',this)">🏛️ Finca 1</button>
+        <button class="finca-filter-btn" data-finca="2" onclick="setFincaFilter('2',this)">🔬 Finca 2</button>
+        <button class="finca-filter-btn" data-finca="3" onclick="setFincaFilter('3',this)">⚽ Finca 3</button>
+      </div>
+
+      <div class="edificios-grid" id="edificios-grid"></div>
+      <div class="edificios-empty" id="edificios-empty" style="display:none">No se encontraron edificios con ese criterio.</div>
+    </div>
+
+  </div>
+</div>
+
+
  <div class="footer">
   <div style="margin-bottom:6px;">
     Proyecto no oficial de la UCR ni de las empresas de autobuses mencionadas.
@@ -1727,7 +2038,7 @@
       novedad: { icon: '', label: 'Novedad', linkText: 'Ver más' },
       encuesta: { icon: '', label: 'Encuesta', linkText: 'Participar' },
       donacion: { icon: '', label: 'Donación', linkText: 'Donar en Ko-fi' },
-      bus_interno: { icon: '', label: 'Bus Interno', linkText: 'Abrir app' }
+      bus_interno: { icon: '', label: 'Interno', linkText: 'Abrir app' }
     };
 
     let novedades = [];
@@ -1833,5 +2144,448 @@
       }
     };
 
-  </script>
-  <script>const a0_0x3d833e = a0_0x512a; (function (_0x4fd5d5, _0x287243) { const _0x536d82 = a0_0x512a, _0x984dfc = _0x4fd5d5(); while (!![]) { try { const _0x21a47f = parseInt(_0x536d82(0x1a4)) / 0x1 + parseInt(_0x536d82(0x1b5)) / 0x2 + -parseInt(_0x536d82(0x19c)) / 0x3 * (-parseInt(_0x536d82(0x1be)) / 0x4) + -parseInt(_0x536d82(0x1c7)) / 0x5 + -parseInt(_0x536d82(0x1bf)) / 0x6 + parseInt(_0x536d82(0x1a5)) / 0x7 + -parseInt(_0x536d82(0x1a8)) / 0x8; if (_0x21a47f === _0x287243) break; else _0x984dfc['push'](_0x984dfc['shift']()); } catch (_0x173fbc) { _0x984dfc['push'](_0x984dfc['shift']()); } } }(a0_0xb528, 0xc1c9c)); let _activeFinca = null; function toggleFinca(_0x53dea1) { const _0x32e741 = a0_0x512a; let _0xe53681 = document[_0x32e741(0x18f)]('finca-panel-' + _0x53dea1), _0x1f889f = document['querySelectorAll']('.finca-btn'), _0x541bf4 = document[_0x32e741(0x1ba)](_0x32e741(0x192)); _activeFinca === _0x53dea1 ? (_0xe53681[_0x32e741(0x1b1)][_0x32e741(0x1ab)](_0x32e741(0x1b7)), _0x1f889f[_0x53dea1 - 0x1][_0x32e741(0x1b1)]['remove']('active'), _activeFinca = null) : (_0x541bf4[_0x32e741(0x1a7)](_0x34eef4 => _0x34eef4[_0x32e741(0x1b1)][_0x32e741(0x1ab)](_0x32e741(0x1b7))), _0x1f889f[_0x32e741(0x1a7)](_0x424f6d => _0x424f6d['classList']['remove'](_0x32e741(0x1aa))), _0xe53681['classList'][_0x32e741(0x1b2)](_0x32e741(0x1b7)), _0x1f889f[_0x53dea1 - 0x1][_0x32e741(0x1b1)][_0x32e741(0x1b2)](_0x32e741(0x1aa)), _activeFinca = _0x53dea1); } function a0_0x512a(_0x518d90, _0x3d108d) { _0x518d90 = _0x518d90 - 0x187; const _0xb5281b = a0_0xb528(); let _0x512ac5 = _0xb5281b[_0x518d90]; if (a0_0x512a['olcujt'] === undefined) { var _0x9ac679 = function (_0x57d337) { const _0x34b547 = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/='; let _0x53dea1 = '', _0xe53681 = ''; for (let _0x1f889f = 0x0, _0x541bf4, _0x34eef4, _0x424f6d = 0x0; _0x34eef4 = _0x57d337['charAt'](_0x424f6d++); ~_0x34eef4 && (_0x541bf4 = _0x1f889f % 0x4 ? _0x541bf4 * 0x40 + _0x34eef4 : _0x34eef4, _0x1f889f++ % 0x4) ? _0x53dea1 += String['fromCharCode'](0xff & _0x541bf4 >> (-0x2 * _0x1f889f & 0x6)) : 0x0) { _0x34eef4 = _0x34b547['indexOf'](_0x34eef4); } for (let _0x561230 = 0x0, _0x193220 = _0x53dea1['length']; _0x561230 < _0x193220; _0x561230++) { _0xe53681 += '%' + ('00' + _0x53dea1['charCodeAt'](_0x561230)['toString'](0x10))['slice'](-0x2); } return decodeURIComponent(_0xe53681); }; a0_0x512a['fEmrbn'] = _0x9ac679, a0_0x512a['rzySOa'] = {}, a0_0x512a['olcujt'] = !![]; } const _0x22bc9c = _0xb5281b[0x0], _0x51cfb2 = _0x518d90 + _0x22bc9c, _0x436a11 = a0_0x512a['rzySOa'][_0x51cfb2]; return !_0x436a11 ? (_0x512ac5 = a0_0x512a['fEmrbn'](_0x512ac5), a0_0x512a['rzySOa'][_0x51cfb2] = _0x512ac5) : _0x512ac5 = _0x436a11, _0x512ac5; } (function () { const _0x1b2779 = a0_0x512a; let _0x561230 = 'busucr_favorites', _0x193220 = document['getElementById']('routes-grid'), _0x55be96 = document[_0x1b2779(0x18f)](_0x1b2779(0x189)), _0xfbcf84 = document[_0x1b2779(0x18f)](_0x1b2779(0x1c1)), _0x2a915a = document[_0x1b2779(0x18f)](_0x1b2779(0x19a)), _0x3fc6fe = document[_0x1b2779(0x18f)](_0x1b2779(0x198)), _0x3cf399 = document['getElementById'](_0x1b2779(0x18c)), _0x75747a = document[_0x1b2779(0x18f)](_0x1b2779(0x187)); function _0x57546b() { const _0x5e3288 = _0x1b2779; try { return new Set(JSON[_0x5e3288(0x1c6)](localStorage[_0x5e3288(0x18a)](_0x561230) || '[]')); } catch { return new Set(); } } function _0x3e13c6(_0x34a5a4) { const _0x634c37 = _0x1b2779; localStorage[_0x634c37(0x1bd)](_0x561230, JSON[_0x634c37(0x1a3)]([..._0x34a5a4])); } let _0x4dacfe = _0x57546b(), _0x2ecce3 = !0x1; function _0x11cf04() { const _0x180f10 = _0x1b2779; document[_0x180f10(0x1ba)](_0x180f10(0x1ad))[_0x180f10(0x1a7)](_0x3e9b42 => { const _0x4059aa = _0x180f10; let _0x103120 = _0x3e9b42[_0x4059aa(0x1b8)][_0x4059aa(0x19b)], _0x2aee1e = _0x3e9b42['querySelector'](_0x4059aa(0x196)), _0x14036e = _0x4dacfe[_0x4059aa(0x1b3)](_0x103120); _0x3e9b42['classList'][_0x4059aa(0x1ae)](_0x4059aa(0x19f), _0x14036e), _0x2aee1e && _0x2aee1e[_0x4059aa(0x1b1)][_0x4059aa(0x1ae)](_0x4059aa(0x19f), _0x14036e); }); } document[_0x1b2779(0x1ba)](_0x1b2779(0x196))[_0x1b2779(0x1a7)](_0x139626 => { const _0x13a78b = _0x1b2779; _0x139626['addEventListener'](_0x13a78b(0x199), _0x1acc76 => { const _0x37bf62 = _0x13a78b; _0x1acc76['preventDefault'](), _0x1acc76['stopPropagation'](); let _0x5a9a70 = _0x139626[_0x37bf62(0x1b8)]['favKey']; _0x4dacfe[_0x37bf62(0x1b3)](_0x5a9a70) ? _0x4dacfe['delete'](_0x5a9a70) : _0x4dacfe[_0x37bf62(0x1b2)](_0x5a9a70), _0x3e13c6(_0x4dacfe), _0x11cf04(), _0x310474(); }); }), _0x2a915a[_0x1b2779(0x18d)](_0x1b2779(0x199), () => { const _0x1ca50a = _0x1b2779; _0x2ecce3 = !_0x2ecce3, _0x2a915a[_0x1ca50a(0x1b1)][_0x1ca50a(0x1ae)](_0x1ca50a(0x1aa), _0x2ecce3), _0x310474(); }), _0x55be96['addEventListener'](_0x1b2779(0x1b0), _0x310474), _0xfbcf84['addEventListener'](_0x1b2779(0x18b), _0x310474); function _0x310474() { const _0x133a77 = _0x1b2779; let _0x47fc31 = _0x55be96[_0x133a77(0x194)][_0x133a77(0x1c4)]()[_0x133a77(0x1ac)]()[_0x133a77(0x19d)]('NFD')[_0x133a77(0x1af)](/[\u0300-\u036f]/g, ''), _0xa10765 = _0xfbcf84[_0x133a77(0x194)], _0x50b470 = [...document[_0x133a77(0x1ba)](_0x133a77(0x1ad))], _0x37bd7e = _0x50b470[_0x133a77(0x197)](_0x15ddfc => { const _0x49c473 = _0x133a77; let _0x5dc256 = (_0x15ddfc[_0x49c473(0x1b8)]['name'] || '')['toLowerCase']()[_0x49c473(0x19d)](_0x49c473(0x1c0))[_0x49c473(0x1af)](/[\u0300-\u036f]/g, ''), _0x190c78 = !_0x47fc31 || _0x5dc256[_0x49c473(0x190)](_0x47fc31), _0x1a1979 = !_0x2ecce3 || _0x4dacfe[_0x49c473(0x1b3)](_0x15ddfc[_0x49c473(0x1b8)][_0x49c473(0x19b)]); return _0x190c78 && _0x1a1979; }), _0x126983 = { 'az': (_0x3544f0, _0x5e94d0) => _0x3544f0[_0x133a77(0x1b8)]['name'][_0x133a77(0x188)](_0x5e94d0[_0x133a77(0x1b8)][_0x133a77(0x1c8)], 'es'), 'za': (_0xd727d0, _0x185826) => _0x185826[_0x133a77(0x1b8)]['name'][_0x133a77(0x188)](_0xd727d0[_0x133a77(0x1b8)]['name'], 'es'), 'fare-asc': (_0x23f768, _0xa87e92) => Number(_0x23f768['dataset']['fare']) - Number(_0xa87e92[_0x133a77(0x1b8)]['fare']), 'fare-desc': (_0x28826f, _0x3066fa) => Number(_0x3066fa[_0x133a77(0x1b8)][_0x133a77(0x1bc)]) - Number(_0x28826f[_0x133a77(0x1b8)][_0x133a77(0x1bc)]), 'time-asc': (_0x3fba4d, _0x55f093) => Number(_0x3fba4d[_0x133a77(0x1b8)][_0x133a77(0x18e)]) - Number(_0x55f093['dataset']['time']), 'time-desc': (_0x7c54ed, _0x1b4604) => Number(_0x1b4604[_0x133a77(0x1b8)][_0x133a77(0x18e)]) - Number(_0x7c54ed[_0x133a77(0x1b8)][_0x133a77(0x18e)]) }; _0x126983[_0xa10765] && _0x37bd7e[_0x133a77(0x1a2)](_0x126983[_0xa10765]); let _0x13c8d3 = _0xa10765 === 'default' && !_0x2ecce3 && !_0x47fc31, _0x3d9618 = _0x13c8d3 ? _0x37bd7e[_0x133a77(0x197)](_0x4b66b6 => _0x4dacfe[_0x133a77(0x1b3)](_0x4b66b6[_0x133a77(0x1b8)][_0x133a77(0x19b)])) : [], _0x373f9d = _0x13c8d3 ? _0x37bd7e[_0x133a77(0x197)](_0x41978c => !_0x4dacfe[_0x133a77(0x1b3)](_0x41978c[_0x133a77(0x1b8)][_0x133a77(0x19b)])) : _0x37bd7e; _0x50b470[_0x133a77(0x1a7)](_0x4e42c6 => { const _0x53c42a = _0x133a77; _0x4e42c6[_0x53c42a(0x19e)][_0x53c42a(0x195)] = _0x53c42a(0x1a0), _0x4e42c6[_0x53c42a(0x19e)][_0x53c42a(0x1b6)] = ''; }); let _0x51e3a5 = _0x3d9618[_0x133a77(0x193)] > 0x0, _0x1bda5f = _0x373f9d[_0x133a77(0x193)] > 0x0; _0x3fc6fe[_0x133a77(0x1b1)][_0x133a77(0x1ae)](_0x133a77(0x1b7), _0x13c8d3 && _0x51e3a5), _0x3cf399['classList'][_0x133a77(0x1ae)](_0x133a77(0x1b7), _0x13c8d3 && _0x51e3a5 && _0x1bda5f), _0x3fc6fe['style'][_0x133a77(0x1b6)] = '0', _0x3cf399[_0x133a77(0x19e)]['order'] = String(_0x3d9618[_0x133a77(0x193)] + 0x1); let _0x5325f5 = 0x1; _0x3d9618[_0x133a77(0x1a7)](_0x4cf2da => { const _0x14580f = _0x133a77; _0x4cf2da[_0x14580f(0x19e)][_0x14580f(0x195)] = '', _0x4cf2da[_0x14580f(0x19e)][_0x14580f(0x1b6)] = String(_0x5325f5++); }), _0x5325f5 = _0x3d9618[_0x133a77(0x193)] + 0x2, _0x373f9d[_0x133a77(0x1a7)](_0xaaa9f0 => { const _0x9007b4 = _0x133a77; _0xaaa9f0[_0x9007b4(0x19e)]['display'] = '', _0xaaa9f0[_0x9007b4(0x19e)][_0x9007b4(0x1b6)] = String(_0x5325f5++); }); let _0x44067e = _0x37bd7e['length'] > 0x0; _0x75747a['classList'][_0x133a77(0x1ae)]('visible', !_0x44067e); } _0x11cf04(), _0x310474(); }()), a0_0x3d833e(0x1c2) in navigator && window[a0_0x3d833e(0x18d)](a0_0x3d833e(0x1c9), () => { const _0x55b59c = a0_0x3d833e; navigator[_0x55b59c(0x1c2)][_0x55b59c(0x1a6)](_0x55b59c(0x1b4))['catch'](_0x38e50b => console[_0x55b59c(0x1c3)]('No\x20se\x20pudo\x20registrar\x20el\x20service\x20worker:', _0x38e50b)); }); let deferredPrompt = null; const installBanner = document[a0_0x3d833e(0x18f)](a0_0x3d833e(0x1b9)); window['addEventListener'](a0_0x3d833e(0x1bb), _0x3eccf5 => { const _0x35b888 = a0_0x3d833e; _0x3eccf5[_0x35b888(0x1a9)](), deferredPrompt = _0x3eccf5, installBanner && installBanner[_0x35b888(0x1b1)]['add'](_0x35b888(0x1b7)); }), installBanner?.[a0_0x3d833e(0x18d)]('click', async () => { const _0x4c603b = a0_0x3d833e; if (deferredPrompt) { deferredPrompt[_0x4c603b(0x191)](); try { await deferredPrompt['userChoice']; } catch (_0x153fb1) { console[_0x4c603b(0x1c3)](_0x4c603b(0x1c5), _0x153fb1); } deferredPrompt = null, installBanner[_0x4c603b(0x1b1)]['remove'](_0x4c603b(0x1b7)); } }), window[a0_0x3d833e(0x18d)](a0_0x3d833e(0x1a1), () => { const _0x30867a = a0_0x3d833e; deferredPrompt = null, installBanner?.[_0x30867a(0x1b1)]['remove'](_0x30867a(0x1b7)); }); function a0_0xb528() { const _0xc514ed = ['Dg9mB3DLCKnHC2u', 'lMnHCMrBzgf0ys1YB3v0zs1RzxLD', 'Dg9Nz2XL', 'CMvWBgfJzq', 'Aw5WDxq', 'y2XHC3nmAxn0', 'ywrK', 'AgfZ', 'l3n3lMPZ', 'mtiXmZKZmKXTzKHwBq', 'B3jKzxi', 'DMLZAwjSzq', 'zgf0yxnLDa', 'Aw5ZDgfSBejHBM5LCG', 'CxvLCNLtzwXLy3rVCKfSBa', 'yMvMB3jLAw5ZDgfSBhbYB21WDa', 'zMfYzq', 'C2v0sxrLBq', 'mti0twzIrKjj', 'mtK2otu0ofPkEvryDa', 'tKze', 'CM91DguTC29YDa', 'C2vYDMLJzvDVCMTLCG', 'D2fYBG', 'DhjPBq', 'sw5ZDgfSywnPW7nUignHBMnLBgfKysbVig5VigrPC3bVBMLIBgu6', 'CgfYC2u', 'mtmYndm4nwnYt2fiwq', 'BMfTzq', 'Bg9Hza', 'CM91DgvZlwvTChr5', 'Bg9JywXLq29TCgfYzq', 'CM91DguTC2vHCMnO', 'z2v0sxrLBq', 'y2HHBMDL', 'B3rOzxiTzgL2AwrLCG', 'ywrKrxzLBNrmAxn0zw5LCG', 'DgLTzq', 'z2v0rwXLBwvUDej5swq', 'Aw5JBhvKzxm', 'ChjVBxb0', 'lMzPBMnHlxbHBMvS', 'BgvUz3rO', 'DMfSDwu', 'zgLZCgXHEq', 'lMzHDI1IDg4', 'zMLSDgvY', 'zMf2lwrPDMLKzxi', 'y2XPy2S', 'zMf2lwzPBhrLCI1IDg4', 'CM91DgvlzxK', 'ntiYnZv0AMzcwfy', 'BM9YBwfSAxPL', 'C3r5Bgu', 'AxmTzMf2', 'BM9Uzq', 'yxbWAw5ZDgfSBgvK', 'C29YDa', 'C3rYAw5NAwz5', 'mti2mJmZmMnlzMv3sG', 'ode5nZKXC1rWtxLk', 'CMvNAxn0zxi', 'zM9YrwfJAa', 'oteXnZu2mgnSCuT4tW', 'ChjLDMvUDerLzMf1Bhq', 'ywn0AxzL', 'CMvTB3zL']; a0_0xb528 = function () { return _0xc514ed; }; return a0_0xb528(); }</script>
+  
+function openMenu(){
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+  const menuBtn = document.getElementById("menuBtn");
+  if(!sidebar || !overlay || !menuBtn) return;
+  sidebar.style.right = "0px";
+  overlay.classList.add("active");
+  menuBtn.classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+function closeMenu(){
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+  const menuBtn = document.getElementById("menuBtn");
+  if(!sidebar || !overlay || !menuBtn) return;
+  sidebar.style.right = "-270px";
+  overlay.classList.remove("active");
+  menuBtn.classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+function toggleMenu(){
+  const sidebar = document.getElementById("sidebar");
+  if(!sidebar) return;
+  const isOpen = sidebar.style.right === "0px";
+  if(isOpen) closeMenu();
+  else openMenu();
+}
+
+document.addEventListener("keydown", (e) => {
+  if(e.key === "Escape") closeMenu();
+});
+
+document.getElementById("menuBtn")?.addEventListener("keydown", (e) => {
+  if(e.key === "Enter" || e.key === " ") {
+    e.preventDefault();
+    toggleMenu();
+  }
+});
+
+let touchStartX = 0;
+let touchCurrentX = 0;
+let isSwiping = false;
+
+document.addEventListener("touchstart", (e) => {
+  const sidebar = document.getElementById("sidebar");
+  const isOpen = sidebar && sidebar.style.right === "0px";
+  touchStartX = e.changedTouches[0].clientX;
+  touchCurrentX = touchStartX;
+
+  if(isOpen || touchStartX > window.innerWidth - 28){
+    isSwiping = true;
+  }
+}, {passive:true});
+
+document.addEventListener("touchmove", (e) => {
+  if(!isSwiping) return;
+  touchCurrentX = e.changedTouches[0].clientX;
+}, {passive:true});
+
+document.addEventListener("touchend", () => {
+  const sidebar = document.getElementById("sidebar");
+  if(!sidebar || !isSwiping) return;
+
+  const deltaX = touchCurrentX - touchStartX;
+  const isOpen = sidebar.style.right === "0px";
+
+  if(!isOpen && touchStartX > window.innerWidth - 28 && deltaX < -35){
+    openMenu();
+  } else if(isOpen && deltaX > 35){
+    closeMenu();
+  }
+
+  isSwiping = false;
+  touchStartX = 0;
+  touchCurrentX = 0;
+}, {passive:true});
+
+
+
+// ══ CAMPUS ════════════════════════════════════════════════════════════════
+
+// --- Edificios data ---
+const EDIFICIOS = [
+  // Finca 1
+  {sigla:'AD',nombre:'Artes Dramáticas',finca:'1'},
+  {sigla:'AG',nombre:'Agroalimentarias',finca:'1'},
+  {sigla:'AM',nombre:'Artes Musicales',finca:'1'},
+  {sigla:'AP',nombre:'Artes Plásticas',finca:'1'},
+  {sigla:'AQ',nombre:'Arquitectura',finca:'1'},
+  {sigla:'AU',nombre:'Aulas',finca:'1'},
+  {sigla:'BA',nombre:'Bellas Artes',finca:'1'},
+  {sigla:'BI',nombre:'Biología',finca:'1'},
+  {sigla:'BL',nombre:'Bibliotecología',finca:'1'},
+  {sigla:'CE',nombre:'Ciencias Económicas',finca:'1'},
+  {sigla:'DE',nombre:'Derecho',finca:'1'},
+  {sigla:'EG',nombre:'Estudios Generales',finca:'1'},
+  {sigla:'ES',nombre:'Edificio Saprissa',finca:'1'},
+  {sigla:'ED',nombre:'Educación',finca:'1'},
+  {sigla:'FA',nombre:'Farmacia',finca:'1'},
+  {sigla:'FM',nombre:'Física Matemática',finca:'1'},
+  {sigla:'GE',nombre:'Geología',finca:'1'},
+  {sigla:'IF',nombre:'Informática',finca:'1'},
+  {sigla:'LE',nombre:'Letras',finca:'1'},
+  {sigla:'ME',nombre:'Medicina',finca:'1'},
+  {sigla:'MI',nombre:'Microbiología',finca:'1'},
+  {sigla:'QU',nombre:'Química',finca:'1'},
+  {sigla:'TA',nombre:'Tecnología de Alimentos',finca:'1'},
+  {sigla:'TS',nombre:'Tecnologías en Salud',finca:'1'},
+  // Finca 2
+  {sigla:'CS',nombre:'Ciencias Sociales',finca:'2'},
+  {sigla:'EE',nombre:'Enfermería',finca:'2'},
+  {sigla:'FC',nombre:'Facultad de Ciencias',finca:'2'},
+  {sigla:'IE',nombre:'Ingeniería Eléctrica',finca:'2'},
+  {sigla:'IN',nombre:'Ingeniería',finca:'2'},
+  {sigla:'NU',nombre:'Nutrición',finca:'2'},
+  {sigla:'SA',nombre:'Salud Pública',finca:'2'},
+  // Finca 3
+  {sigla:'EF',nombre:'Educación Física',finca:'3'},
+  {sigla:'OD',nombre:'Odontología',finca:'3'},
+];
+
+const MATERIA_COLORS = ['#f0a500','#58a6ff','#6ee787','#a371f7','#e86a57','#f78c6c','#5ccfe6','#bae67e'];
+const DIAS_LABEL = {L:'Lunes',K:'Martes',M:'Miércoles',J:'Jueves',V:'Viernes',S:'Sábado'};
+const DIAS_ORDER = ['L','K','M','J','V','S'];
+
+let materias = JSON.parse(localStorage.getItem('busucr_materias') || '[]');
+let activeFincaFilter = 'all';
+let editingId = null;
+
+// --- Campus tab switch ---
+window.showCampusTab = function(tab) {
+  document.querySelectorAll('.campus-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.campus-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('ctab-' + tab).classList.add('active');
+  document.getElementById('cpanel-' + tab).classList.add('active');
+  if (tab === 'edificios') renderEdificios();
+  if (tab === 'horario') renderHorario();
+};
+
+// --- Horario ---
+function saveMaterias() {
+  localStorage.setItem('busucr_materias', JSON.stringify(materias));
+}
+
+function renderHorario() {
+  renderWeek();
+  renderMateriasList();
+}
+
+function getTodayDia() {
+  const d = new Date().getDay(); // 0=dom,1=lun...6=sab
+  return ['','L','K','M','J','V','S'][d] || '';
+}
+
+function renderWeek() {
+  const week = document.getElementById('horario-week');
+  if (!week) return;
+  const hoy = getTodayDia();
+  week.innerHTML = DIAS_ORDER.map(dia => {
+    const bloques = materias.filter(m => m.dias.includes(dia));
+    return `<div class="horario-day-col">
+      <div class="horario-day-header${dia===hoy?' hoy':''}">${DIAS_LABEL[dia].substring(0,3)}</div>
+      ${bloques.length ? bloques.map(m => `
+        <div class="horario-block" style="background:${m.color}22;border-left:3px solid ${m.color}" onclick="deleteMateria('${m.id}')">
+          <div class="hb-nombre" style="color:${m.color}">${m.nombre}</div>
+          <div class="hb-hora">${m.inicio}–${m.fin}</div>
+          ${m.edificio ? `<div class="hb-hora">${m.edificio}${m.aula?' '+m.aula:''}</div>` : ''}
+        </div>`).join('') : `<div class="horario-empty">—</div>`}
+    </div>`;
+  }).join('');
+}
+
+function renderMateriasList() {
+  const el = document.getElementById('materias-list');
+  if (!el) return;
+  if (!materias.length) {
+    el.innerHTML = '<div class="materias-empty">📚 No hay materias aún.<br><span style="font-size:12px">Tocá "+ Agregar materia" para empezar.</span></div>';
+    return;
+  }
+  el.innerHTML = materias.map(m => `
+    <div class="materia-card">
+      <div class="materia-color-bar" style="background:${m.color}"></div>
+      <div class="materia-info">
+        <div class="materia-nombre">${m.nombre}</div>
+        <div class="materia-meta">
+          ${m.edificio ? `<span>🏛️ ${m.edificio}${m.aula?' · Aula '+m.aula:''}</span>` : ''}
+          ${m.grupo ? `<span>👥 Grupo ${m.grupo}</span>` : ''}
+          <span>🕐 ${m.inicio} – ${m.fin}</span>
+        </div>
+        <div class="materia-dias">
+          ${m.dias.map(d => `<span class="materia-dia-pill" style="background:${m.color}22;color:${m.color}">${DIAS_LABEL[d].substring(0,3)}</span>`).join('')}
+        </div>
+      </div>
+      <div class="materia-actions">
+        <button class="btn-materia-del" onclick="deleteMateria('${m.id}')">Eliminar</button>
+      </div>
+    </div>`).join('');
+}
+
+window.openAddMateria = function() {
+  // Reset form
+  document.getElementById('m-nombre').value = '';
+  document.getElementById('m-edificio').value = '';
+  document.getElementById('m-aula').value = '';
+  document.getElementById('m-grupo').value = '';
+  document.getElementById('m-inicio').value = '';
+  document.getElementById('m-fin').value = '';
+  document.getElementById('m-error').style.display = 'none';
+
+  // Dias picker
+  document.querySelectorAll('.dia-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.dia-btn').forEach(b => {
+    b.onclick = () => b.classList.toggle('selected');
+  });
+
+  // Color picker
+  const cp = document.getElementById('color-picker');
+  cp.innerHTML = MATERIA_COLORS.map((c,i) =>
+    `<div class="color-opt${i===0?' selected':''}" style="background:${c}" data-color="${c}" onclick="selectColor(this)"></div>`
+  ).join('');
+
+  document.getElementById('materia-modal').style.display = 'flex';
+};
+
+window.selectColor = function(el) {
+  document.querySelectorAll('.color-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+};
+
+window.closeAddMateria = function() {
+  document.getElementById('materia-modal').style.display = 'none';
+};
+
+window.saveMateria = function() {
+  const nombre = document.getElementById('m-nombre').value.trim();
+  const edificio = document.getElementById('m-edificio').value.trim().toUpperCase();
+  const aula = document.getElementById('m-aula').value.trim();
+  const grupo = document.getElementById('m-grupo').value.trim();
+  const inicio = document.getElementById('m-inicio').value;
+  const fin = document.getElementById('m-fin').value;
+  const dias = [...document.querySelectorAll('.dia-btn.selected')].map(b => b.dataset.dia);
+  const color = document.querySelector('.color-opt.selected')?.dataset.color || MATERIA_COLORS[0];
+  const errEl = document.getElementById('m-error');
+
+  if (!nombre) { errEl.textContent = 'Escribí el nombre de la materia'; errEl.style.display='block'; return; }
+  if (!dias.length) { errEl.textContent = 'Seleccioná al menos un día'; errEl.style.display='block'; return; }
+  if (!inicio || !fin) { errEl.textContent = 'Poné la hora de inicio y fin'; errEl.style.display='block'; return; }
+
+  materias.push({ id: Date.now().toString(), nombre, edificio, aula, grupo, dias, inicio, fin, color });
+  saveMaterias();
+  closeAddMateria();
+  renderHorario();
+};
+
+window.deleteMateria = function(id) {
+  if (!confirm('¿Eliminar esta materia?')) return;
+  materias = materias.filter(m => m.id !== id);
+  saveMaterias();
+  renderHorario();
+};
+
+// --- Edificios ---
+window.setFincaFilter = function(finca, btn) {
+  activeFincaFilter = finca;
+  document.querySelectorAll('.finca-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterEdificios();
+};
+
+window.filterEdificios = function() {
+  const q = (document.getElementById('edificio-search')?.value || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  const grid = document.getElementById('edificios-grid');
+  const empty = document.getElementById('edificios-empty');
+  const filtered = EDIFICIOS.filter(e => {
+    const matchFinca = activeFincaFilter === 'all' || e.finca === activeFincaFilter;
+    const matchQ = !q || e.sigla.toLowerCase().includes(q) || e.nombre.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').includes(q);
+    return matchFinca && matchQ;
+  });
+  if (!filtered.length) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  const fincaLabel = {1:'🏛️ Finca 1',2:'🔬 Finca 2',3:'⚽ Finca 3'};
+  grid.innerHTML = filtered.map(e => `
+    <div class="edificio-card f${e.finca}">
+      <div class="edificio-sigla">${e.sigla}</div>
+      <div class="edificio-nombre">${e.nombre}</div>
+      <div class="edificio-finca">${fincaLabel[e.finca]}</div>
+    </div>`).join('');
+};
+
+function renderEdificios() { filterEdificios(); }
+
+// Init horario when campus view loads
+const origShowHomeView = window.showHomeView;
+window.showHomeView = function(view) {
+  origShowHomeView(view);
+  if (view === 'campus') {
+    renderHorario();
+    renderEdificios();
+  }
+};
+
+</script>
+  <script>const a0_0x3d833e = a0_0x512a; (function (_0x4fd5d5, _0x287243) { const _0x536d82 = a0_0x512a, _0x984dfc = _0x4fd5d5(); while (!![]) { try { const _0x21a47f = parseInt(_0x536d82(0x1a4)) / 0x1 + parseInt(_0x536d82(0x1b5)) / 0x2 + -parseInt(_0x536d82(0x19c)) / 0x3 * (-parseInt(_0x536d82(0x1be)) / 0x4) + -parseInt(_0x536d82(0x1c7)) / 0x5 + -parseInt(_0x536d82(0x1bf)) / 0x6 + parseInt(_0x536d82(0x1a5)) / 0x7 + -parseInt(_0x536d82(0x1a8)) / 0x8; if (_0x21a47f === _0x287243) break; else _0x984dfc['push'](_0x984dfc['shift']()); } catch (_0x173fbc) { _0x984dfc['push'](_0x984dfc['shift']()); } } }(a0_0xb528, 0xc1c9c)); let _activeFinca = null; function toggleFinca(_0x53dea1) { const _0x32e741 = a0_0x512a; let _0xe53681 = document[_0x32e741(0x18f)]('finca-panel-' + _0x53dea1), _0x1f889f = document['querySelectorAll']('.finca-btn'), _0x541bf4 = document[_0x32e741(0x1ba)](_0x32e741(0x192)); _activeFinca === _0x53dea1 ? (_0xe53681[_0x32e741(0x1b1)][_0x32e741(0x1ab)](_0x32e741(0x1b7)), _0x1f889f[_0x53dea1 - 0x1][_0x32e741(0x1b1)]['remove']('active'), _activeFinca = null) : (_0x541bf4[_0x32e741(0x1a7)](_0x34eef4 => _0x34eef4[_0x32e741(0x1b1)][_0x32e741(0x1ab)](_0x32e741(0x1b7))), _0x1f889f[_0x32e741(0x1a7)](_0x424f6d => _0x424f6d['classList']['remove'](_0x32e741(0x1aa))), _0xe53681['classList'][_0x32e741(0x1b2)](_0x32e741(0x1b7)), _0x1f889f[_0x53dea1 - 0x1][_0x32e741(0x1b1)][_0x32e741(0x1b2)](_0x32e741(0x1aa)), _activeFinca = _0x53dea1); } function a0_0x512a(_0x518d90, _0x3d108d) { _0x518d90 = _0x518d90 - 0x187; const _0xb5281b = a0_0xb528(); let _0x512ac5 = _0xb5281b[_0x518d90]; if (a0_0x512a['olcujt'] === undefined) { var _0x9ac679 = function (_0x57d337) { const _0x34b547 = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/='; let _0x53dea1 = '', _0xe53681 = ''; for (let _0x1f889f = 0x0, _0x541bf4, _0x34eef4, _0x424f6d = 0x0; _0x34eef4 = _0x57d337['charAt'](_0x424f6d++); ~_0x34eef4 && (_0x541bf4 = _0x1f889f % 0x4 ? _0x541bf4 * 0x40 + _0x34eef4 : _0x34eef4, _0x1f889f++ % 0x4) ? _0x53dea1 += String['fromCharCode'](0xff & _0x541bf4 >> (-0x2 * _0x1f889f & 0x6)) : 0x0) { _0x34eef4 = _0x34b547['indexOf'](_0x34eef4); } for (let _0x561230 = 0x0, _0x193220 = _0x53dea1['length']; _0x561230 < _0x193220; _0x561230++) { _0xe53681 += '%' + ('00' + _0x53dea1['charCodeAt'](_0x561230)['toString'](0x10))['slice'](-0x2); } return decodeURIComponent(_0xe53681); }; a0_0x512a['fEmrbn'] = _0x9ac679, a0_0x512a['rzySOa'] = {}, a0_0x512a['olcujt'] = !![]; } const _0x22bc9c = _0xb5281b[0x0], _0x51cfb2 = _0x518d90 + _0x22bc9c, _0x436a11 = a0_0x512a['rzySOa'][_0x51cfb2]; return !_0x436a11 ? (_0x512ac5 = a0_0x512a['fEmrbn'](_0x512ac5), a0_0x512a['rzySOa'][_0x51cfb2] = _0x512ac5) : _0x512ac5 = _0x436a11, _0x512ac5; } (function () { const _0x1b2779 = a0_0x512a; let _0x561230 = 'busucr_favorites', _0x193220 = document['getElementById']('routes-grid'), _0x55be96 = document[_0x1b2779(0x18f)](_0x1b2779(0x189)), _0xfbcf84 = document[_0x1b2779(0x18f)](_0x1b2779(0x1c1)), _0x2a915a = document[_0x1b2779(0x18f)](_0x1b2779(0x19a)), _0x3fc6fe = document[_0x1b2779(0x18f)](_0x1b2779(0x198)), _0x3cf399 = document['getElementById'](_0x1b2779(0x18c)), _0x75747a = document[_0x1b2779(0x18f)](_0x1b2779(0x187)); function _0x57546b() { const _0x5e3288 = _0x1b2779; try { return new Set(JSON[_0x5e3288(0x1c6)](localStorage[_0x5e3288(0x18a)](_0x561230) || '[]')); } catch { return new Set(); } } function _0x3e13c6(_0x34a5a4) { const _0x634c37 = _0x1b2779; localStorage[_0x634c37(0x1bd)](_0x561230, JSON[_0x634c37(0x1a3)]([..._0x34a5a4])); } let _0x4dacfe = _0x57546b(), _0x2ecce3 = !0x1; function _0x11cf04() { const _0x180f10 = _0x1b2779; document[_0x180f10(0x1ba)](_0x180f10(0x1ad))[_0x180f10(0x1a7)](_0x3e9b42 => { const _0x4059aa = _0x180f10; let _0x103120 = _0x3e9b42[_0x4059aa(0x1b8)][_0x4059aa(0x19b)], _0x2aee1e = _0x3e9b42['querySelector'](_0x4059aa(0x196)), _0x14036e = _0x4dacfe[_0x4059aa(0x1b3)](_0x103120); _0x3e9b42['classList'][_0x4059aa(0x1ae)](_0x4059aa(0x19f), _0x14036e), _0x2aee1e && _0x2aee1e[_0x4059aa(0x1b1)][_0x4059aa(0x1ae)](_0x4059aa(0x19f), _0x14036e); }); } document[_0x1b2779(0x1ba)](_0x1b2779(0x196))[_0x1b2779(0x1a7)](_0x139626 => { const _0x13a78b = _0x1b2779; _0x139626['addEventListener'](_0x13a78b(0x199), _0x1acc76 => { const _0x37bf62 = _0x13a78b; _0x1acc76['preventDefault'](), _0x1acc76['stopPropagation'](); let _0x5a9a70 = _0x139626[_0x37bf62(0x1b8)]['favKey']; _0x4dacfe[_0x37bf62(0x1b3)](_0x5a9a70) ? _0x4dacfe['delete'](_0x5a9a70) : _0x4dacfe[_0x37bf62(0x1b2)](_0x5a9a70), _0x3e13c6(_0x4dacfe), _0x11cf04(), _0x310474(); }); }), _0x2a915a[_0x1b2779(0x18d)](_0x1b2779(0x199), () => { const _0x1ca50a = _0x1b2779; _0x2ecce3 = !_0x2ecce3, _0x2a915a[_0x1ca50a(0x1b1)][_0x1ca50a(0x1ae)](_0x1ca50a(0x1aa), _0x2ecce3), _0x310474(); }), _0x55be96['addEventListener'](_0x1b2779(0x1b0), _0x310474), _0xfbcf84['addEventListener'](_0x1b2779(0x18b), _0x310474); function _0x310474() { const _0x133a77 = _0x1b2779; let _0x47fc31 = _0x55be96[_0x133a77(0x194)][_0x133a77(0x1c4)]()[_0x133a77(0x1ac)]()[_0x133a77(0x19d)]('NFD')[_0x133a77(0x1af)](/[\u0300-\u036f]/g, ''), _0xa10765 = _0xfbcf84[_0x133a77(0x194)], _0x50b470 = [...document[_0x133a77(0x1ba)](_0x133a77(0x1ad))], _0x37bd7e = _0x50b470[_0x133a77(0x197)](_0x15ddfc => { const _0x49c473 = _0x133a77; let _0x5dc256 = (_0x15ddfc[_0x49c473(0x1b8)]['name'] || '')['toLowerCase']()[_0x49c473(0x19d)](_0x49c473(0x1c0))[_0x49c473(0x1af)](/[\u0300-\u036f]/g, ''), _0x190c78 = !_0x47fc31 || _0x5dc256[_0x49c473(0x190)](_0x47fc31), _0x1a1979 = !_0x2ecce3 || _0x4dacfe[_0x49c473(0x1b3)](_0x15ddfc[_0x49c473(0x1b8)][_0x49c473(0x19b)]); return _0x190c78 && _0x1a1979; }), _0x126983 = { 'az': (_0x3544f0, _0x5e94d0) => _0x3544f0[_0x133a77(0x1b8)]['name'][_0x133a77(0x188)](_0x5e94d0[_0x133a77(0x1b8)][_0x133a77(0x1c8)], 'es'), 'za': (_0xd727d0, _0x185826) => _0x185826[_0x133a77(0x1b8)]['name'][_0x133a77(0x188)](_0xd727d0[_0x133a77(0x1b8)]['name'], 'es'), 'fare-asc': (_0x23f768, _0xa87e92) => Number(_0x23f768['dataset']['fare']) - Number(_0xa87e92[_0x133a77(0x1b8)]['fare']), 'fare-desc': (_0x28826f, _0x3066fa) => Number(_0x3066fa[_0x133a77(0x1b8)][_0x133a77(0x1bc)]) - Number(_0x28826f[_0x133a77(0x1b8)][_0x133a77(0x1bc)]), 'time-asc': (_0x3fba4d, _0x55f093) => Number(_0x3fba4d[_0x133a77(0x1b8)][_0x133a77(0x18e)]) - Number(_0x55f093['dataset']['time']), 'time-desc': (_0x7c54ed, _0x1b4604) => Number(_0x1b4604[_0x133a77(0x1b8)][_0x133a77(0x18e)]) - Number(_0x7c54ed[_0x133a77(0x1b8)][_0x133a77(0x18e)]) }; _0x126983[_0xa10765] && _0x37bd7e[_0x133a77(0x1a2)](_0x126983[_0xa10765]); let _0x13c8d3 = _0xa10765 === 'default' && !_0x2ecce3 && !_0x47fc31, _0x3d9618 = _0x13c8d3 ? _0x37bd7e[_0x133a77(0x197)](_0x4b66b6 => _0x4dacfe[_0x133a77(0x1b3)](_0x4b66b6[_0x133a77(0x1b8)][_0x133a77(0x19b)])) : [], _0x373f9d = _0x13c8d3 ? _0x37bd7e[_0x133a77(0x197)](_0x41978c => !_0x4dacfe[_0x133a77(0x1b3)](_0x41978c[_0x133a77(0x1b8)][_0x133a77(0x19b)])) : _0x37bd7e; _0x50b470[_0x133a77(0x1a7)](_0x4e42c6 => { const _0x53c42a = _0x133a77; _0x4e42c6[_0x53c42a(0x19e)][_0x53c42a(0x195)] = _0x53c42a(0x1a0), _0x4e42c6[_0x53c42a(0x19e)][_0x53c42a(0x1b6)] = ''; }); let _0x51e3a5 = _0x3d9618[_0x133a77(0x193)] > 0x0, _0x1bda5f = _0x373f9d[_0x133a77(0x193)] > 0x0; _0x3fc6fe[_0x133a77(0x1b1)][_0x133a77(0x1ae)](_0x133a77(0x1b7), _0x13c8d3 && _0x51e3a5), _0x3cf399['classList'][_0x133a77(0x1ae)](_0x133a77(0x1b7), _0x13c8d3 && _0x51e3a5 && _0x1bda5f), _0x3fc6fe['style'][_0x133a77(0x1b6)] = '0', _0x3cf399[_0x133a77(0x19e)]['order'] = String(_0x3d9618[_0x133a77(0x193)] + 0x1); let _0x5325f5 = 0x1; _0x3d9618[_0x133a77(0x1a7)](_0x4cf2da => { const _0x14580f = _0x133a77; _0x4cf2da[_0x14580f(0x19e)][_0x14580f(0x195)] = '', _0x4cf2da[_0x14580f(0x19e)][_0x14580f(0x1b6)] = String(_0x5325f5++); }), _0x5325f5 = _0x3d9618[_0x133a77(0x193)] + 0x2, _0x373f9d[_0x133a77(0x1a7)](_0xaaa9f0 => { const _0x9007b4 = _0x133a77; _0xaaa9f0[_0x9007b4(0x19e)]['display'] = '', _0xaaa9f0[_0x9007b4(0x19e)][_0x9007b4(0x1b6)] = String(_0x5325f5++); }); let _0x44067e = _0x37bd7e['length'] > 0x0; _0x75747a['classList'][_0x133a77(0x1ae)]('visible', !_0x44067e); } _0x11cf04(), _0x310474(); }()), a0_0x3d833e(0x1c2) in navigator && window[a0_0x3d833e(0x18d)](a0_0x3d833e(0x1c9), () => { const _0x55b59c = a0_0x3d833e; navigator[_0x55b59c(0x1c2)][_0x55b59c(0x1a6)](_0x55b59c(0x1b4))['catch'](_0x38e50b => console[_0x55b59c(0x1c3)]('No\x20se\x20pudo\x20registrar\x20el\x20service\x20worker:', _0x38e50b)); }); let deferredPrompt = null; const installBanner = document[a0_0x3d833e(0x18f)](a0_0x3d833e(0x1b9)); window['addEventListener'](a0_0x3d833e(0x1bb), _0x3eccf5 => { const _0x35b888 = a0_0x3d833e; _0x3eccf5[_0x35b888(0x1a9)](), deferredPrompt = _0x3eccf5, installBanner && installBanner[_0x35b888(0x1b1)]['add'](_0x35b888(0x1b7)); }), installBanner?.[a0_0x3d833e(0x18d)]('click', async () => { const _0x4c603b = a0_0x3d833e; if (deferredPrompt) { deferredPrompt[_0x4c603b(0x191)](); try { await deferredPrompt['userChoice']; } catch (_0x153fb1) { console[_0x4c603b(0x1c3)](_0x4c603b(0x1c5), _0x153fb1); } deferredPrompt = null, installBanner[_0x4c603b(0x1b1)]['remove'](_0x4c603b(0x1b7)); } }), window[a0_0x3d833e(0x18d)](a0_0x3d833e(0x1a1), () => { const _0x30867a = a0_0x3d833e; deferredPrompt = null, installBanner?.[_0x30867a(0x1b1)]['remove'](_0x30867a(0x1b7)); }); function a0_0xb528() { const _0xc514ed = ['Dg9mB3DLCKnHC2u', 'lMnHCMrBzgf0ys1YB3v0zs1RzxLD', 'Dg9Nz2XL', 'CMvWBgfJzq', 'Aw5WDxq', 'y2XHC3nmAxn0', 'ywrK', 'AgfZ', 'l3n3lMPZ', 'mtiXmZKZmKXTzKHwBq', 'B3jKzxi', 'DMLZAwjSzq', 'zgf0yxnLDa', 'Aw5ZDgfSBejHBM5LCG', 'CxvLCNLtzwXLy3rVCKfSBa', 'yMvMB3jLAw5ZDgfSBhbYB21WDa', 'zMfYzq', 'C2v0sxrLBq', 'mti0twzIrKjj', 'mtK2otu0ofPkEvryDa', 'tKze', 'CM91DguTC29YDa', 'C2vYDMLJzvDVCMTLCG', 'D2fYBG', 'DhjPBq', 'sw5ZDgfSywnPW7nUignHBMnLBgfKysbVig5VigrPC3bVBMLIBgu6', 'CgfYC2u', 'mtmYndm4nwnYt2fiwq', 'BMfTzq', 'Bg9Hza', 'CM91DgvZlwvTChr5', 'Bg9JywXLq29TCgfYzq', 'CM91DguTC2vHCMnO', 'z2v0sxrLBq', 'y2HHBMDL', 'B3rOzxiTzgL2AwrLCG', 'ywrKrxzLBNrmAxn0zw5LCG', 'DgLTzq', 'z2v0rwXLBwvUDej5swq', 'Aw5JBhvKzxm', 'ChjVBxb0', 'lMzPBMnHlxbHBMvS', 'BgvUz3rO', 'DMfSDwu', 'zgLZCgXHEq', 'lMzHDI1IDg4', 'zMLSDgvY', 'zMf2lwrPDMLKzxi', 'y2XPy2S', 'zMf2lwzPBhrLCI1IDg4', 'CM91DgvlzxK', 'ntiYnZv0AMzcwfy', 'BM9YBwfSAxPL', 'C3r5Bgu', 'AxmTzMf2', 'BM9Uzq', 'yxbWAw5ZDgfSBgvK', 'C29YDa', 'C3rYAw5NAwz5', 'mti2mJmZmMnlzMv3sG', 'ode5nZKXC1rWtxLk', 'CMvNAxn0zxi', 'zM9YrwfJAa', 'oteXnZu2mgnSCuT4tW', 'ChjLDMvUDerLzMf1Bhq', 'ywn0AxzL', 'CMvTB3zL']; a0_0xb528 = function () { return _0xc514ed; }; return a0_0xb528(); }
+function openMenu(){
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+  const menuBtn = document.getElementById("menuBtn");
+  if(!sidebar || !overlay || !menuBtn) return;
+  sidebar.style.right = "0px";
+  overlay.classList.add("active");
+  menuBtn.classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+function closeMenu(){
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+  const menuBtn = document.getElementById("menuBtn");
+  if(!sidebar || !overlay || !menuBtn) return;
+  sidebar.style.right = "-270px";
+  overlay.classList.remove("active");
+  menuBtn.classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+function toggleMenu(){
+  const sidebar = document.getElementById("sidebar");
+  if(!sidebar) return;
+  const isOpen = sidebar.style.right === "0px";
+  if(isOpen) closeMenu();
+  else openMenu();
+}
+
+document.addEventListener("keydown", (e) => {
+  if(e.key === "Escape") closeMenu();
+});
+
+document.getElementById("menuBtn")?.addEventListener("keydown", (e) => {
+  if(e.key === "Enter" || e.key === " ") {
+    e.preventDefault();
+    toggleMenu();
+  }
+});
+
+let touchStartX = 0;
+let touchCurrentX = 0;
+let isSwiping = false;
+
+document.addEventListener("touchstart", (e) => {
+  const sidebar = document.getElementById("sidebar");
+  const isOpen = sidebar && sidebar.style.right === "0px";
+  touchStartX = e.changedTouches[0].clientX;
+  touchCurrentX = touchStartX;
+
+  if(isOpen || touchStartX > window.innerWidth - 28){
+    isSwiping = true;
+  }
+}, {passive:true});
+
+document.addEventListener("touchmove", (e) => {
+  if(!isSwiping) return;
+  touchCurrentX = e.changedTouches[0].clientX;
+}, {passive:true});
+
+document.addEventListener("touchend", () => {
+  const sidebar = document.getElementById("sidebar");
+  if(!sidebar || !isSwiping) return;
+
+  const deltaX = touchCurrentX - touchStartX;
+  const isOpen = sidebar.style.right === "0px";
+
+  if(!isOpen && touchStartX > window.innerWidth - 28 && deltaX < -35){
+    openMenu();
+  } else if(isOpen && deltaX > 35){
+    closeMenu();
+  }
+
+  isSwiping = false;
+  touchStartX = 0;
+  touchCurrentX = 0;
+}, {passive:true});
+
+(function(){
+  const PEAKS=[
+    {start:6*60,end:8*60+30,label:"Ma\u00f1ana (6:00\u20138:30)"},
+    {start:11*60+30,end:13*60+30,label:"Mediod\u00eda (11:30\u201313:30)"},
+    {start:16*60,end:18*60+30,label:"Tarde (16:00\u201318:30)"}
+  ];
+  function pad(n){return String(n).padStart(2,"0")}
+  function tick(){
+    const now=new Date(),h=now.getHours(),m=now.getMinutes(),day=now.getDay();
+    const isWeekend=day===0||day===6;
+    const mins=h*60+m;
+    const clockEl=document.getElementById("stat-clock");
+    const dotEl=document.getElementById("stat-dot");
+    const statusEl=document.getElementById("stat-status-text");
+    const peakEl=document.getElementById("stat-peak");
+    const peakSubEl=document.getElementById("stat-peak-sub");
+    const routesSubEl=document.getElementById("stat-routes-sub");
+    if(!clockEl)return;
+    clockEl.textContent=pad(h)+":"+pad(m);
+    let statusType="quiet";
+    if(isWeekend)statusType="weekend";
+    else if(h<5||h>=21)statusType="closed";
+    else for(const p of PEAKS){if(mins>=p.start&&mins<p.end){statusType="peak";break;}}
+    const dotColors={peak:"#f0a500",quiet:"#6ee787",closed:"#4a5568",weekend:"#a371f7"};
+    const statusLabels={peak:"Hora pico UCR",quiet:"Servicio en curso",closed:"Sin servicio regular",weekend:"Fin de semana"};
+    const routesLabels={peak:"\u2191 Alta demanda ahora",quiet:"Frecuencia normal activa",closed:"Sin buses en este horario",weekend:"Sin servicio hoy"};
+    dotEl.style.background=dotColors[statusType];
+    dotEl.style.animation=statusType==="peak"?"blink-stat 1.4s infinite":"none";
+    statusEl.textContent=statusLabels[statusType];
+    routesSubEl.textContent=routesLabels[statusType];
+    if(isWeekend){peakEl.textContent="Lunes";peakSubEl.textContent="Servicio retoma el lunes";return;}
+    if(statusType==="closed"&&h>=21){peakEl.textContent="Ma\u00f1ana";peakSubEl.textContent="Pico ma\u00f1ana (6:00 a.m.)";return;}
+    let found=false;
+    for(const p of PEAKS){
+      if(mins>=p.start&&mins<p.end){
+        const diff=p.end-mins,hh=Math.floor(diff/60),mm=diff%60;
+        peakEl.textContent=hh>0?hh+"h "+pad(mm)+"m":mm+" min";
+        peakSubEl.textContent="Termina el pico actual";
+        found=true;break;
+      }
+      if(mins<p.start){
+        const diff=p.start-mins,hh=Math.floor(diff/60),mm=diff%60;
+        peakEl.textContent=hh>0?hh+"h "+pad(mm)+"m":mm+" min";
+        peakSubEl.textContent="Para "+p.label;
+        found=true;break;
+      }
+    }
+    if(!found){peakEl.textContent="Ma\u00f1ana";peakSubEl.textContent="Pico ma\u00f1ana (6:00 a.m.)";}
+  }
+  const style=document.createElement("style");
+  style.textContent="@keyframes blink-stat{0%,100%{opacity:1}50%{opacity:.25}}";
+  document.head.appendChild(style);
+  tick();
+  setInterval(tick,1000);
+})();
+</script>

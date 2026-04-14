@@ -16,9 +16,9 @@
   }
 
   :root {
-    --bg: #0d1117;
-    --surface: #161b22;
-    --surface2: #1c2333;
+    --bg: #060b16;
+    --surface: #0f1726;
+    --surface2: #182234;
     --border: #ffffff14;
     --border2: #ffffff26;
     --text: #e6edf3;
@@ -37,7 +37,7 @@
   }
 
   body {
-    background: var(--bg);
+    background: radial-gradient(circle at 0 0, #58a6ff17, #0000 30%), radial-gradient(circle at top, #a371f714, #0000 24%), linear-gradient(#08111f 0%, #040913 100%);
     color: var(--text);
     font-family: var(--font);
     min-height: 100vh;
@@ -46,8 +46,10 @@
   }
 
   .header {
-    border-bottom: 1px solid var(--border);
-    background: var(--bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid #ffffff0f;
+    background: #050a13e6;
     z-index: 100;
     justify-content: space-between;
     align-items: center;
@@ -66,6 +68,48 @@
     font-weight: 800;
     display: flex
   }
+
+  .mobile-ham-trigger {
+    width: 40px;
+    height: 40px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    border-radius: 11px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,.04);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    cursor: pointer;
+    transition: transform .2s ease, background .2s ease, border-color .2s ease, opacity .2s ease;
+    padding: 0;
+    flex-shrink: 0;
+    margin-left: auto
+  }
+
+  .mobile-ham-trigger:hover { background: rgba(255,255,255,.08) }
+
+  .mobile-ham-trigger span {
+    width: 17px;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--text);
+    transition: transform .28s ease, opacity .2s ease, width .2s ease;
+    display: block
+  }
+
+  .mobile-ham-trigger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg) }
+  .mobile-ham-trigger.active span:nth-child(2) { opacity: 0 }
+  .mobile-ham-trigger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg) }
+
+  .header-right-placeholder {
+    display: none;
+    min-width: 0
+  }
+
+  .live-badge-mobile-hide { display: flex }
 
   .logo-dot {
     color: var(--accent)
@@ -148,7 +192,7 @@
     margin-bottom: 1rem;
     padding: 12px 14px;
     display: none;
-    position: relative
+    position: sticky
   }
 
   .notif-banner.visible {
@@ -341,7 +385,7 @@
     border-radius: 16px;
     margin-bottom: 1.25rem;
     padding: 1.35rem;
-    position: relative;
+    position: sticky;
     overflow: hidden
   }
 
@@ -401,7 +445,7 @@
     border-radius: 16px;
     margin-bottom: 1.25rem;
     padding: 1rem 1.2rem;
-    position: relative;
+    position: sticky;
     overflow: hidden
   }
 
@@ -527,7 +571,7 @@
     background: var(--surface2);
     border-radius: 999px;
     height: 8px;
-    position: relative;
+    position: sticky;
     overflow: visible
   }
 
@@ -656,7 +700,7 @@
   .trip-track {
     height: 14px;
     margin: 6px 6px 18px;
-    position: relative
+    position: sticky
   }
 
   .trip-track-line {
@@ -1772,23 +1816,256 @@
 
   .mobile-nav {
     background: var(--bg);
-    border-top: 1px solid var(--border);
+    border-top: none;
     z-index: 200;
-    gap: 3px;
-    padding: 6px;
+    gap: 0;
+    padding: 8px 4px max(12px, env(safe-area-inset-bottom));
     display: none;
     position: fixed;
     bottom: 0;
     left: 0;
-    right: 0
+    right: 0;
+    justify-content: space-around;
+    align-items: stretch
   }
 
   .mobile-nav .tab-btn {
     text-align: center;
     flex: 1;
-    padding: 7.2px 2px;
-    font-size: 10.2px
+    padding: 6px 4px;
+    font-size: 10px;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    line-height: 1.2;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    border-radius: 0
   }
+
+  .mobile-nav .tab-btn .nav-icon {
+    font-size: 22px;
+    display: block;
+    line-height: 1
+  }
+
+  .mobile-nav .tab-btn.active {
+    color: var(--accent);
+    background: transparent
+  }
+
+  .ham-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 7px 8px;
+    border-radius: 7px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    font-family: var(--font);
+    color: var(--muted);
+    font-size: 10px;
+    min-width: 44px;
+    transition: all .15s
+  }
+
+  .ham-btn:hover { background: var(--surface2) }
+
+  .ham-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5px
+  }
+
+  .ham-line {
+    width: 18px;
+    height: 2px;
+    background: var(--muted);
+    border-radius: 2px;
+    transition: background .15s;
+    display: block
+  }
+
+  .ham-btn:hover .ham-line { background: var(--text) }
+
+  .menu-btn{font-size:22px;cursor:pointer;display:none;margin-left:auto}
+.sidebar,
+.bottom-drawer{
+  position:fixed;
+  top:0;
+  right:0;
+  bottom:0;
+  width:280px;
+  max-width:85vw;
+  background:rgba(6,11,22,.78);
+  border-left:1px solid var(--border2);
+  border-radius:20px 0 0 20px;
+  z-index:200;
+  padding:0 0 max(20px, env(safe-area-inset-bottom));
+  transform:translateX(100%);
+  transition:transform .26s cubic-bezier(.32,.72,0,1);
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  box-shadow:12px 0 36px rgba(0,0,0,.35);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px)
+}
+.sidebar.open,
+.bottom-drawer.open{transform:translateX(0)}
+.sidebar::before,
+.bottom-drawer::before{
+  content:"";
+  position:absolute;
+  inset:0 0 auto 0;
+  height:3px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2),var(--purple));
+}
+.overlay,
+.drawer-overlay{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.4);
+  opacity:0;
+  pointer-events:none;
+  transition:.3s;
+  z-index:150;
+  backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+}
+.overlay.active,
+.drawer-overlay.open{
+  opacity:1;
+  pointer-events:auto;
+}
+.drawer-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:20px 18px 16px;
+  border-bottom:1px solid var(--border)
+}
+.drawer-logo{
+  font-family:var(--display);
+  font-size:1rem;
+  font-weight:800;
+  letter-spacing:-.02em;
+  color:var(--text)
+}
+.drawer-logo span{color:var(--accent)}
+.drawer-close{
+  margin-left:auto;
+  background:transparent;
+  border:none;
+  color:var(--muted);
+  cursor:pointer;
+  font-size:20px;
+  line-height:1;
+  padding:4px;
+  border-radius:6px;
+  transition:color .15s
+}
+.drawer-close:hover{color:var(--text)}
+.drawer-section-label{
+  color:var(--muted);
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  padding:0 18px;
+  margin-bottom:4px
+}
+.drawer-item{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:12px 18px;
+  cursor:pointer;
+  transition:background .1s
+}
+.drawer-item:hover{background:rgba(255,255,255,.04)}
+.drawer-item-icon{
+  width:30px;
+  height:30px;
+  text-align:center;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--muted)
+}
+.drawer-item-icon svg{
+  width:20px;
+  height:20px;
+  stroke:currentColor
+}
+.drawer-item-text{flex:1}
+.drawer-item-title{
+  font-size:14px;
+  font-weight:500;
+  color:var(--text)
+}
+.drawer-item-sub{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:1px
+}
+.drawer-sep{
+  height:1px;
+  background:var(--border);
+  margin:6px 18px
+}
+.drawer-spacer{flex:1}
+.drawer-version{
+  padding:12px 18px;
+  font-size:10px;
+  color:var(--muted);
+  border-top:1px solid var(--border)
+}
+.drawer-item.green .drawer-item-title{color:var(--green)}
+.drawer-item.amber .drawer-item-title{color:var(--accent)}
+.menu-btn,
+.mobile-ham-trigger{
+  width:40px;
+  height:40px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:5px;
+  border-radius:11px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.04);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  transition:transform .2s ease, background .2s ease, border-color .2s ease, opacity .2s ease;
+}
+.menu-btn:hover,
+.mobile-ham-trigger:hover{background:rgba(255,255,255,.08)}
+.menu-btn span,
+.mobile-ham-trigger span{
+  width:17px;
+  height:2px;
+  border-radius:999px;
+  background:var(--text);
+  transition:transform .28s ease, opacity .2s ease, width .2s ease;
+  display:block;
+}
+.menu-btn.active span:nth-child(1),
+.mobile-ham-trigger.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.menu-btn.active span:nth-child(2),
+.mobile-ham-trigger.active span:nth-child(2){opacity:0}
+.menu-btn.active span:nth-child(3),
+.mobile-ham-trigger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
 
   @media (width<=520px) {
     .schedule-grid {
@@ -1812,8 +2089,30 @@
     }
 
     .view {
-      padding-bottom: 5rem
+      padding-bottom: 5.5rem
     }
+
+    .mobile-ham-trigger {
+      display: flex
+    }
+
+    .header {
+      position: sticky
+    }
+
+    .logo {
+      position: static;
+      left: auto;
+      transform: none;
+      margin-right: 8px;
+    }
+
+    .mobile-ham-trigger {
+      order: 3;
+      margin-left: auto;
+    }
+
+    .live-badge { display: none }
   }
 
   .delay-alert-banner {
@@ -1825,7 +2124,7 @@
     margin-bottom: 1rem;
     padding: 12px 14px;
     display: none;
-    position: relative
+    position: sticky
   }
 
   .delay-alert-banner.visible {
@@ -1911,6 +2210,145 @@
     background: #e6534a2e
   }
 
+  .timeline-wrap {
+    position: sticky;
+    padding: 0 0 8px
+  }
+
+  .timeline-line {
+    position: absolute;
+    left: 17px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border2)
+  }
+
+  .tl-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 10px 0;
+    position: sticky;
+    cursor: default
+  }
+
+  .tl-row:last-child { padding-bottom: 0 }
+
+  .tl-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 2px solid var(--border2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    z-index: 1;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    transition: all .2s
+  }
+
+  .tl-dot.passed {
+    background: #3fb95020;
+    border-color: var(--green);
+    color: var(--green)
+  }
+
+  .tl-dot.current {
+    background: #f0a50022;
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 0 4px #f0a50018
+  }
+
+  .tl-dot.nearest {
+    background: #a371f720;
+    border-color: var(--purple);
+    color: var(--purple)
+  }
+
+  .tl-dot.origin, .tl-dot.dest {
+    background: var(--surface2);
+    border-color: var(--border2);
+    width: 36px;
+    height: 36px
+  }
+
+  .tl-body {
+    flex: 1;
+    min-width: 0;
+    padding-top: 6px
+  }
+
+  .tl-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.3
+  }
+
+  .tl-name.passed { color: var(--muted) }
+  .tl-name.current { color: var(--accent); font-weight: 700 }
+
+  .tl-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 4px
+  }
+
+  .tl-badge {
+    font-size: 9px;
+    font-weight: 600;
+    border-radius: 4px;
+    padding: 2px 6px
+  }
+
+  .tl-badge.green { background: #3fb95020; color: var(--green) }
+  .tl-badge.amber { background: #f0a50020; color: var(--accent) }
+  .tl-badge.purple { background: #a371f720; color: var(--purple) }
+  .tl-badge.muted { background: var(--surface2); color: var(--muted) }
+
+  .tl-time {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    white-space: nowrap;
+    padding-top: 9px;
+    flex-shrink: 0;
+    min-width: 42px;
+    text-align: right
+  }
+
+  .tl-time.active { color: var(--accent) }
+
+  .tl-section-sep {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 6px 0;
+    padding-left: 50px
+  }
+
+  .tl-section-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap
+  }
+
+  .tl-section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border)
+  }
+
 @media (min-width:521px){
   .header {
     position: sticky;
@@ -1924,12 +2362,50 @@
 }
 
 </style>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+<style>
+/* Fix hamburger: oculto en PC y sin fondo/borde/sombra */
+@media (min-width: 768px) {
+  .mobile-ham-trigger,
+  .menu-btn {
+    display: none !important;
+  }
+}
+
+.mobile-ham-trigger,
+.menu-btn {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+}
+
+.mobile-ham-trigger:hover,
+.menu-btn:hover,
+.mobile-ham-trigger:active,
+.menu-btn:active,
+.mobile-ham-trigger:focus,
+.menu-btn:focus {
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+</style>
+
 </head>
 
 <body>
   <div class=header>
     <div title="Bus Heredia UCR" class=logo id=logo-easter-egg>🚌<span>UCR<span class=logo-dot>·</span>Heredia</span>
     </div>
+    <button class="mobile-ham-trigger menu-btn" id="menuBtn" onclick="openDrawer()" aria-label="Abrir menú" role="button" tabindex="0">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
     <div class=nav-tabs><button class="tab-btn active" onclick="showView('home')">Inicio</button><button
         onclick="showView('horarios')" class=tab-btn>Horarios</button><button onclick="showView('grupos')"
         class=tab-btn>Grupos</button><button class=tab-btn onclick=goBusInterno()>Interno</button><button class=tab-btn
@@ -1938,6 +2414,7 @@
     <div class=live-badge>
       <div class=live-dot></div><span id=live-time>--:--</span>
     </div>
+    <div class=header-right-placeholder></div>
   </div>
   <div class="view active" id=view-home>
     <div class=notif-banner id=notif-banner>
@@ -1999,6 +2476,15 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class=view id=view-paradas>
+    <div class=page-title>Paradas de la ruta</div>
+    <div class=page-sub id=paradas-dir-sub>Heredia → UCR</div>
+    <div class=route-selector style="margin-bottom:1.25rem">
+      <button class="route-btn active" onclick="setParadasDir('Heredia-UCR')" id=pbtn-ucr>🏙️ Heredia → UCR</button>
+      <button class=route-btn onclick="setParadasDir('UCR-Heredia')" id=pbtn-cor>🎓 UCR → Heredia</button>
+    </div>
+    <div id=paradas-timeline></div>
   </div>
   <div class=view id=view-horarios>
     <div class=page-title>Horarios del día</div>
@@ -2157,11 +2643,74 @@
           reportes del día</button></div>
     </div>
   </div>
-  <div class=mobile-nav><button class="tab-btn active" onclick="showView('home')">🏠 Inicio</button><button
-      onclick="showView('horarios')" class=tab-btn>📋 Horarios</button><button onclick="showView('grupos')"
-      class=tab-btn>💬 Grupos</button><button class=tab-btn onclick=goBusUCR()>🚌 BusUCR</button><button class=tab-btn
-      onclick=goBusInterno()>🚌 Bus Interno</button><button onclick="showView('admin')" class=tab-btn data-admin-entry
-      style=display:none>⚙️ Admin</button></div>
+  <div class=mobile-nav id=mobile-nav>
+    <button class=tab-btn onclick=goBusUCR() id=mnav-busucr>
+      <span class=nav-icon><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="22" height="14" rx="3"/><path d="M16 17v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2"/><path d="M5 10h14"/><circle cx="7.5" cy="14" r="1"/><circle cx="16.5" cy="14" r="1"/></svg></span>Bus UCR
+    </button>
+    <button class="tab-btn active" onclick="showView('home')" id=mnav-home>
+      <span class=nav-icon><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>Inicio
+    </button>
+    <button class=tab-btn onclick=goBusInterno() id=mnav-interno>
+      <span class=nav-icon><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg></span>Interno
+    </button>
+  </div>
+
+  <div class=drawer-overlay id=drawer-overlay onclick=closeDrawer()></div>
+  <div class=bottom-drawer id=bottom-drawer>
+    <div class=drawer-handle></div>
+    <div class=drawer-header>
+      <span style="font-size:18px">🚌</span>
+      <div class=drawer-logo>Bus<span>UCR</span></div>
+      <button class=drawer-close onclick=closeDrawer() aria-label="Cerrar">×</button>
+    </div>
+    <div style="height:12px"></div>
+    <div class=drawer-section-label>Navegacion</div>
+    <div class=drawer-item onclick="showView('grupos');closeDrawer()">
+      <div class=drawer-item-icon><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+      <div class=drawer-item-text>
+        <div class=drawer-item-title>Grupos de WhatsApp</div>
+        <div class=drawer-item-sub>Comunidades de la ruta Heredia - UCR</div>
+      </div>
+    </div>
+    <div class=drawer-item onclick="showView('horarios');closeDrawer()">
+      <div class=drawer-item-icon><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+      <div class=drawer-item-text>
+        <div class=drawer-item-title>Horarios</div>
+        <div class=drawer-item-sub>Ver todos los horarios del dia</div>
+      </div>
+    </div>
+    <div class=drawer-item onclick="showView('paradas');closeDrawer()">
+      <div class=drawer-item-icon><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+      <div class=drawer-item-text>
+        <div class=drawer-item-title>Paradas de ruta</div>
+        <div class=drawer-item-sub>Lista completa de paradas</div>
+      </div>
+    </div>
+    <div class=drawer-sep></div>
+    <div class="drawer-item green" onclick="window.open('https://www.instagram.com/bus_u.c.r','_blank');closeDrawer()">
+      <div class=drawer-item-icon><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+      <div class=drawer-item-text>
+        <div class=drawer-item-title>Contacto</div>
+        <div class=drawer-item-sub>Instagram</div>
+      </div>
+    </div>
+    <div class="drawer-item amber" onclick="window.open('https://ko-fi.com/Q5Q2187D5I','_blank');closeDrawer()">
+      <div class=drawer-item-icon><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
+      <div class=drawer-item-text>
+        <div class=drawer-item-title>Donacion</div>
+        <div class=drawer-item-sub>Apoya el proyecto en Ko-fi</div>
+      </div>
+    </div>
+    <div class=drawer-item onclick="showView('admin');closeDrawer()" data-admin-entry style=display:none>
+      <div class=drawer-item-icon>⚙️</div>
+      <div class=drawer-item-text>
+        <div class=drawer-item-title>Admin</div>
+        <div class=drawer-item-sub>Panel de administracion</div>
+      </div>
+    </div>
+    <div class=drawer-spacer></div>
+    <div class=drawer-version>BusUCR v2.4 © Desmond<span id="year">· <a onmouseout="this.style.color='var(--muted)'"onmouseover="this.style.color='var(--text)'"style="color:var(--muted);text-decoration:none;transition:color .2s"href="/" target="_blank"> Créditos </a>
+  </div>
   <div class=rmodal-backdrop id=rmodal-backdrop>
     <div class=rmodal>
       <div class=rmodal-icon>🚌</div>
@@ -2401,8 +2950,74 @@
       <a class="wa-join" href="${x.link}" target="_blank" rel="noopener">Unirse</a>
     </div>`).join(``)}</div>`
       }
-      // ── VIEWS ────────────────────────────────────────────────────────────────────
-      window.setDirection = function (dir) { currentDirection = dir, document.getElementById(`btn-ucr`).classList.toggle(`active`, dir === `Heredia-UCR`), document.getElementById(`btn-cor`).classList.toggle(`active`, dir === `UCR-Heredia`), refreshHome() }, window.showView = function (name) { if (name === `admin` && !adminEggUnlocked) return; document.querySelectorAll(`.view`).forEach(v => v.classList.remove(`active`)), document.getElementById(`view-` + name).classList.add(`active`), document.querySelectorAll(`.tab-btn`).forEach(b => b.classList.remove(`active`)); let map = { home: `inicio`, horarios: `horario`, grupos: `grupos`, admin: `admin` }; document.querySelectorAll(`.tab-btn`).forEach(b => { b.textContent.toLowerCase().includes(map[name]) && b.classList.add(`active`) }), name === `horarios` && renderSchedules(), name === `grupos` && renderWaGroups() };
+      // ── PARADAS VIEW ─────────────────────────────────────────────────────────
+      let paradasDir = 'Heredia-UCR';
+      window.setParadasDir = function(dir) {
+        paradasDir = dir;
+        document.getElementById('pbtn-ucr').classList.toggle('active', dir === 'Heredia-UCR');
+        document.getElementById('pbtn-cor').classList.toggle('active', dir === 'UCR-Heredia');
+        document.getElementById('paradas-dir-sub').textContent = dir === 'Heredia-UCR' ? 'Heredia → UCR · lista completa de paradas' : 'UCR → Heredia · lista completa de paradas';
+        renderParadas();
+      };
+      function renderParadas() {
+        var el = document.getElementById('paradas-timeline');
+        if (!el || !appData) return;
+        var stops = getStopsForDirection(paradasDir);
+        if (!stops.length) { el.innerHTML = '<div style="color:var(--muted);padding:1rem;font-size:13px;">Sin paradas cargadas</div>'; return; }
+        var pos = getBusEstimatedPosition(paradasDir);
+        var prev = getPrevBus(paradasDir);
+        var html = '<div class="timeline-wrap"><div class="timeline-line"></div>';
+        stops.forEach(function(s, i) {
+          var busPassed = pos && pos.stopIdx > i;
+          var busHere = pos && pos.stopIdx === i;
+          var isNearest = s.baseIdx === nearestStopIdx;
+          var isFirst = i === 0;
+          var isLast = i === stops.length - 1;
+          var estimatedPassMin = prev ? getEstimatedStopPassMinute(paradasDir, s) : null;
+          var minutesUntil = Number.isFinite(estimatedPassMin) ? estimatedPassMin - nowMin() : null;
+          var dotClass = 'tl-dot';
+          var dotContent = isFirst ? '&#x1F68C;' : isLast ? '&#x1F3C1;' : (i + 1);
+          if (busHere) { dotClass += ' current'; dotContent = '&#x1F68C;'; }
+          else if (busPassed) { dotClass += ' passed'; dotContent = '&#x2713;'; }
+          else if (isNearest && !busHere) { dotClass += ' nearest'; dotContent = '&#x1F4CD;'; }
+          var nameClass = 'tl-name';
+          if (busPassed) nameClass += ' passed';
+          if (busHere) nameClass += ' current';
+          var badges = '';
+          if (busHere && pos.isReal) badges += '<span class="tl-badge green">Aqui ahora</span>';
+          else if (busHere) badges += '<span class="tl-badge amber">Aqui aprox.</span>';
+          if (busPassed) badges += '<span class="tl-badge green">Ya paso</span>';
+          if (isNearest && !busHere) badges += '<span class="tl-badge purple">Tu parada</span>';
+          if (isFirst) badges += '<span class="tl-badge muted">Origen</span>';
+          if (isLast) badges += '<span class="tl-badge muted">Destino</span>';
+          var timeStr = '';
+          if (busPassed && prev) {
+            timeStr = formatMinuteToClock(toMin(prev) + Number(s.offset || 0));
+          } else if (!busPassed && Number.isFinite(minutesUntil) && minutesUntil > 0) {
+            timeStr = '~' + minutesUntil + ' min';
+          } else if (busHere) {
+            timeStr = 'Ahora';
+          }
+          html += '<div class="tl-row">' +
+            '<div class="' + dotClass + '">' + dotContent + '</div>' +
+            '<div class="tl-body">' +
+              '<div class="' + nameClass + '">' + s.name + '</div>' +
+              (badges ? '<div class="tl-badges">' + badges + '</div>' : '') +
+            '</div>' +
+            '<div class="tl-time' + (busHere ? ' active' : '') + '">' + timeStr + '</div>' +
+          '</div>';
+          if (pos && i === pos.stopIdx && i < stops.length - 1) {
+            html += '<div class="tl-section-sep">' +
+              '<div class="tl-section-label">Proximas paradas</div>' +
+              '<div class="tl-section-line"></div>' +
+            '</div>';
+          }
+        });
+        html += '</div>';
+        el.innerHTML = html;
+      }
+            // ── VIEWS ────────────────────────────────────────────────────────────────────
+      window.setDirection = function (dir) { currentDirection = dir, document.getElementById(`btn-ucr`).classList.toggle(`active`, dir === `Heredia-UCR`), document.getElementById(`btn-cor`).classList.toggle(`active`, dir === `UCR-Heredia`), refreshHome() }, window.showView = function (name) { if (name === `admin` && !adminEggUnlocked) return; document.querySelectorAll(`.view`).forEach(v => v.classList.remove(`active`)), document.getElementById(`view-` + name).classList.add(`active`), document.querySelectorAll(`.tab-btn`).forEach(b => b.classList.remove(`active`)); let map = { home: `inicio`, horarios: `horario`, grupos: `grupos`, admin: `admin` }; document.querySelectorAll(`.tab-btn`).forEach(b => { b.textContent.toLowerCase().includes(map[name]) && b.classList.add(`active`) }), name === `horarios` && renderSchedules(), name === `grupos` && renderWaGroups(), name === `paradas` && renderParadas(); };
       // ── ADMIN AUTH ────────────────────────────────────────────────────────────────
       function updateAdminAuthUI(user) { let lock = document.getElementById(`admin-lock`), panel = document.getElementById(`admin-panel`), err = document.getElementById(`pass-error`); if (user) { lock.style.display = `none`, panel.style.display = `block`, renderAdminContent(); let endOfDay =/* @__PURE__ */ new Date; endOfDay.setHours(23, 59, 0, 0), document.getElementById(`new-notif-exp`).value = localDateTimeInputValue(endOfDay), err && (err.innerHTML = `<div class="alert alert-info" style="margin-top:8px;">Panel protegido con Firebase Authentication<br><span style="font-size:12px;opacity:.9;">Sesión: ${user.email || `admin`}</span></div>`) } else lock.style.display = `block`, panel.style.display = `none`, err && (err.innerHTML = ``) } onAuthStateChanged(auth, user => { updateAdminAuthUI(user) }), window.checkPass = async function () { let email = document.getElementById(`admin-email`).value.trim(), password = document.getElementById(`admin-pass`).value, err = document.getElementById(`pass-error`); if (!email || !password) { err.innerHTML = `<div class="alert alert-error" style="margin-top:8px;">Escribí correo y contraseña</div>`; return } try { err.innerHTML = `<div class="alert alert-info" style="margin-top:8px;">Iniciando sesión...</div>`, await signInWithEmailAndPassword(auth, email, password), document.getElementById(`admin-pass`).value = `` } catch (e) { let msg = `No se pudo iniciar sesión`; e.code === `auth/invalid-credential` || e.code === `auth/wrong-password` || e.code === `auth/user-not-found` ? msg = `Credenciales incorrectas` : e.code === `auth/invalid-email` ? msg = `Correo inválido` : e.code === `auth/too-many-requests` && (msg = `Demasiados intentos. Probá más tarde`), err.innerHTML = `<div class="alert alert-error" style="margin-top:8px;">${msg}</div>` } }, window.lockAdmin = async function () { try { await signOut(auth) } catch (e) { console.warn(e) } document.getElementById(`admin-pass`).value = `` };
       // ── ADMIN RENDER ──────────────────────────────────────────────────────────────
@@ -2439,7 +3054,31 @@
     </div>`}).join(``)
       } window._rmStop = i => { appData.stops.splice(i, 1), renderAdminContent() }, window._toggleTimeForDay = (dir, day, t) => { appData.times[dir][day] = getTimeEntries(dir, day).map(item => item.time === t ? { ...item, enabled: item.enabled === !1 } : item), renderAdminScheduleEditor() }, window._rmTimeForDay = (dir, day, t) => { appData.times[dir][day] = getTimeEntries(dir, day).filter(item => item.time !== t), renderAdminScheduleEditor() }, window._rmWa = i => { appData.waGroups.splice(i, 1), renderAdminContent() }, window._rmNotif = async id => { try { await deleteDoc(doc(db, `notifications_heredia`, id)) } catch (e) { showAdminAlert(`Error: ` + e.message, `error`) } }, window.addStop = function () { let name = normText(document.getElementById(`new-stop-name`).value).slice(0, 60), offset = Number(document.getElementById(`new-stop-offset`).value), latRaw = normText(document.getElementById(`new-stop-lat`).value), lngRaw = normText(document.getElementById(`new-stop-lng`).value); if (!name) { showAdminAlert(`Escribí un nombre de parada`, `error`); return } if (!Number.isFinite(offset) || offset < 0) { showAdminAlert(`El offset debe ser un número mayor o igual a 0`, `error`); return } if (latRaw && !Number.isFinite(Number(latRaw)) || lngRaw && !Number.isFinite(Number(lngRaw))) { showAdminAlert(`Latitud o longitud inválidas`, `error`); return } if (appData.stops.some(s => s.name.toLowerCase() === name.toLowerCase())) { showAdminAlert(`Ya existe una parada con ese nombre`, `error`); return } appData.stops.push({ name, offset, lat: latRaw ? Number(latRaw) : null, lng: lngRaw ? Number(lngRaw) : null }), appData.stops.sort((a, b) => (a.offset || 0) - (b.offset || 0)), document.getElementById(`new-stop-name`).value = ``, document.getElementById(`new-stop-offset`).value = ``, document.getElementById(`new-stop-lat`).value = ``, document.getElementById(`new-stop-lng`).value = ``, renderAdminContent() }, window.addTimeForAdminDay = function () { let input = document.getElementById(`new-time-day`), val = input?.value; if (!val) return; let entries = getTimeEntries(adminScheduleDirection, adminScheduleDay); entries.some(item => item.time === val) || entries.push({ time: val, enabled: !0 }), appData.times[adminScheduleDirection][adminScheduleDay] = normalizeTimeEntries(entries), input && (input.value = ``), renderAdminScheduleEditor() }, window.addWaGroup = function () { let name = document.getElementById(`new-wa-name`).value.trim(), desc = document.getElementById(`new-wa-desc`).value.trim(), link = document.getElementById(`new-wa-link`).value.trim(); if (!name || !link) { showAdminAlert(`Nombre y link son requeridos`, `error`); return } if (!link.startsWith(`http`)) { showAdminAlert(`El link debe comenzar con https://`, `error`); return } appData.waGroups ||= [], appData.waGroups.push({ name, desc, link }), document.getElementById(`new-wa-name`).value = ``, document.getElementById(`new-wa-desc`).value = ``, document.getElementById(`new-wa-link`).value = ``, renderAdminContent() }, window.addNotif = async function () { let title = document.getElementById(`new-notif-title`).value.trim(), message = document.getElementById(`new-notif-msg`).value.trim(), type = document.getElementById(`new-notif-type`).value, expVal = document.getElementById(`new-notif-exp`).value; if (!title || !message) { showAdminAlert(`Título y mensaje son requeridos`, `error`); return } if (!expVal) { showAdminAlert(`Especificá una fecha de expiración`, `error`); return } let expiresAt = new Date(expVal).getTime(); if (expiresAt <= Date.now()) { showAdminAlert(`La fecha de expiración debe ser en el futuro`, `error`); return } try { await addDoc(collection(db, `notifications_heredia`), { title, message, type, expiresAt, createdAt: Date.now(), createdAtStr: (/* @__PURE__ */ new Date()).toLocaleTimeString(`es-CR`, { hour: `2-digit`, minute: `2-digit` }) }), document.getElementById(`new-notif-title`).value = ``, document.getElementById(`new-notif-msg`).value = ``, showAdminAlert(`✅ Notificación publicada — todos los usuarios la verán`, `success`) } catch (e) { showAdminAlert(`Error: ` + e.message, `error`) } }, window.saveFareOnly = async function () { try { let fareInput = document.getElementById(`fare-input`), fareNoteInput = document.getElementById(`fare-note-input`), fare = Number(fareInput?.value || 0), fareNote = normText(fareNoteInput?.value || ``); if (!Number.isFinite(fare) || fare < 0) { showAdminAlert(`La tarifa debe ser un número válido`, `error`); return } appData.fare = fare, appData.fareNote = fareNote, await setDoc(doc(db, `config`, `schedule_heredia`), { fare, fareNote }, { merge: !0 }), renderFare(), refreshHome(), renderAdminContent(), showAdminAlert(`✅ Tarifa guardada correctamente`, `success`) } catch (e) { console.error(e), showAdminAlert(`Error al guardar tarifa: ` + e.message, `error`) } }, window.saveAdmin = async function () { try { let cloned = JSON.parse(JSON.stringify(appData)), fareInput = document.getElementById(`fare-input`), fareNoteInput = document.getElementById(`fare-note-input`); fareInput && (cloned.fare = Number(fareInput.value || 0)), fareNoteInput && (cloned.fareNote = normText(fareNoteInput.value || ``)); let errors = validateAppData(cloned); if (errors.length) { showAdminAlert(errors[0], `error`); return } appData = cloned, await setDoc(doc(db, `config`, `schedule_heredia`), appData), showAdminAlert(`✅ Guardado — todos los usuarios ven los cambios`, `success`), refreshHome(), renderSchedules(), renderWaGroups(), renderFare(), renderAdminContent() } catch (e) { showAdminAlert(`Error: ` + e.message, `error`) } }, window.clearReports = async function () { try { let snap = await getDocs(query(collection(db, `reports_heredia`), where(`date`, `==`, todayKey()))); await Promise.all(snap.docs.map(d => deleteDoc(d.ref))), showAdminAlert(`🗑️ Reportes del día eliminados`, `info`) } catch (e) { showAdminAlert(`Error: ` + e.message, `error`) } }; function showAdminAlert(msg, type) { let el = document.getElementById(`admin-alert`); el.innerHTML = `<div class="alert alert-${type}">${msg}</div>`, setTimeout(() => el.innerHTML = ``, 5e3) } function showAlert(msg, type) { let el = document.getElementById(`alert-area`); el.innerHTML = `<div class="alert alert-${type}">${msg}</div>`, setTimeout(() => el.innerHTML = ``, 4e3) }
       // ── CLOCK ─────────────────────────────────────────────────────────────────────
-      function updateClock() { let now =/* @__PURE__ */ new Date; document.getElementById(`big-clock`).textContent = now.toLocaleTimeString(`es-CR`, { hour: `2-digit`, minute: `2-digit`, second: `2-digit` }), document.getElementById(`live-time`).textContent = now.toLocaleTimeString(`es-CR`, { hour: `2-digit`, minute: `2-digit` }); let d = now.toLocaleDateString(`es-CR`, { weekday: `long`, year: `numeric`, month: `long`, day: `numeric` }); document.getElementById(`clock-date`).textContent = d.charAt(0).toUpperCase() + d.slice(1) } updateClock(), setInterval(updateClock, 1e3), setInterval(() => { refreshHome(), renderSchedules() }, 6e4), setInterval(() => { renderNotifBanner() }, 12e4), setAdminEntryVisible(adminEggUnlocked); const logoEgg = document.getElementById(`logo-easter-egg`); logoEgg && logoEgg.addEventListener(`click`, () => { if (logoTapCount += 1, clearTimeout(logoTapTimer), logoTapCount >= 5) { logoTapCount = 0, unlockAdminEgg(!0), showView(`admin`); return } logoTapTimer = setTimeout(() => { logoTapCount = 0 }, 1800) }), loadConfig(), subscribeReports(), subscribeNotifications(), subscribeDelays(), window.goBusUCR = function () { window.location.href = `/` };</script>
+      function updateClock() { let now =/* @__PURE__ */ new Date; document.getElementById(`big-clock`).textContent = now.toLocaleTimeString(`es-CR`, { hour: `2-digit`, minute: `2-digit`, second: `2-digit` }), document.getElementById(`live-time`).textContent = now.toLocaleTimeString(`es-CR`, { hour: `2-digit`, minute: `2-digit` }); let d = now.toLocaleDateString(`es-CR`, { weekday: `long`, year: `numeric`, month: `long`, day: `numeric` }); document.getElementById(`clock-date`).textContent = d.charAt(0).toUpperCase() + d.slice(1) } updateClock(), setInterval(updateClock, 1e3), setInterval(() => { refreshHome(), renderSchedules() }, 6e4), setInterval(() => { renderNotifBanner() }, 12e4), setAdminEntryVisible(adminEggUnlocked); const logoEgg = document.getElementById(`logo-easter-egg`); logoEgg && logoEgg.addEventListener(`click`, () => { if (logoTapCount += 1, clearTimeout(logoTapTimer), logoTapCount >= 5) { logoTapCount = 0, unlockAdminEgg(!0), showView(`admin`); return } logoTapTimer = setTimeout(() => { logoTapCount = 0 }, 1800) }), loadConfig(), subscribeReports(), subscribeNotifications(), subscribeDelays(), window.goBusUCR = function () { window.location.href = `/` };
+      window.openDrawer = function() {
+        document.getElementById('bottom-drawer').classList.add('open');
+        document.getElementById('drawer-overlay').classList.add('open');
+        document.getElementById('menuBtn')?.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      };
+      window.closeDrawer = function() {
+        document.getElementById('bottom-drawer').classList.remove('open');
+        document.getElementById('drawer-overlay').classList.remove('open');
+        document.getElementById('menuBtn')?.classList.remove('active');
+        document.body.style.overflow = '';
+      };
+      document.getElementById('menuBtn')?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const drawer = document.getElementById('bottom-drawer');
+          if (drawer?.classList.contains('open')) closeDrawer();
+          else openDrawer();
+        }
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeDrawer();
+      });
+</script>
 <footer style="text-align:center;color:var(--muted);opacity:.7;padding:10px 0;font-size:10px">
 
   <!-- 🔥 TEXTO NUEVO -->
@@ -2452,25 +3091,7 @@
     </a>
   </div>
 
-  © <span id="year"></span>
-  · <a onmouseout="this.style.color='var(--muted)'" onmouseover="this.style.color='var(--text)'"
-      style="color:var(--muted);text-decoration:none;transition:color .2s"
-      href="https://github.com/Desmond16170" target="_blank"> Desmond </a>
-
-  · <a onmouseout="this.style.color='var(--muted)'"
-      onmouseover="this.style.color='var(--text)'"
-      style="color:var(--muted);text-decoration:none;transition:color .2s"
-      href="/" target="_blank"> Créditos </a>
-
-  · <a href="https://www.instagram.com/bus_u.c.r?igsh=c2trNDRoaG13ZGJj/"
-      onmouseout="this.style.color='var(--muted)'" onmouseover="this.style.color='var(--text)'"
-      style="color:var(--muted);text-decoration:none;transition:color .2s"
-      target="_blank"> Contacto </a>
-
-  · <a href="https://ko-fi.com/Q5Q2187D5I" target="_blank"
-      style="color: var(--muted);text-decoration: none;transition: color 0.2s;"
-      onmouseover="this.style.color='var(--accent)'"
-      onmouseout="this.style.color='var(--muted)'">Donación</a>
+ 
 
 </footer>
 

@@ -213,6 +213,7 @@ body{color:var(--text);font-family:var(--font);background:radial-gradient(circle
       <div class="sidebar-nav">
         <div class="sidebar-section">Contenido</div>
         <button class="nav-item active" data-panel="novedades"><span class="nav-icon">📢</span> Novedades</button>
+        <button class="nav-item" data-panel="popups"><span class="nav-icon">💬</span> Popups</button>
         <button class="nav-item" data-panel="precios"><span class="nav-icon">💰</span> Precios rutas</button>
         <div class="sidebar-divider"></div>
         <div class="sidebar-section">Apariencia</div>
@@ -275,6 +276,63 @@ body{color:var(--text);font-family:var(--font);background:radial-gradient(circle
             <div class="section-label">Novedades activas <span class="badge" id="nov-count-badge">0</span></div>
           </div>
           <div id="nov-list"><div style="color:var(--muted);font-size:13px">Cargando...</div></div>
+        </div>
+      </div>
+
+      <!-- ═══ POPUPS ═══ -->
+      <div class="panel" id="panel-popups">
+        <div class="panel-title">💬 Popups</div>
+        <div class="panel-sub">Enviá un mensaje emergente no invasivo a todos los usuarios que abran la app. Aparece como un toast en la esquina de la pantalla.</div>
+
+        <!-- Crear popup -->
+        <div class="section s-accent">
+          <div class="section-head">
+            <div class="section-label">Nuevo popup <span class="badge accent">TOAST</span></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="flex:2;min-width:200px">
+              <label>Título del popup</label>
+              <input type="text" id="popup-titulo" placeholder="Ej: Servicio suspendido hoy">
+            </div>
+            <div class="form-group" style="max-width:150px">
+              <label>Tipo</label>
+              <select id="popup-tipo">
+                <option value="info">ℹ️ Info</option>
+                <option value="aviso">⚠️ Aviso</option>
+                <option value="urgente">🚨 Urgente</option>
+                <option value="buena">✅ Buena noticia</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Mensaje</label>
+              <textarea id="popup-mensaje" placeholder="Texto breve que verán los usuarios al entrar..."></textarea>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="max-width:180px">
+              <label>Duración visible (segundos)</label>
+              <input type="number" id="popup-duracion" min="3" max="60" value="10" placeholder="10">
+            </div>
+            <div class="form-group">
+              <label>Link (opcional)</label>
+              <input type="url" id="popup-link" placeholder="https://...">
+            </div>
+            <div style="align-self:flex-end">
+              <button class="btn-primary green" onclick="publishPopup()">📤 Enviar popup</button>
+            </div>
+          </div>
+          <div class="alert" id="popup-alert"></div>
+        </div>
+
+        <!-- Lista popups activos -->
+        <div class="section s-blue">
+          <div class="section-head">
+            <div class="section-label">Popups activos <span class="badge" id="popup-count-badge">0</span></div>
+            <div style="color:var(--muted);font-size:11px">Solo los activos se muestran a usuarios</div>
+          </div>
+          <div id="popup-list"><div style="color:var(--muted);font-size:13px">Cargando...</div></div>
         </div>
       </div>
 
@@ -374,7 +432,7 @@ body{color:var(--text);font-family:var(--font);background:radial-gradient(circle
           <div class="section-label" style="margin-bottom:10px">Base de datos Firebase</div>
           <div style="color:var(--muted);font-size:12px;line-height:1.7">
             Proyecto: <strong style="color:var(--text)">bus-externo-ucr</strong><br>
-            Colecciones: <strong style="color:var(--text)">novedades · config</strong><br>
+            Colecciones: <strong style="color:var(--text)">novedades · config · popups</strong><br>
             Autenticación: <strong style="color:var(--text)">Firebase Auth (email/password)</strong>
           </div>
         </div>
@@ -505,6 +563,7 @@ function initAdmin() {
   loadPrecios();
   loadColores();
   subscribeNovedades();
+  subscribePopups();
 }
 
 // ── NOVEDADES ─────────────────────────────────────────────────────────────────
@@ -577,6 +636,82 @@ window._deleteNov = async function (id) {
   if (!confirm('¿Eliminar esta novedad? Esta acción no se puede deshacer.')) return;
   try { await deleteDoc(doc(db, 'novedades', id)); }
   catch (e) { console.error(e); }
+};
+
+// ── POPUPS ────────────────────────────────────────────────────────────────────
+const POPUP_TIPO_CONFIG = {
+  info:    { icon: 'ℹ️', label: 'Info' },
+  aviso:   { icon: '⚠️', label: 'Aviso' },
+  urgente: { icon: '🚨', label: 'Urgente' },
+  buena:   { icon: '✅', label: 'Buena noticia' }
+};
+
+function subscribePopups() {
+  try {
+    onSnapshot(query(collection(db, 'popups'), orderBy('creadoEn', 'desc')), snap => {
+      const popups = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderPopupList(popups);
+    });
+  } catch(e) { console.warn(e); }
+}
+
+function renderPopupList(popups) {
+  const el = document.getElementById('popup-list');
+  const badge = document.getElementById('popup-count-badge');
+  const activos = popups.filter(p => p.activo !== false);
+  badge.textContent = activos.length;
+  if (!popups.length) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:4px 0">Sin popups creados</div>';
+    return;
+  }
+  el.innerHTML = popups.map(p => {
+    const t = POPUP_TIPO_CONFIG[p.tipo] || POPUP_TIPO_CONFIG.info;
+    const isActive = p.activo !== false;
+    return `<div class="list-row">
+      <div class="status-dot ${isActive ? 'active' : 'inactive'}"></div>
+      <div class="list-row-main">
+        <div class="list-row-title">${t.icon} ${p.titulo || '(sin título)'}</div>
+        <div class="list-row-sub">
+          <span class="nov-tag-pill novedad">${t.label}</span>
+          &nbsp;${isActive ? '✅ Activo' : '⏸ Inactivo'}
+          &nbsp;· ⏱ ${p.duracion || 10}s
+          ${p.link ? `&nbsp;· <a href="${p.link}" target="_blank" style="color:var(--blue);font-size:11px">ver link</a>` : ''}
+        </div>
+        ${p.mensaje ? `<div style="color:var(--muted);font-size:11px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:340px">${p.mensaje}</div>` : ''}
+      </div>
+      <div class="list-actions">
+        <button class="btn-secondary" style="font-size:11px;padding:4px 10px" onclick="window._togglePopup('${p.id}',${isActive})">${isActive ? 'Pausar' : 'Activar'}</button>
+        <button class="btn-danger" onclick="window._deletePopup('${p.id}')">Eliminar</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+window.publishPopup = async function() {
+  const titulo = document.getElementById('popup-titulo').value.trim();
+  const mensaje = document.getElementById('popup-mensaje').value.trim();
+  const tipo = document.getElementById('popup-tipo').value;
+  const duracion = parseInt(document.getElementById('popup-duracion').value) || 10;
+  const link = document.getElementById('popup-link').value.trim() || null;
+  if (!titulo || !mensaje) { showAlert('popup-alert', 'Título y mensaje son requeridos', 'error'); return; }
+  try {
+    await addDoc(collection(db, 'popups'), { titulo, mensaje, tipo, duracion, link, activo: true, creadoEn: Date.now() });
+    document.getElementById('popup-titulo').value = '';
+    document.getElementById('popup-mensaje').value = '';
+    document.getElementById('popup-link').value = '';
+    showAlert('popup-alert', '✅ Popup enviado — los usuarios lo verán al cargar la app', 'success');
+  } catch(e) { showAlert('popup-alert', 'Error: ' + e.message, 'error'); }
+};
+
+window._togglePopup = async function(id, isActive) {
+  try { await updateDoc(doc(db, 'popups', id), { activo: !isActive }); }
+  catch(e) { console.error(e); }
+};
+
+window._deletePopup = async function(id) {
+  if (!confirm('¿Eliminar este popup? Esta acción no se puede deshacer.')) return;
+  try { await deleteDoc(doc(db, 'popups', id)); }
+  catch(e) { console.error(e); }
 };
 
 // ── PRECIOS ───────────────────────────────────────────────────────────────────

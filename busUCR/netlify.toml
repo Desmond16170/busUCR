@@ -73,3 +73,8 @@
   from = "/servicios"
   to = "/servicios.html"
   status = 200
+
+[[redirects]]
+  from = "/interlinea"
+  to = "/interlinea.html"
+  status = 200

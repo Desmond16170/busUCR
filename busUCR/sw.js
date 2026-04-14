@@ -1,4 +1,4 @@
-const CACHE_NAME = 'busucr-home-v24';
+const CACHE_NAME = 'BusUCR_V2-4';
 const URLS = ['/', '/index.html', '/manifest.json', '/icons/icon-192.png', '/icons/icon-512.png'];
 
 self.addEventListener('install', event => {

@@ -18,9 +18,9 @@
   }
 
   :root {
-    --bg: #0d1117;
-    --surface: #161b22;
-    --surface2: #1c2333;
+    --bg: #060b16;
+    --surface: #0f1726;
+    --surface2: #182234;
     --border: #ffffff14;
     --border2: #ffffff26;
     --text: #e6edf3;
@@ -39,7 +39,7 @@
   }
 
   body {
-    background: var(--bg);
+    background: radial-gradient(circle at 0 0, #58a6ff17, #0000 30%), radial-gradient(circle at top, #a371f714, #0000 24%), linear-gradient(#08111f 0%, #040913 100%);
     color: var(--text);
     font-family: var(--font);
     min-height: 100vh;
@@ -48,8 +48,10 @@
   }
 
   .header {
-    border-bottom: 1px solid var(--border);
-    background: var(--bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid #ffffff0f;
+    background: #050a13e6;
     z-index: 100;
     justify-content: space-between;
     align-items: center;
@@ -1593,25 +1595,48 @@
 
   .mobile-nav {
     background: var(--bg);
-    border-top: 1px solid var(--border);
+    border-top: none;
     z-index: 200;
-    gap: 3px;
-    padding: 6px;
+    gap: 0;
+    padding: 8px 4px max(12px, env(safe-area-inset-bottom));
     display: none;
     position: fixed;
     bottom: 0;
     left: 0;
-    right: 0
+    right: 0;
+    justify-content: space-around;
+    align-items: stretch
   }
 
   .mobile-nav .tab-btn {
     text-align: center;
     flex: 1;
-    padding: 7.2px 2px;
-    font-size: 10.2px
+    padding: 6px 4px;
+    font-size: 10px;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    line-height: 1.2;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    border-radius: 0
   }
 
-  @media (width<=520px) {
+  .mobile-nav .tab-btn .nav-icon {
+    font-size: 22px;
+    display: block;
+    line-height: 1
+  }
+
+  .mobile-nav .tab-btn.active {
+    color: var(--accent);
+    background: transparent
+  }
+
+  @media (max-width: 520px) {
     .schedule-grid {
       grid-template-columns: 1fr
     }
@@ -1633,8 +1658,30 @@
     }
 
     .view {
-      padding-bottom: 5rem
+      padding-bottom: 5.5rem
     }
+
+    .mobile-ham-trigger {
+      display: flex
+    }
+
+    .header {
+      position: sticky
+    }
+
+    .logo {
+      position: static;
+      left: auto;
+      transform: none;
+      margin-right: 8px;
+    }
+
+    .mobile-ham-trigger {
+      order: 3;
+      margin-left: auto;
+    }
+
+    .live-badge { display: none }
   }
 
   .delay-alert-banner {
@@ -1732,25 +1779,272 @@
     background: #e6534a2e
   }
 
+
+
+  .mobile-ham-trigger {
+    width: 40px;
+    height: 40px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    border-radius: 11px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,.04);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    cursor: pointer;
+    transition: transform .2s ease, background .2s ease, border-color .2s ease, opacity .2s ease;
+    padding: 0;
+    flex-shrink: 0;
+    margin-left: auto
+  }
+
+  .mobile-ham-trigger:hover { background: rgba(255,255,255,.08) }
+
+  .mobile-ham-trigger span {
+    width: 17px;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--text);
+    transition: transform .28s ease, opacity .2s ease, width .2s ease;
+    display: block
+  }
+
+  .mobile-ham-trigger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg) }
+  .mobile-ham-trigger.active span:nth-child(2) { opacity: 0 }
+  .mobile-ham-trigger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg) }
+
+  .header-right-placeholder {
+    display: none;
+    min-width: 0
+  }
+
+  .live-badge-mobile-hide { display: flex }
+
+  .drawer-overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.4);
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+    z-index:150;
+    backdrop-filter:blur(4px);
+    -webkit-backdrop-filter:blur(4px);
+  }
+  .drawer-overlay.open{
+    opacity:1;
+    pointer-events:auto;
+  }
+  .bottom-drawer{
+    position:fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    width:280px;
+    max-width:85vw;
+    background:rgba(6,11,22,.78);
+    border-left:1px solid var(--border2);
+    border-radius:20px 0 0 20px;
+    z-index:200;
+    padding:0 0 max(20px, env(safe-area-inset-bottom));
+    transform:translateX(100%);
+    transition:transform .26s cubic-bezier(.32,.72,0,1);
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+    box-shadow:12px 0 36px rgba(0,0,0,.35);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px)
+  }
+  .bottom-drawer.open{transform:translateX(0)}
+  .bottom-drawer::before{
+    content:"";
+    position:absolute;
+    inset:0 0 auto 0;
+    height:3px;
+    background:linear-gradient(90deg,var(--accent),var(--accent2),var(--purple));
+  }
+  .drawer-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:20px 18px 16px;
+    border-bottom:1px solid var(--border)
+  }
+  .drawer-logo{
+    font-family:var(--display);
+    font-size:1rem;
+    font-weight:800;
+    letter-spacing:-.02em;
+    color:var(--text)
+  }
+  .drawer-logo span{color:var(--accent)}
+  .drawer-close{
+    margin-left:auto;
+    background:transparent;
+    border:none;
+    color:var(--muted);
+    cursor:pointer;
+    font-size:20px;
+    line-height:1;
+    padding:4px;
+    border-radius:6px;
+    transition:color .15s
+  }
+  .drawer-close:hover{color:var(--text)}
+  .drawer-section-label{
+    color:var(--muted);
+    font-size:10px;
+    font-weight:600;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    padding:0 18px;
+    margin-bottom:4px
+  }
+  .drawer-item{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:12px 18px;
+    cursor:pointer;
+    transition:background .1s
+  }
+  .drawer-item:hover{background:rgba(255,255,255,.04)}
+  .drawer-item-icon{
+    width:30px;
+    height:30px;
+    text-align:center;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--muted)
+  }
+  .drawer-item-icon svg{
+    width:20px;
+    height:20px;
+    stroke:currentColor
+  }
+  .drawer-item-text{flex:1}
+  .drawer-item-title{
+    font-size:14px;
+    font-weight:500;
+    color:var(--text)
+  }
+  .drawer-item-sub{
+    font-size:11px;
+    color:var(--muted);
+    margin-top:1px
+  }
+  .drawer-sep{
+    height:1px;
+    background:var(--border);
+    margin:6px 18px
+  }
+  .drawer-spacer{flex:1}
+  .drawer-version{
+    padding:12px 18px;
+    font-size:10px;
+    color:var(--muted);
+    border-top:1px solid var(--border)
+  }
+  .drawer-item.green .drawer-item-title{color:var(--green)}
+  .drawer-item.amber .drawer-item-title{color:var(--accent)}
+
+@media (min-width: 521px) {
+  .mobile-ham-trigger {
+    display: none !important;
+  }
+}
+
+.mobile-ham-trigger {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+}
+
+.mobile-ham-trigger:hover,
+.mobile-ham-trigger:active,
+.mobile-ham-trigger:focus {
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
 @media (min-width:521px){
   .header {
     position: sticky;
     top: 0;
+    width: 100%;
   }
   .nav-tabs {
-    position: absolute;
+    position: sticky;
     left: 50%;
     transform: translateX(-50%);
   }
 }
 
+
+
+@media (max-width: 520px) {
+  .mobile-ham-trigger {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    margin-left: auto !important;
+    position: sticky;
+    z-index: 220;
+  }
+
+  .mobile-ham-trigger span {
+    background: var(--text) !important;
+    opacity: 1 !important;
+  }
+
+  .nav-tabs,
+  .live-badge {
+    display: none !important;
+  }
+
+  .header {
+    gap: 10px;
+  }
+
+  .header-right-placeholder {
+    display: none !important;
+  }
+}
+
+@media (min-width: 521px) {
+  .mobile-ham-trigger,
+  .drawer-overlay,
+  .bottom-drawer {
+    display: none !important;
+  }
+}
+
 </style>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
 
 <body>
   <div class=header>
     <div title="Bus Acosta UCR" class=logo id=logo-easter-egg>🚌<span>UCR<span class=logo-dot>·</span>Acosta</span>
     </div>
+    <button class="mobile-ham-trigger" id="menuBtn" onclick="openDrawer()" aria-label="Abrir menú" role="button" tabindex="0">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
     <div class=nav-tabs><button class="tab-btn active" onclick="showView('home')">Inicio</button><button
         onclick="showView('horarios')" class=tab-btn>Horarios</button><button onclick="showView('grupos')"
         class=tab-btn>Grupos</button><button class=tab-btn onclick=goBusInterno()>Interno</button><button class=tab-btn
@@ -1759,6 +2053,7 @@
     <div class=live-badge>
       <div class=live-dot></div><span id=live-time>--:--</span>
     </div>
+    <div class=header-right-placeholder></div>
   </div>
   <div class="view active" id=view-home>
     <div class=notif-banner id=notif-banner>
@@ -1856,6 +2151,17 @@
       </div>
     </div>
   </div>
+
+  <div class=view id=view-paradas>
+    <div class=page-title>Paradas de la ruta</div>
+    <div class=page-sub id=paradas-dir-sub>Acosta / Aserrí → UCR</div>
+    <div class=route-selector style="margin-bottom:1.25rem">
+      <button class="route-btn active" onclick="setParadasDir('Acosta-UCR')" id=pbtn-ucr>🚌 Acosta / Aserrí → UCR</button>
+      <button class=route-btn onclick="setParadasDir('UCR-Acosta')" id=pbtn-cor>🎓 UCR → Acosta / Aserrí</button>
+    </div>
+    <div class=stops-card id=paradas-list></div>
+  </div>
+
   <div class=view id=view-admin>
     <div id=admin-lock>
       <div class=lock-screen>
@@ -1978,11 +2284,95 @@
           reportes del día</button></div>
     </div>
   </div>
-  <div class=mobile-nav><button class="tab-btn active" onclick="showView('home')">🏠 Inicio</button><button
-      onclick="showView('horarios')" class=tab-btn>📋 Horarios</button><button onclick="showView('grupos')"
-      class=tab-btn>💬 Grupos</button><button class=tab-btn onclick=goBusUCR()>🚌 BusUCR</button><button class=tab-btn
-      onclick=goBusInterno()>🚌 Bus Interno</button><button onclick="showView('admin')" class=tab-btn data-admin-entry
-      style=display:none>⚙️ Admin</button></div>
+  <div class=mobile-nav id=mobile-nav>
+    <button class=tab-btn onclick=goBusUCR() id=mnav-busucr>
+      <span class=nav-icon><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="22" height="14" rx="3"/><path d="M16 17v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2"/><path d="M5 10h14"/><circle cx="7.5" cy="14" r="1"/><circle cx="16.5" cy="14" r="1"/></svg></span>Bus UCR
+    </button>
+    <button class="tab-btn active" onclick="showView('home')" id=mnav-home>
+      <span class=nav-icon><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>Inicio
+    </button>
+    <button class=tab-btn onclick=goBusInterno() id=mnav-interno>
+      <span class=nav-icon><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg></span>Interno
+    </button>
+  </div>
+
+  <div class=drawer-overlay id=drawer-overlay onclick=closeDrawer()></div>
+  <div class=bottom-drawer id=bottom-drawer>
+    <div class=drawer-header>
+      <span style="font-size:18px">🚌</span>
+      <div class=drawer-logo>Bus<span>UCR</span></div>
+      <button class=drawer-close onclick=closeDrawer() aria-label="Cerrar">×</button>
+    </div>
+    <div style="height:12px"></div>
+    <div class=drawer-section-label>Navegación</div>
+    <div class=drawer-item onclick="showView('grupos');closeDrawer()">
+      <div class=drawer-item-icon><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+      <div class=drawer-item-text>
+        <div class=drawer-item-title>Grupos de WhatsApp</div>
+        <div class=drawer-item-sub>Comunidades de la ruta Acosta - UCR</div>
+      </div>
+    </div>
+    <div class=drawer-item onclick="showView('horarios');closeDrawer()">
+      <div class=drawer-item-icon><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+      <div class=drawer-item-text>
+        <div class=drawer-item-title>Horarios</div>
+        <div class=drawer-item-sub>Ver todos los horarios del día</div>
+      </div>
+    </div>
+    <div class=drawer-item onclick="showView('paradas');closeDrawer()">
+      <div class=drawer-item-icon><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+      <div class=drawer-item-text>
+        <div class=drawer-item-title>Paradas de ruta</div>
+        <div class=drawer-item-sub>Lista completa de paradas</div>
+      </div>
+    </div>
+    <div class=drawer-sep></div>
+    <div class="drawer-item green" onclick="window.open('https://www.instagram.com/bus_u.c.r','_blank');closeDrawer()">
+      <div class=drawer-item-icon><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+      <div class=drawer-item-text>
+        <div class=drawer-item-title>Contacto</div>
+        <div class=drawer-item-sub>Instagram</div>
+      </div>
+    </div>
+    <div class="drawer-item amber" onclick="window.open('https://ko-fi.com/Q5Q2187D5I','_blank');closeDrawer()">
+      <div class=drawer-item-icon><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
+      <div class=drawer-item-text>
+        <div class=drawer-item-title>Donación</div>
+        <div class=drawer-item-sub>Apoya el proyecto en Ko-fi</div>
+      </div>
+    </div>
+    <div class=drawer-item onclick="showView('admin');closeDrawer()" data-admin-entry style=display:none>
+      <div class=drawer-item-icon>⚙️</div>
+      <div class=drawer-item-text>
+        <div class=drawer-item-title>Admin</div>
+        <div class=drawer-item-sub>Panel de administración</div>
+      </div>
+    </div>
+    <div class=drawer-spacer></div>
+    <div class=drawer-version>BusUCR v2.4 © Desmond<span id="year">· <a onmouseout="this.style.color='var(--muted)'"onmouseover="this.style.color='var(--text)'"style="color:var(--muted);text-decoration:none;transition:color .2s"href="/" target="_blank"> Créditos </a>
+  </div>
+</div>
+  </div>
+  <script>
+    function openDrawer(){
+      const drawer=document.getElementById('bottom-drawer');
+      const overlay=document.getElementById('drawer-overlay');
+      const btn=document.getElementById('menuBtn');
+      if(!drawer||!overlay||!btn)return;
+      drawer.classList.add('open');
+      overlay.classList.add('open');
+      btn.classList.add('active');
+    }
+    function closeDrawer(){
+      const drawer=document.getElementById('bottom-drawer');
+      const overlay=document.getElementById('drawer-overlay');
+      const btn=document.getElementById('menuBtn');
+      if(!drawer||!overlay||!btn)return;
+      drawer.classList.remove('open');
+      overlay.classList.remove('open');
+      btn.classList.remove('active');
+    }
+  </script>
   <script
     type=module>import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js"; import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection, addDoc, query, where, orderBy, deleteDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js"; import { getAuth, setPersistence, browserLocalPersistence, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js"; const firebaseConfig = { apiKey: `AIzaSyDxUI4bJsQ2wVPz9SS8UkfIiFPxLC9YMmY`, authDomain: `bus-externo-ucr.firebaseapp.com`, projectId: `bus-externo-ucr`, storageBucket: `bus-externo-ucr.firebasestorage.app`, messagingSenderId: `295955223912`, appId: `1:295955223912:web:e02626d38a8cb57cfd32dd` }, ADMIN_SECURITY_NOTE = `Panel protegido con Firebase Authentication`, STOP_COORDS = [], DEFAULT_DATA = { stopsByDirection: { "Acosta-UCR": [{ name: `Turrujal`, offset: 0, lat: 9.789, lng: -84.1602 }, { name: `Acosta centro`, offset: 30, lat: 9.7989, lng: -84.1605 }, { name: `La Ortiga`, offset: 38, lat: 9.8108, lng: -84.1512 }, { name: `Escuela La Esperanza`, offset: 45, lat: 9.8235, lng: -84.1418 }, { name: `Jorco centro`, offset: 52, lat: 9.8364, lng: -84.1328 }, { name: `Ojo de Agua Centro`, offset: 58, lat: 9.8485, lng: -84.1236 }, { name: `Vuelta Hundida`, offset: 65, lat: 9.8613, lng: -84.1145 }, { name: `Cruce de Tarbaca`, offset: 72, lat: 9.874, lng: -84.1045 }, { name: `Iglesia de Tarbaca`, offset: 76, lat: 9.8846, lng: -84.098 }, { name: `Aserrí (por la municipalidad)`, offset: 88, lat: 9.8588, lng: -84.0928 }, { name: `Desamparados (paso por aquí)`, offset: 100, lat: 9.8977, lng: -84.0614 }, { name: `Facultad de Derecho UCR`, offset: 116, lat: 9.9386, lng: -84.0497 }, { name: `Facultad de Letras UCR`, offset: 119, lat: 9.9401, lng: -84.0479 }, { name: `Facultad de Agronomía UCR`, offset: 121, lat: 9.9388, lng: -84.0489 }, { name: `Edificio de Radio U UCR`, offset: 124, lat: 9.9415, lng: -84.0468 }], "UCR-Acosta": [{ name: `Edificio de Radio U UCR`, offset: 0, lat: 9.9415, lng: -84.0468 }, { name: `Desamparados (paso por aquí)`, offset: 24, lat: 9.8977, lng: -84.0614 }, { name: `Aserrí (por la municipalidad)`, offset: 36, lat: 9.8588, lng: -84.0928 }, { name: `Iglesia de Tarbaca`, offset: 48, lat: 9.8846, lng: -84.098 }, { name: `Cruce de Tarbaca`, offset: 52, lat: 9.874, lng: -84.1045 }, { name: `Vuelta Hundida`, offset: 59, lat: 9.8613, lng: -84.1145 }, { name: `Ojo de Agua Centro`, offset: 66, lat: 9.8485, lng: -84.1236 }, { name: `Jorco centro`, offset: 72, lat: 9.8364, lng: -84.1328 }, { name: `Escuela La Esperanza`, offset: 79, lat: 9.8235, lng: -84.1418 }, { name: `La Ortiga`, offset: 86, lat: 9.8108, lng: -84.1512 }, { name: `Acosta centro`, offset: 94, lat: 9.7989, lng: -84.1605 }, { name: `Turrujal`, offset: 124, lat: 9.789, lng: -84.1602 }] }, fare: 1330, fareNote: `Actualizado manualmente`, times: { "Acosta-UCR": [`04:45`], "UCR-Acosta": [`17:15`] }, waGroups: [] }, NOTIF_ICONS = { warning: `⚠️`, alert: `🚨`, info: `ℹ️` }, app = initializeApp(firebaseConfig), db = getFirestore(app), auth = getAuth(app); setPersistence(auth, browserLocalPersistence).catch(console.warn); let appData = null, reports = [], notifications = [], currentDirection = `Acosta-UCR`, adminScheduleDirection = `Acosta-UCR`, adminScheduleDay = `lunes`, nearestStopIdx = -1, gpsLastFix = null, dismissedNotifs = new Set(JSON.parse(sessionStorage.getItem(`dismissed`) || `[]`));
       // ── utils ───────────────────────────────────────────────────────────────────
@@ -2005,12 +2395,10 @@
         return nearest.meters <= 50 ? { ...nearest, method: `direct-stop` } : Number.isFinite(accuracy) && accuracy > 100 ? { ...nearest, method: `low-accuracy` } : { ...nearest, method: `nearest` }
       } function migrateStopsWithCoords(rawStops = []) { return rawStops.map(stop => ({ ...stop, offset: Number(stop.offset || 0), lat: Number.isFinite(Number(stop.lat)) ? Number(stop.lat) : null, lng: Number.isFinite(Number(stop.lng)) ? Number(stop.lng) : null })) } function normalizeStopsConfig(data) { if (data.stopsByDirection) Object.keys(data.stopsByDirection).forEach(dir => { data.stopsByDirection[dir] = migrateStopsWithCoords(data.stopsByDirection[dir] || []) }); else { let base = migrateStopsWithCoords(data.stops || []), totalOffset = base.at(-1)?.offset || 0; data.stopsByDirection = { "Acosta-UCR": base.map((s, i) => ({ ...s, baseIdx: i })), "UCR-Acosta": [...base].reverse().map((s, i) => ({ ...s, baseIdx: base.length - 1 - i, offset: totalOffset - (s.offset || 0) })) } } } function getStopsForDirection(dir) { return (appData?.stopsByDirection?.[dir] || []).map((s, i) => ({ ...s, baseIdx: Number.isFinite(s.baseIdx) ? s.baseIdx : i })) } function getDirectionalIndexFromBase(dir, baseIdx) { return getStopsForDirection(dir).findIndex(s => s.baseIdx === baseIdx) } function sortAndUniqueTimes(times = []) { return [...new Set(times.filter(Boolean))].sort((a, b) => toMin(a) - toMin(b)) } function cloneWeekTemplate(entries = []) { return Object.fromEntries(DAY_KEYS.map(day => [day, normalizeTimeEntries(entries)])) } function normalizeTimeEntries(entries = []) { return sortAndUniqueTimes(entries.map(item => typeof item == `string` ? item : item?.time).filter(Boolean)).map(time => { let original = entries.find(item => (typeof item == `string` ? item : item?.time) === time); return { time, enabled: typeof original == `object` ? original.enabled !== !1 : !0 } }) } function normalizeDirectionTimes(directionTimes = {}) { if (Array.isArray(directionTimes)) return cloneWeekTemplate(directionTimes); let normalized = {}; return DAY_KEYS.forEach(day => { normalized[day] = normalizeTimeEntries(directionTimes?.[day] || []) }), normalized } function normalizeTimesData(data) { return data.times ||= {}, [`Acosta-UCR`, `UCR-Acosta`].forEach(dir => { data.times[dir] = normalizeDirectionTimes(data.times[dir] || {}) }), data } function getTimeEntries(dir, day = getTodayDayKey()) { return normalizeTimeEntries(appData?.times?.[dir]?.[day] || []) } function getEnabledTimes(dir, day = getTodayDayKey()) { return getTimeEntries(dir, day).filter(item => item.enabled !== !1).map(item => item.time) } function validateAppData(data) { let errors = []; (!Number.isFinite(Number(data.fare)) || Number(data.fare) < 0) && errors.push(`La tarifa debe ser un número válido`), data.fare = Number(data.fare || 0); let groups = data.stopsByDirection ? Object.entries(data.stopsByDirection) : [[`general`, data.stops || []]]; for (let [dir, stops] of groups) { let names =/* @__PURE__ */ new Set, prevOffset = -1; (stops || []).forEach((s, idx) => { s.name = normText(s.name), s.name || errors.push(`La parada ${idx + 1} de ${dir} no tiene nombre`); let key = s.name.toLowerCase(); names.has(key) && errors.push(`La parada "${s.name}" está repetida en ${dir}`), names.add(key), (!Number.isFinite(Number(s.offset)) || Number(s.offset) < 0) && errors.push(`La parada "${s.name}" de ${dir} tiene un offset inválido`), s.offset = Number(s.offset), s.offset < prevOffset && errors.push(`Los offsets de ${dir} deben ir en orden ascendente. Revisá "${s.name}"`), prevOffset = s.offset, s.lat !== null && s.lat !== void 0 && s.lat !== `` || s.lng !== null && s.lng !== void 0 && s.lng !== `` ? !Number.isFinite(Number(s.lat)) || !Number.isFinite(Number(s.lng)) ? errors.push(`La parada "${s.name}" de ${dir} tiene coordenadas inválidas`) : (s.lat = Number(s.lat), s.lng = Number(s.lng)) : (s.lat = null, s.lng = null) }) } return normalizeTimesData(data), [`Acosta-UCR`, `UCR-Acosta`].forEach(dir => { DAY_KEYS.forEach(day => { data.times[dir][day].forEach(item => { item.time = normText(item.time), item.enabled = item.enabled !== !1 }) }) }), data.waGroups = (data.waGroups || []).map(x => ({ name: normText(x.name), desc: normText(x.desc), link: normText(x.link) })), data.waGroups.forEach((g, idx) => { g.name || errors.push(`El grupo #${idx + 1} no tiene nombre`), /^https:\/\/(chat\.whatsapp\.com|wa\.me)\//i.test(g.link) || errors.push(`El link del grupo "${g.name || `#` + (idx + 1)}" no parece válido de WhatsApp`) }), errors }
       // ── BUS POSITION LOGIC ──────────────────────────────────────────────────────
-      function getNextBus(dir) { if (!appData) return null; let times = getEnabledTimes(dir, getTodayDayKey()), now = nowMin(); for (let t of times) { let m = toMin(t); if (m >= now) return { time: t, diff: m - now } } return null } function getPrevBus(dir) { if (!appData) return null; let times = getEnabledTimes(dir, getTodayDayKey()), now = nowMin(), prev = null; for (let t of times) if (toMin(t) < now) prev = t; else break; return prev } function getReportsForPrev(dir) { let prev = getPrevBus(dir); return prev ? reports.filter(r => r.direction === dir && r.departure === prev) : [] } function getLatestReportForPrev(dir) { let dirStops = getStopsForDirection(dir), dirReports = getReportsForPrev(dir).map(r => ({ ...r, dirIdx: dirStops.findIndex(s => s.baseIdx === r.stopIdx) })).filter(r => r.dirIdx >= 0); return dirReports.length ? dirReports.reduce((best, cur) => cur.dirIdx > best.dirIdx ? cur : best, dirReports[0]) : null }
-      /**
-      * Calculates estimated bus position index for the PREVIOUS bus in the selected direction.
-      * Returns { stopIdx, isReal } where stopIdx is directional, not base.
-      */
-      function getBusEstimatedPosition(dir) { let prev = getPrevBus(dir); if (!prev) return null; let stops = getStopsForDirection(dir); if (!stops.length) return null; let rep = getLatestReportForPrev(dir), nowM = nowMin(), depM = toMin(prev), elapsedSinceDep = Math.max(0, nowM - depM); if (rep) { let anchorOffset = stops[rep.dirIdx]?.offset ?? 0, reportTimeM = Number.isFinite(rep.reportedAtMin) ? rep.reportedAtMin : depM + anchorOffset, elapsedSinceReport = Math.max(0, nowM - reportTimeM), bestIdx = rep.dirIdx; for (let i = rep.dirIdx + 1; i < stops.length && elapsedSinceReport >= (stops[i].offset || 0) - anchorOffset; i++)bestIdx = i; return { stopIdx: clamp(bestIdx, 0, stops.length - 1), isReal: rep.dirIdx === bestIdx } } let bestIdx = 0; for (let i = 0; i < stops.length && elapsedSinceDep >= (stops[i].offset || 0); i++)bestIdx = i; return { stopIdx: clamp(bestIdx, 0, stops.length - 1), isReal: !1 } } function formatMinuteToClock(totalMin) { let mins = (Number(totalMin) % 1440 + 1440) % 1440, h = Math.floor(mins / 60), m = mins % 60; return `${String(h).padStart(2, `0`)}:${String(m).padStart(2, `0`)}` } function getTripDelayInfo(dir) { let prev = getPrevBus(dir), stops = getStopsForDirection(dir), lastReport = getLatestReportForPrev(dir); if (!prev || !stops.length || !lastReport) return { departure: prev, hasReport: !1, delayMin: 0, status: `schedule`, reportedStop: null, reportedAtMin: null, reportedAtLabel: null, scheduledAtMin: null, confidenceMinAgo: null }; let stop = stops[lastReport.dirIdx] || null, scheduledAtMin = toMin(prev) + Number(stop?.offset || 0), reportedAtMin = Number.isFinite(lastReport.reportedAtMin) ? lastReport.reportedAtMin : scheduledAtMin, rawDelay = reportedAtMin - scheduledAtMin, delayMin = clamp(Math.round(rawDelay), -3, 20), confidenceMinAgo = Math.max(0, nowMin() - reportedAtMin), status = `recalibrated`; return confidenceMinAgo <= 5 ? status = `confirmed` : confidenceMinAgo > 15 && (status = `stale`), { departure: prev, hasReport: !0, delayMin, status, reportedStop: stop?.name || null, reportedAtMin, reportedAtLabel: formatMinuteToClock(reportedAtMin), scheduledAtMin, confidenceMinAgo } } function getEstimatedStopPassMinute(dir, stop) { let prev = getPrevBus(dir); if (!prev || !stop) return null; let delayInfo = getTripDelayInfo(dir); return toMin(prev) + Number(stop.offset || 0) + Number(delayInfo.delayMin || 0) }
+
+      function getNextBus(dir) { if (!appData) return null; let times = getEnabledTimes(dir, getTodayDayKey()), now = nowMin(); for (let t of times) { let m = toMin(t); if (m >= now) return { time: t, diff: m - now } } return null } function getPrevBus(dir) { if (!appData) return null; let times = getEnabledTimes(dir, getTodayDayKey()), now = nowMin(), prev = null; for (let t of times) if (toMin(t) < now) prev = t; else break; return prev } function getStopByBaseIdx(dir, baseIdx) { return getStopsForDirection(dir).find(s => s.baseIdx === baseIdx) || null } function getReportsForDeparture(dir, departure) { return departure ? reports.filter(r => r.direction === dir && r.departure === departure) : [] } function getReportsForPrev(dir) { let prev = getPrevBus(dir); return prev ? getReportsForDeparture(dir, prev) : [] } function getLatestReportForDeparture(dir, departure) { let dirStops = getStopsForDirection(dir), dirReports = getReportsForDeparture(dir, departure).map(r => ({ ...r, dirIdx: dirStops.findIndex(s => s.baseIdx === r.stopIdx), reportType: r.reportType || `passed` })).filter(r => r.dirIdx >= 0); if (!dirReports.length) return null; let furthestIdx = Math.max(...dirReports.map(r => r.dirIdx)); return dirReports.filter(r => r.dirIdx === furthestIdx).sort((a, b) => (b.reportedAt || 0) - (a.reportedAt || 0))[0] } function getLatestReportForPrev(dir) { let prev = getPrevBus(dir); return prev ? getLatestReportForDeparture(dir, prev) : null } function getActiveTrips(dir) { if (!appData) return []; let stops = getStopsForDirection(dir); if (!stops.length) return []; let totalOffset = Number(stops.at(-1)?.offset || 0), now = nowMin(); return getEnabledTimes(dir, getTodayDayKey()).filter(t => { let dep = toMin(t); return dep > now ? !1 : now - dep <= Math.max(totalOffset + 20, 35) }).map(t => ({ departure: t, depMin: toMin(t), remainingMin: Math.max(0, toMin(t) + totalOffset - now) })).sort((a, b) => b.depMin - a.depMin) }
+      function getBusEstimatedPosition(dir) { let prev = getPrevBus(dir); if (!prev) return null; let stops = getStopsForDirection(dir); if (!stops.length) return null; let rep = getLatestReportForPrev(dir), nowM = nowMin(), depM = toMin(prev), elapsedSinceDep = Math.max(0, nowM - depM); if (rep) { let confirmedIdx = clamp(rep.dirIdx, 0, stops.length - 1), confirmedStop = stops[confirmedIdx], nextIdx = confirmedIdx + 1 < stops.length ? confirmedIdx + 1 : confirmedIdx, nextStop = stops[nextIdx] || null, anchorOffset = Number(confirmedStop?.offset || 0), reportTimeM = Number.isFinite(rep.reportedAtMin) ? rep.reportedAtMin : depM + anchorOffset, elapsedSinceReport = Math.max(0, nowM - reportTimeM), segmentDuration = nextStop && nextIdx !== confirmedIdx ? Math.max(1, Number(nextStop.offset || 0) - anchorOffset) : 0, holdRealMin = Math.max(2, Math.min(4, Math.round(segmentDuration * .5) || 2)), estimateWindow = segmentDuration > 0 ? Math.max(segmentDuration + 5, segmentDuration * 2) : 0; if (!nextStop || nextIdx === confirmedIdx) return { stopIdx: confirmedIdx, isReal: !0, confirmedIdx, estimatedToIdx: confirmedIdx, progressBetween: 0, mode: `confirmed-final`, confidence: `high`, reportedAtMin: reportTimeM, reportType: rep.reportType || `passed` }; if ((rep.reportType || `passed`) === `hold`) return { stopIdx: confirmedIdx, isReal: !0, confirmedIdx, estimatedToIdx: nextIdx, progressBetween: 0, mode: `held`, confidence: `high`, reportedAtMin: reportTimeM, reportType: `hold` }; if (elapsedSinceReport <= holdRealMin) return { stopIdx: confirmedIdx, isReal: !0, confirmedIdx, estimatedToIdx: nextIdx, progressBetween: 0, mode: `confirmed`, confidence: `high`, reportedAtMin: reportTimeM, reportType: rep.reportType || `passed` }; if (elapsedSinceReport <= estimateWindow) { let progressBetween = clamp((elapsedSinceReport - holdRealMin) / Math.max(1, estimateWindow - holdRealMin), 0, .92); return { stopIdx: confirmedIdx, isReal: !1, confirmedIdx, estimatedToIdx: nextIdx, progressBetween, mode: `between`, confidence: progressBetween < .6 ? `medium` : `low`, reportedAtMin: reportTimeM, reportType: rep.reportType || `passed` } } return { stopIdx: confirmedIdx, isReal: !0, confirmedIdx, estimatedToIdx: nextIdx, progressBetween: 0, mode: `stale`, confidence: `low`, reportedAtMin: reportTimeM, reportType: rep.reportType || `passed` } } let bestIdx = 0; for (let i = 0; i < stops.length && elapsedSinceDep >= (stops[i].offset || 0); i++)bestIdx = i; return { stopIdx: clamp(bestIdx, 0, stops.length - 1), isReal: !1, confirmedIdx: null, estimatedToIdx: null, progressBetween: 0, mode: `schedule-estimated`, confidence: `low`, reportedAtMin: null, reportType: null } } function formatMinuteToClock(totalMin) { let mins = (Number(totalMin) % 1440 + 1440) % 1440, h = Math.floor(mins / 60), m = mins % 60; return `${String(h).padStart(2, `0`)}:${String(m).padStart(2, `0`)}` } function getTripDelayInfo(dir, departureOverride = null) { let departure = departureOverride || getPrevBus(dir), stops = getStopsForDirection(dir), lastReport = getLatestReportForDeparture(dir, departure); if (!departure || !stops.length || !lastReport) return { departure, hasReport: !1, delayMin: 0, status: `schedule`, reportedStop: null, reportedAtMin: null, reportedAtLabel: null, scheduledAtMin: null, confidenceMinAgo: null, reportType: null }; let stop = stops[lastReport.dirIdx] || null, scheduledAtMin = toMin(departure) + Number(stop?.offset || 0), reportedAtMin = Number.isFinite(lastReport.reportedAtMin) ? lastReport.reportedAtMin : scheduledAtMin, rawDelay = reportedAtMin - scheduledAtMin, delayMin = clamp(Math.round(rawDelay), -15, 30), confidenceMinAgo = Math.max(0, nowMin() - reportedAtMin), status = `recalibrated`; return confidenceMinAgo <= 5 ? status = `confirmed` : confidenceMinAgo > 15 && (status = `stale`), { departure, hasReport: !0, delayMin, status, reportedStop: stop?.name || null, reportedAtMin, reportedAtLabel: formatMinuteToClock(reportedAtMin), scheduledAtMin, confidenceMinAgo, reportType: lastReport.reportType || `passed` } } function getEstimatedStopPassMinute(dir, stop, departureOverride = null) { let departure = departureOverride || getPrevBus(dir); if (!departure || !stop) return null; let delayInfo = getTripDelayInfo(dir, departure); return toMin(departure) + Number(stop.offset || 0) + Number(delayInfo.delayMin || 0) }
+
       // ── NOTIFICATIONS ───────────────────────────────────────────────────────────
       function subscribeNotifications() { let now = Date.now(); onSnapshot(query(collection(db, `notifications_acosta`), where(`expiresAt`, `>`, now), orderBy(`expiresAt`, `asc`)), snap => { notifications = snap.docs.map(d => ({ id: d.id, ...d.data() })), renderNotifBanner(), renderNotifAdmin() }) } function renderNotifBanner() { let banner = document.getElementById(`notif-banner`), active = notifications.find(n => !dismissedNotifs.has(n.id) && n.expiresAt > Date.now()); if (!active) { banner.classList.remove(`visible`); return } let typeIcons = { warning: `⚠️`, alert: `🚨`, info: `ℹ️` }; document.getElementById(`notif-icon`).textContent = typeIcons[active.type] || `📢`, document.getElementById(`notif-title`).textContent = active.title, document.getElementById(`notif-msg`).textContent = active.message; let expDate = new Date(active.expiresAt); document.getElementById(`notif-exp`).textContent = `Expira: ${expDate.toLocaleDateString(`es-CR`, { weekday: `short`, month: `short`, day: `numeric` })} ${expDate.toLocaleTimeString(`es-CR`, { hour: `2-digit`, minute: `2-digit` })}`, banner.className = `notif-banner visible type-${active.type || `warning`}`, banner._currentId = active.id }
       // ── GPS ─────────────────────────────────────────────────────────────────────
@@ -2020,7 +2408,7 @@
         banner._currentId && (dismissedNotifs.add(banner._currentId), sessionStorage.setItem(`dismissed`, JSON.stringify([...dismissedNotifs]))), renderNotifBanner()
       }, window.requestGPS = function () {
         let btn = document.getElementById(`gps-btn`), title = document.getElementById(`gps-title`), sub = document.getElementById(`gps-sub`); if (btn.textContent = `Buscando...`, btn.style.opacity = `.6`, !navigator.geolocation) { title.textContent = `GPS no disponible`, sub.textContent = `Tu navegador no permite geolocalización`, btn.textContent = `No disponible`, btn.style.opacity = `1`; return } let settled = !1, hardTimer = null, watchId = null, cleanup = () => { watchId !== null && (navigator.geolocation.clearWatch(watchId), watchId = null), clearTimeout(hardTimer) }, finishWithPosition = (pos, sourceLabel = `GPS`) => {
-          if (settled) return; settled = !0, cleanup(); let { latitude: lat, longitude: lng, accuracy } = pos.coords, stops = appData?.stops || []; if (!stops.map((s, i) => ({ baseIdx: i, lat: s.lat, lng: s.lng, name: s.name })).filter(s => Number.isFinite(s.lat) && Number.isFinite(s.lng)).length) { title.textContent = `Faltan coordenadas de paradas`, sub.textContent = `Agregalas desde Admin para usar GPS`, btn.textContent = `Sin datos`, btn.style.opacity = `1`; return }
+          if (settled) return; settled = !0, cleanup(); let { latitude: lat, longitude: lng, accuracy } = pos.coords, stops = getStopsForDirection(currentDirection); if (!stops.map((s, i) => ({ baseIdx: i, lat: s.lat, lng: s.lng, name: s.name })).filter(s => Number.isFinite(s.lat) && Number.isFinite(s.lng)).length) { title.textContent = `Faltan coordenadas de paradas`, sub.textContent = `Agregalas desde Admin para usar GPS`, btn.textContent = `Sin datos`, btn.style.opacity = `1`; return }
           // Usar detectNearestStopSmart (siempre definida aquí arriba)
           let pick = detectNearestStopSmart(lat, lng, stops, accuracy); if (!pick) { title.textContent = `No se pudo calcular la parada`, sub.textContent = `Intentá de nuevo`, btn.textContent = `Reintentar`, btn.style.opacity = `1`; return } nearestStopIdx = pick.baseIdx, gpsLastFix = { baseIdx: pick.baseIdx, lat, lng, accuracy: Number.isFinite(accuracy) ? Math.round(accuracy) : null, ts: Date.now() }; let distM = pick.meters, accuracyText = Number.isFinite(accuracy) ? ` · precisión ±${Math.round(accuracy)}m` : ``, methodText = { "direct-stop": `detección directa`, stabilized: `GPS estabilizado`, "low-accuracy": `señal débil`, nearest: `GPS` }[pick.method] || `GPS`; document.getElementById(`nearest-name`).textContent = pick.name, document.getElementById(`nearest-dist`).textContent = distM < 1e3 ? `A ${distM} metros de vos${accuracyText}` : `A ${(distM / 1e3).toFixed(1)} km de vos${accuracyText}`, document.getElementById(`nearest-card`).classList.add(`visible`), title.textContent = `Parada más cercana: ${pick.name}`, Number.isFinite(accuracy) && accuracy > 120 ? sub.textContent = `${sourceLabel} obtenido, señal débil${accuracyText}` : distM <= 40 ? sub.textContent = `Estás prácticamente en la parada · ${methodText}${accuracyText}` : distM <= 120 ? sub.textContent = `Muy cerca · ${methodText}${accuracyText}` : sub.textContent = distM < 1e3 ? `A ${distM}m · ${methodText}${accuracyText}` : `A ${(distM / 1e3).toFixed(1)}km · ${methodText}${accuracyText}`, btn.textContent = `Actualizar`, btn.style.opacity = `1`, updateStops()
         }, finishWithError = message => { settled || (settled = !0, cleanup(), title.textContent = `No se pudo obtener tu ubicación`, sub.textContent = message, btn.textContent = `Reintentar`, btn.style.opacity = `1`) };
@@ -2033,145 +2421,15 @@
       // ── FIREBASE ─────────────────────────────────────────────────────────────────
       async function loadConfig() { try { let snap = await getDoc(doc(db, `config`, `schedule_acosta`)); appData = snap.exists() ? snap.data() : JSON.parse(JSON.stringify(DEFAULT_DATA)), normalizeStopsConfig(appData), snap.exists() || await setDoc(doc(db, `config`, `schedule_acosta`), appData), appData.waGroups ||= [] } catch { appData = JSON.parse(JSON.stringify(DEFAULT_DATA)), normalizeStopsConfig(appData), showAlert(`Sin conexión — usando datos de ejemplo`, `info`) } refreshHome(), renderSchedules(), renderWaGroups(), renderFare() } function subscribeReports() { try { onSnapshot(query(collection(db, `reports_acosta`), where(`date`, `==`, todayKey())), snap => { reports = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.reportedAt || 0) - (a.reportedAt || 0)).map(data => ({ ...data, reportedAtMin: Number.isFinite(data.reportedAtMin) ? data.reportedAtMin : Number.isFinite(data.reportedAt) ? new Date(data.reportedAt).getHours() * 60 + new Date(data.reportedAt).getMinutes() : null })), refreshHome(), renderReportHistory() }) } catch (e) { console.warn(e) } }
       // ── HOME ─────────────────────────────────────────────────────────────────────
-      function renderFare() { let priceEl = document.getElementById(`fare-price`), metaEl = document.getElementById(`fare-meta`); !priceEl || !metaEl || !appData || (priceEl.textContent = `₡${Number(appData.fare || 0).toLocaleString(`es-CR`)}`, metaEl.textContent = appData.fareNote || `Sin fecha de actualización`) } function refreshHome() { appData && (renderFare(), updateBusProgress(), updateNextBus(), updateStops(), renderDelayBanner()) } window.goBusInterno = function () { window.location.href = `https://bus-pronto.vercel.app/` }; function updateBusProgress() {
-        let card = document.getElementById(`bus-progress-card`), prev = getPrevBus(currentDirection); if (!prev) { card.innerHTML = ``, card.classList.remove(`visible`); return } let stops = getStopsForDirection(currentDirection), pos = getBusEstimatedPosition(currentDirection); if (!pos || !stops.length) { card.innerHTML = ``, card.classList.remove(`visible`); return } let currentStop = stops[pos.stopIdx], nextStop = stops[pos.stopIdx + 1] || null, delayInfo = getTripDelayInfo(currentDirection), delay = Number(delayInfo.delayMin || 0), routeEndOffset = Number(stops.at(-1)?.offset || 1), statusColor = delay > 0 ? `var(--accent2)` : `var(--blue)`, statusText = delay > 0 ? `⚠️ Estado actual: ${delay} minutos tarde` : `✔️ A tiempo`, nextEstimated = nextStop ? formatMinuteToClock(getEstimatedStopPassMinute(currentDirection, nextStop)) : `—`, nextScheduled = nextStop ? formatMinuteToClock(toMin(prev) + (nextStop.offset || 0)) : `—`, progressPercent = clamp(Number(currentStop?.offset || 0) / routeEndOffset * 100, 0, 100), midpointOffset = routeEndOffset / 2, midStop = stops[0], bestDiff = 1 / 0; for (let stop of stops) { let diff = Math.abs(Number(stop.offset || 0) - midpointOffset); diff < bestDiff && (bestDiff = diff, midStop = stop) } let markerHtml = [stops[0], midStop, stops.at(-1)].map((stop, idx) => { let left = idx === 0 ? 0 : idx === 1 ? 50 : 100, isCurrent = stop.baseIdx === currentStop.baseIdx, isPassed = Number(currentStop?.offset || 0) >= Number(stop.offset || 0); return `<div style="position:absolute;left:${left}%;top:50%;width:18px;height:18px;border-radius:50%;background:${isCurrent ? `#54d6c1` : isPassed ? `#f2b84b` : `#9ad9de`};border:3px solid rgba(13,17,23,.95);transform:translate(-50%,-50%);${isCurrent ? `box-shadow:0 0 0 4px rgba(84,214,193,.14),0 0 18px rgba(84,214,193,.25);` : ``}"></div>` }).join(``), labelHtml = `
-    <div style="display:flex;justify-content:space-between;gap:8px;font-size:11px;margin-bottom:8px;color:#c6ced8;">
-      <span style="text-align:left;max-width:32%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${stops[0]?.name || `—`}</span>
-      <span style="text-align:center;max-width:32%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;${midStop?.baseIdx === currentStop?.baseIdx ? `font-weight:700;color:#fff;` : ``}">${midStop?.name || `—`}</span>
-      <span style="text-align:right;max-width:32%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${stops.at(-1)?.name || `—`}</span>
-    </div>
-  `; card.innerHTML = `
-  <div style="
-    background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
-    border: 1px solid var(--border2);
-    border-radius: 18px;
-    padding: 18px;
-  ">
-
-    <div style="font-size:1.2rem;font-weight:800;margin-bottom:6px;">
-      Bus ${dirLabel(currentDirection)}
-    </div>
-
-    <div style="color:var(--muted);font-size:13px;margin-bottom:12px;">
-      Viaje de las ${prev}
-    </div>
-
-    <div style="
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap: 10px;
-      flex-wrap: wrap;
-      padding:10px 14px;
-      border-radius:12px;
-      background: rgba(92, 70, 140, 0.18);
-      border:1px solid rgba(163,113,247,0.28);
-      margin-bottom:14px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
-    ">
-      <div style="color:${statusColor};font-weight:700;">
-        ${statusText}
-      </div>
-      <div style="
-        background: rgba(163,113,247,0.22);
-        border: 1px solid rgba(163,113,247,0.3);
-        padding:6px 12px;
-        border-radius:999px;
-        font-weight:700;
-        color: #f6d365;
-      ">
-        ${delay > 0 ? `+${delay} min` : `OK`}
-      </div>
-    </div>
-
-    <div style="
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-bottom:12px;
-      color: var(--muted);
-      font-size: 13px;
-    ">
-      <div>Último reporte en <strong style="color:var(--text)">${delayInfo.reportedStop || currentStop?.name || `—`}${delayInfo.reportedAtLabel ? ` - ${delayInfo.reportedAtLabel}` : ``}</strong></div>
-      <div style="font-style:italic;">${delayInfo.hasReport ? delayInfo.confidenceMinAgo <= 1 ? `Reportado hace 1 min` : `Reportado hace ${delayInfo.confidenceMinAgo} min` : `Sin reportes`}</div>
-    </div>
-
-    <div style="margin-bottom:14px;">
-      ${labelHtml}
-      <div style="position:relative;height:12px;background:#425066;border-radius:999px;overflow:visible;">
-        <div style="width:${progressPercent}%;height:100%;background:linear-gradient(90deg,#8b5cf6,#f59e0b,#5eead4);border-radius:999px;"></div>
-        ${markerHtml}
-        <div style="position:absolute;left:${progressPercent}%;top:-34px;transform:translateX(-50%);font-size:30px;">🚌</div>
-      </div>
-    </div>
-
-    <div style="border:1px solid var(--border2);border-radius:14px;overflow:hidden;background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));">
-      <div style="background: rgba(255,255,255,0.05);padding:10px 12px;font-size:12px;font-weight:700;color:#c7d0db;">
-        Próxima Parada
-      </div>
-
-      <div style="padding:14px;">
-        <div style="font-size:1.1rem;font-weight:800;margin-bottom:12px;">
-          ${nextStop?.name || `Final de ruta`}
-        </div>
-
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-          <div style="padding-top:10px;border-top:1px solid var(--border);">
-            <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">Programado:</div>
-            <div style="font-size:1rem;font-weight:800;">${nextScheduled}</div>
-          </div>
-
-          <div style="padding-top:10px;border-top:1px solid var(--border);">
-            <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">Estimado:</div>
-            <div style="font-size:1rem;font-weight:800;color:#f6d365;">${nextEstimated}</div>
-            <div style="margin-top:4px;font-size:12px;color:var(--accent2);font-weight:700;">
-              ${delay > 0 ? `→ ${delay} min de atraso` : `→ A tiempo`}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div style="
-      margin-top:12px;
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      font-size:12px;
-      color:var(--muted);
-      border-top:1px solid var(--border);
-      padding-top:12px;
-    ">
-      <span style="font-size:14px;font-weight:800;color:#ffb85c;">🕒 Atraso estimado del viaje: ${delay > 0 ? `+${delay} min` : `0 min`}</span>
-      <span>${delayInfo.hasReport ? delayInfo.confidenceMinAgo <= 1 ? `Actualizado hace 1 min` : `Actualizado hace ${delayInfo.confidenceMinAgo} min` : `Sin reportes`}</span>
-    </div>
-
-  </div>
-  `, card.classList.add(`visible`)
-      } function updateNextBus() {
+      function renderFare() { let priceEl = document.getElementById(`fare-price`), metaEl = document.getElementById(`fare-meta`); !priceEl || !metaEl || !appData || (priceEl.textContent = `₡${Number(appData.fare || 0).toLocaleString(`es-CR`)}`, metaEl.textContent = appData.fareNote || `Sin fecha de actualización`) } function refreshHome() { appData && (renderFare(), updateBusProgress(), updateNextBus(), updateStops(), renderDelayBanner()) } window.goBusInterno = function () { window.location.href = `https://bus-pronto.vercel.app/` }; 
+      function renderTripProgressCard(direction, departure) {
+        let stops = getStopsForDirection(direction); if (!stops.length || !departure) return ``; let routeEndOffset = Number(stops.at(-1)?.offset || 1), delayInfo = getTripDelayInfo(direction, departure), depMin = toMin(departure), pos = departure === getPrevBus(direction) ? getBusEstimatedPosition(direction) : (() => { let nowM = nowMin(), bestIdx = 0; for (let i = 0; i < stops.length && nowM - depMin >= (stops[i].offset || 0); i++)bestIdx = i; return { stopIdx: clamp(bestIdx, 0, stops.length - 1), isReal: !1, confirmedIdx: bestIdx, estimatedToIdx: bestIdx + 1 < stops.length ? bestIdx + 1 : bestIdx, progressBetween: 0, mode: `schedule-estimated`, confidence: `low` } })(), confirmedIdx = pos?.confirmedIdx ?? pos?.stopIdx ?? 0, confirmedStop = stops[confirmedIdx] || stops[0], nextStop = pos?.estimatedToIdx !== null && pos?.estimatedToIdx !== void 0 ? stops[pos.estimatedToIdx] || null : stops[confirmedIdx + 1] || null, delay = Number(delayInfo.delayMin || 0), isCompleted = nowMin() - depMin > routeEndOffset + 8 && !nextStop, statusColor = delay > 1 ? `var(--accent2)` : delay < -1 ? `var(--blue)` : `var(--green)`, statusText = delay > 1 ? `⚠️ Retrasado ${delay} min` : delay < -1 ? `⏩ Adelantado ${Math.abs(delay)} min` : `✔️ A tiempo`, nextEstimated = nextStop ? formatMinuteToClock(getEstimatedStopPassMinute(direction, nextStop, departure)) : `—`, nextScheduled = nextStop ? formatMinuteToClock(depMin + (nextStop.offset || 0)) : `—`, confirmedOffset = Number(confirmedStop?.offset || 0), nextOffset = Number(nextStop?.offset || confirmedOffset), progressOffset = pos?.mode === `between` ? confirmedOffset + (nextOffset - confirmedOffset) * Number(pos.progressBetween || 0) : confirmedOffset, progressPercent = clamp(progressOffset / routeEndOffset * 100, 0, 100), midpointOffset = routeEndOffset / 2, midStop = stops[0], bestDiff = 1 / 0; for (let stop of stops) { let diff = Math.abs(Number(stop.offset || 0) - midpointOffset); diff < bestDiff && (bestDiff = diff, midStop = stop) } let markerHtml = [stops[0], midStop, stops.at(-1)].map((stop, idx) => { let left = idx === 0 ? 0 : idx === 1 ? 50 : 100, isCurrent = stop.baseIdx === confirmedStop?.baseIdx, isPassed = confirmedOffset >= Number(stop.offset || 0); return `<div style="position:absolute;left:${left}%;top:50%;width:18px;height:18px;border-radius:50%;background:${isCurrent ? `#54d6c1` : isPassed ? `#f2b84b` : `#9ad9de`};border:3px solid rgba(13,17,23,.95);transform:translate(-50%,-50%);${isCurrent ? `box-shadow:0 0 0 4px rgba(84,214,193,.14),0 0 18px rgba(84,214,193,.25);` : ``}"></div>` }).join(``), rightLabel = delayInfo.hasReport ? delayInfo.confidenceMinAgo <= 1 ? `Reportado hace 1 min` : `Reportado hace ${delayInfo.confidenceMinAgo} min` : `Sin reportes`, posSummary = pos?.mode === `held` ? `Sigue acá por presa o espera` : pos?.mode === `between` ? `Estimado hacia ${nextStop?.name || `la siguiente parada`}` : pos?.mode === `stale` ? `Sin confirmación reciente` : pos?.isReal ? `Posición real confirmada` : `Posición estimada por horario`, labelHtml = `<div style="display:flex;justify-content:space-between;gap:8px;font-size:11px;margin-bottom:8px;color:#c6ced8;"><span style="text-align:left;max-width:32%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${stops[0]?.name || `—`}</span><span style="text-align:center;max-width:32%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;${midStop?.baseIdx === confirmedStop?.baseIdx ? `font-weight:700;color:#fff;` : ``}">${midStop?.name || `—`}</span><span style="text-align:right;max-width:32%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${stops.at(-1)?.name || `—`}</span></div>`; return `<div style="background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));border: 1px solid var(--border2);border-radius: 18px;padding: 18px;margin-bottom: 12px;"><div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap;"><div><div style="font-size:1.2rem;font-weight:800;margin-bottom:6px;">Bus ${dirLabel(direction)}</div><div style="color:var(--muted);font-size:13px;margin-bottom:12px;">Viaje de las ${departure}</div></div><div style="font-size:11px;padding:5px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.12);color:${isCompleted ? `#9ad9de` : `#c7d0db`};background:rgba(255,255,255,.03);font-weight:700;">${isCompleted ? `Ruta casi finalizada` : `Ruta activa`}</div></div><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 14px;border-radius:12px;background: rgba(92, 70, 140, 0.18);border:1px solid rgba(163,113,247,0.28);margin-bottom:14px;box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);"><div style="color:${statusColor};font-weight:700;">${statusText}</div><div style="background: rgba(163,113,247,0.22);border: 1px solid rgba(163,113,247,0.3);padding:6px 12px;border-radius:999px;font-weight:700;color: #f6d365;">${delay > 1 ? `+${delay} min` : delay < -1 ? `-${Math.abs(delay)} min` : `OK`}</div></div><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;color: var(--muted);font-size: 13px;"><div>Último reporte en <strong style="color:var(--text)">${confirmedStop?.name || delayInfo.reportedStop || `—`}${delayInfo.reportedAtLabel ? ` · ${delayInfo.reportedAtLabel}` : ``}</strong><div style="margin-top:4px;font-size:12px;">${posSummary}</div></div><div style="font-style:italic;">${rightLabel}</div></div><div style="margin-bottom:14px;">${labelHtml}<div style="position:relative;height:12px;background:#425066;border-radius:999px;overflow:visible;"><div style="width:${progressPercent}%;height:100%;background:linear-gradient(90deg,#8b5cf6,#f59e0b,#5eead4);border-radius:999px;"></div>${markerHtml}<div style="position:absolute;left:${progressPercent}%;top:-34px;transform:translateX(-50%);font-size:30px;">🚌</div></div></div><div style="border:1px solid var(--border2);border-radius:14px;overflow:hidden;background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));"><div style="background: rgba(255,255,255,0.05);padding:10px 12px;font-size:12px;font-weight:700;color:#c7d0db;">Próxima Parada</div><div style="padding:14px;"><div style="font-size:1.1rem;font-weight:800;margin-bottom:12px;">${nextStop?.name || `Final de ruta`}</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"><div style="padding-top:10px;border-top:1px solid var(--border);"><div style="font-size:12px;color:var(--muted);margin-bottom:6px;">Programado:</div><div style="font-size:1rem;font-weight:800;">${nextScheduled}</div></div><div style="padding-top:10px;border-top:1px solid var(--border);"><div style="font-size:12px;color:var(--muted);margin-bottom:6px;">Estimado:</div><div style="font-size:1rem;font-weight:800;color:#f6d365;">${nextEstimated}</div><div style="margin-top:4px;font-size:12px;color:${delay > 1 ? `var(--accent2)` : delay < -1 ? `var(--blue)` : `var(--green)`};font-weight:700;">${delay > 1 ? `→ ${delay} min de atraso` : delay < -1 ? `→ ${Math.abs(delay)} min adelantado` : `→ A tiempo`}</div></div></div></div></div><div style="margin-top:12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:12px;"><span style="font-size:14px;font-weight:800;color:${delay > 1 ? `#ffb85c` : delay < -1 ? `#7cc6ff` : `#79f2a0`};">🕒 Variación del viaje: ${delay > 1 ? `+${delay} min` : delay < -1 ? `-${Math.abs(delay)} min` : `0 min`}</span><span>${rightLabel}</span></div></div>`} function updateBusProgress() { let card = document.getElementById(`bus-progress-card`), trips = getActiveTrips(currentDirection); if (!trips.length) { card.innerHTML = ``, card.classList.remove(`visible`); return } let stops = getStopsForDirection(currentDirection), totalOffset = Number(stops.at(-1)?.offset || 0), now = nowMin(), filteredTrips = trips.filter(trip => now - toMin(trip.departure) <= totalOffset + 5); if (!filteredTrips.length) { card.innerHTML = ``, card.classList.remove(`visible`); return } card.innerHTML = filteredTrips.map(trip => renderTripProgressCard(currentDirection, trip.departure)).join(``), card.classList.add(`visible`) } function updateNextBus() {
         let next = getNextBus(currentDirection), el = document.getElementById(`next-bus-content`), delayInfo = getTripDelayInfo(currentDirection); if (!next) { el.innerHTML = `<div class="no-bus">No hay más salidas hoy 🌙</div>`; return } let delayLine = delayInfo.hasReport && Math.abs(delayInfo.delayMin) >= 2 ? `<div class="next-info" style="margin-top:8px;color:${delayInfo.delayMin > 0 ? `var(--accent2)` : `var(--green)`};">Bus anterior ${delayInfo.delayMin > 0 ? `va +${delayInfo.delayMin} min tarde` : `va ${delayInfo.delayMin} min adelantado`}</div>` : ``; el.innerHTML = `<div class="next-time">${next.time}</div>
     <div class="next-info">${next.diff === 0 ? `Saliendo ahora` : `Próxima salida en ` + next.diff + ` min`}</div>
     <div class="countdown">${fmtCD(next.diff)}</div>${delayLine}`
       } function updateStops() {
-        let el = document.getElementById(`stops-list`), stops = getStopsForDirection(currentDirection); if (!stops.length) { el.innerHTML = ``; return } let pos = getBusEstimatedPosition(currentDirection), prev = getPrevBus(currentDirection), delayInfo = getTripDelayInfo(currentDirection); el.innerHTML = stops.map((s, i) => {
-          let isNearest = s.baseIdx === nearestStopIdx, busHere = pos && pos.stopIdx === i, busPassed = pos && pos.stopIdx > i, eta = ``, estimatedPassMin = prev ? getEstimatedStopPassMinute(currentDirection, s) : null, minutesUntil = Number.isFinite(estimatedPassMin) ? estimatedPassMin - nowMin() : null; pos && pos.stopIdx < i && Number.isFinite(minutesUntil) && (eta = minutesUntil <= 0 ? `Llegando` : `~${minutesUntil} min`); let circleClass = ``, circleContent = i + 1, rowClass = ``, badge = ``; if (busHere && pos.isReal ? (circleClass = `bus-real`, circleContent = `🚌`, badge = `<span class="stop-bus-badge-real">🚌 Aquí ahora (reportado)</span>`, rowClass = ` bus-here`) : busHere ? (circleClass = `bus-est`, circleContent = `🚌`, badge = `<span class="stop-bus-badge-est">🚌 Aquí aprox. (estimado)</span>`, rowClass = ` bus-here`) : busPassed ? (circleClass = `passed`, circleContent = `✓`) : isNearest && (circleClass = `nearest`, circleContent = `📍`), isNearest && !busHere && (badge += `<span class="stop-nearest-badge">Tu parada</span>`), eta && (badge += `<span class="stop-eta">${eta}</span>`), delayInfo.hasReport && Number.isFinite(estimatedPassMin) && !busPassed) { let delta = estimatedPassMin - (toMin(prev) + Number(s.offset || 0)); Math.abs(delta) >= 2 && (badge += `<span class="stop-eta" style="color:${delta > 0 ? `var(--accent2)` : `var(--green)`};">${delta > 0 ? `+` : ``}${delta} min</span>`) } return `<div class="stop-row${rowClass}${isNearest && !busHere ? ` nearest-highlight` : ``}">
-      <div class="stop-left">
-        <div class="stop-circle ${circleClass}">${circleContent}</div>
-        <div class="stop-info">
-          <div class="stop-name">${s.name}</div>
-          ${badge ? `<div class="stop-tags">${badge}</div>` : ``}
-        </div>
-      </div>
-      ${busPassed ? `<div class="report-btn passed-lbl">Ya pasó</div>` : (() => {
-              let dKey = `delayVoted:${currentDirection}:${(() => { let nb = getNextBus(currentDirection); return nb ? nb.time : `none` })()}:${s.baseIdx}`, alreadyVoted = !!localStorage.getItem(dKey); return `<div style="display:flex;gap:4px;flex-shrink:0;">
-            <button class="report-btn" onclick="window._report(${s.baseIdx})">Ya pasó aquí</button>
-            <button class="delay-btn${alreadyVoted ? ` voted` : ``}" onclick="window._reportDelay(${s.baseIdx})" ${alreadyVoted ? `disabled` : ``} title="Reportar que el bus no ha llegado">⏱ Atrasado</button>
-          </div>`})()}
-    </div>`}).join(``)
+        let el = document.getElementById(`stops-list`), stops = getStopsForDirection(currentDirection); if (!stops.length) { el.innerHTML = ``; return } let pos = getBusEstimatedPosition(currentDirection), prev = getPrevBus(currentDirection), delayInfo = getTripDelayInfo(currentDirection), confirmedIdx = pos?.confirmedIdx ?? pos?.stopIdx ?? null, estimatedToIdx = pos?.estimatedToIdx ?? null; el.innerHTML = stops.map((s, i) => {
+          let isNearest = s.baseIdx === nearestStopIdx, isConfirmed = confirmedIdx === i, isEstimatedTarget = pos?.mode === `between` && estimatedToIdx === i, busPassed = confirmedIdx !== null && confirmedIdx > i, eta = ``, estimatedPassMin = prev ? getEstimatedStopPassMinute(currentDirection, s) : null, scheduledPassMin = prev ? toMin(prev) + Number(s.offset || 0) : null, minutesUntil = Number.isFinite(estimatedPassMin) ? estimatedPassMin - nowMin() : null, delayDelta = Number.isFinite(estimatedPassMin) && Number.isFinite(scheduledPassMin) ? estimatedPassMin - scheduledPassMin : null; ((isEstimatedTarget || (confirmedIdx !== null && confirmedIdx < i)) && Number.isFinite(minutesUntil)) && (eta = minutesUntil <= 0 ? `Llegando` : `~${minutesUntil} min`); let circleClass = ``, circleContent = i + 1, rowClass = ``, badge = ``; if (isConfirmed ? (circleClass = `bus-real`, circleContent = `🚌`, badge = `<span class="stop-bus-badge-real">🚌 ${pos?.mode === `held` ? `Sigue acá` : `Último reporte real`}</span>`, rowClass = ` bus-here`) : isEstimatedTarget ? (circleClass = `bus-est`, circleContent = `→`, badge = `<span class="stop-bus-badge-est">Estimado hacia esta parada</span>`) : busPassed ? (circleClass = `passed`, circleContent = `✓`) : isNearest && (circleClass = `nearest`, circleContent = `📍`), isNearest && !isConfirmed && !isEstimatedTarget && (badge += `<span class="stop-nearest-badge">Tu parada</span>`), eta && (badge += `<span class="stop-eta">${eta}</span>`), confirmedIdx !== null && i > confirmedIdx && delayDelta !== null) { badge += `<span class="stop-eta" style="color:${delayDelta > 1 ? `var(--accent2)` : delayDelta < -1 ? `var(--blue)` : `var(--green)`};">${delayDelta > 1 ? `+${delayDelta}` : delayDelta < -1 ? `${delayDelta}` : `0`} min</span>` } if (pos?.mode === `stale` && isConfirmed) badge += `<span class="stop-eta" style="color:var(--accent2);">Sin confirmación reciente</span>`; let holdKey = `holdCooldown:${currentDirection}:${prev || `none`}:${s.baseIdx}`, holded = !!localStorage.getItem(holdKey); return `<div class="stop-row${rowClass}${isNearest && !isConfirmed ? ` nearest-highlight` : ``}"><div class="stop-left"><div class="stop-circle ${circleClass}">${circleContent}</div><div class="stop-info"><div class="stop-name">${s.name}</div>${badge ? `<div class="stop-tags">${badge}</div>` : ``}</div></div>${busPassed ? `<div class="report-btn passed-lbl">Ya pasó</div>` : (() => { let dKey = `delayVoted:${currentDirection}:${(() => { let nb = getNextBus(currentDirection); return nb ? nb.time : `none` })()}:${s.baseIdx}`, alreadyVoted = !!localStorage.getItem(dKey); return `<div style="display:flex;gap:4px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;"><button class="report-btn" onclick="window._report(${s.baseIdx})">Ya pasó aquí</button><button class="report-btn" onclick="window._holdHere(${s.baseIdx})" ${holded ? `disabled` : ``}>Sigue acá</button><button class="delay-btn${alreadyVoted ? ` voted` : ``}" onclick="window._reportDelay(${s.baseIdx})" ${alreadyVoted ? `disabled` : ``} title="Reportar que el bus no ha llegado">⏱ Atrasado</button></div>` })()}</div>`}).join(``)
       }
       // ── DELAY REPORTS ────────────────────────────────────────────────────────────
       let delayReports = [], delayBannerDismissedKey = ``; function subscribeDelays() { try { onSnapshot(query(collection(db, `delays_acosta`), where(`date`, `==`, todayKey())), snap => { delayReports = snap.docs.map(d => ({ id: d.id, ...d.data() })), renderDelayBanner(), updateStops() }) } catch (e) { console.warn(`subscribeDelays error:`, e) } } function getActiveDelaysForNextBus() { let next = getNextBus(currentDirection); if (!next) return []; let windowMs = 900 * 1e3; return delayReports.filter(r => r.direction === currentDirection && r.departure === next.time && r.date === todayKey() && Date.now() - (r.reportedAt || 0) < 9e5) } function renderDelayBanner() {
@@ -2180,17 +2438,14 @@
         let stopCounts = {}; active.forEach(r => { stopCounts[r.stopName] = (stopCounts[r.stopName] || 0) + 1 }); let topStop = Object.entries(stopCounts).sort((a, b) => b[1] - a[1])[0]; document.getElementById(`delay-alert-title`).textContent = `⚠️ Bus de las ${next.time} — posible retraso`, document.getElementById(`delay-alert-msg`).textContent = topStop ? `${active.length} usuario${active.length === 1 ? `` : `s`} reportan que el bus no ha llegado a "${topStop[0]}" y paradas cercanas.` : `${active.length} usuario${active.length === 1 ? `` : `s`} reportan que el bus no ha llegado.`, document.getElementById(`delay-alert-count`).textContent = `${active.length} reporte${active.length === 1 ? `` : `s`} de retraso`, banner.classList.add(`visible`), delayBannerDismissedKey = dismissKey
       }
       // ── REPORT ───────────────────────────────────────────────────────────────────
+
       window._dismissDelayBanner = function () { delayBannerDismissedKey && sessionStorage.setItem(delayBannerDismissedKey, `1`), document.getElementById(`delay-alert-banner`)?.classList.remove(`visible`) }, window._reportDelay = async function (stopIdx) {
-        let next = getNextBus(currentDirection); if (!next) { showAlert(`No hay próxima salida programada para reportar`, `info`); return } let stopName = (appData?.stops || [])[stopIdx]?.name || ``; if (!stopName) { showAlert(`Parada inválida`, `error`); return }
-        // Anti-spam: 1 voto por usuario por parada por viaje
+        let next = getNextBus(currentDirection); if (!next) { showAlert(`No hay próxima salida programada para reportar`, `info`); return } let stopName = getStopByBaseIdx(currentDirection, stopIdx)?.name || ``; if (!stopName) { showAlert(`Parada inválida`, `error`); return }
         let voteKey = `delayVoted:${currentDirection}:${next.time}:${stopIdx}`; if (localStorage.getItem(voteKey)) { showAlert(`Ya reportaste retraso en esta parada para este bus`, `info`); return } if (delayReports.some(r => r.direction === currentDirection && r.departure === next.time && r.stopIdx === stopIdx && Math.abs((r.reportedAt || 0) - Date.now()) < 6e5)) { localStorage.setItem(voteKey, `1`), showAlert(`Ya hay un reporte de retraso reciente para esta parada — gracias!`, `info`), updateStops(); return } try { await addDoc(collection(db, `delays_acosta`), { stopIdx, stopName, direction: currentDirection, departure: next.time, date: todayKey(), reportedAt: Date.now(), reportedAtMin: nowMin(), timestamp: (/* @__PURE__ */ new Date()).toLocaleTimeString(`es-CR`, { hour: `2-digit`, minute: `2-digit` }) }), localStorage.setItem(voteKey, `1`), showAlert(`⏱ Retraso reportado en ${stopName} — el bus de las ${next.time}`, `info`), updateStops() } catch (e) { showAlert(`Error al reportar: ` + e.message, `error`) }
-      }, window._report = async function (stopIdx) { let prev = getPrevBus(currentDirection); if (!prev) { showAlert(`Aún no ha salido ningún bus hoy en esta dirección`, `info`); return } let stopName = (appData?.stops || [])[stopIdx]?.name || ``; if (!stopName) { showAlert(`Parada inválida`, `error`); return } let cooldownKey = `reportCooldown:${currentDirection}:${prev}:${stopIdx}`, lastLocal = Number(localStorage.getItem(cooldownKey) || 0); if (Date.now() - lastLocal < 9e4) { showAlert(`Esperá un poco antes de volver a reportar esta misma parada`, `info`); return } if (reports.some(r => r.direction === currentDirection && r.departure === prev && r.stopIdx === stopIdx && Math.abs((r.reportedAt || 0) - Date.now()) < 12e4)) { showAlert(`Ya existe un reporte reciente para esta parada y este bus`, `info`); return } let userName = normText((prompt(`¿Tu nombre o apodo? (podés dejarlo vacío)`) || ``).slice(0, 30)) || `Anónimo`; try { await addDoc(collection(db, `reports_acosta`), { stopIdx, stopName, direction: currentDirection, departure: prev, userName, date: todayKey(), reportedAt: Date.now(), reportedAtMin: nowMin(), timestamp: (/* @__PURE__ */ new Date()).toLocaleTimeString(`es-CR`, { hour: `2-digit`, minute: `2-digit` }) }), localStorage.setItem(cooldownKey, String(Date.now())), showAlert(`✅ Bus de las ${prev} — pasó por ${stopName}`, `success`) } catch (e) { showAlert(`Error: ` + e.message, `error`) } }; function renderReportHistory() {
-        let el = document.getElementById(`report-history-list`); if (!reports.length) { el.innerHTML = `<div style="color:var(--muted);font-size:13px;padding:4px 0;">Sin reportes hoy 👆</div>`; return } el.innerHTML = reports.slice(0, 8).map(r => `
-    <div class="report-item">
-      <div><div class="ri-stop">${r.stopName}</div><div class="ri-sub">${dirLabel(r.direction)} · Bus ${r.departure} · ${r.userName}</div></div>
-      <div class="ri-sub" style="white-space:nowrap;">${r.timestamp}</div>
-    </div>`).join(``)
+      }, window._holdHere = async function (stopIdx) { let prev = getPrevBus(currentDirection); if (!prev) { showAlert(`Aún no ha salido ningún bus hoy en esta dirección`, `info`); return } let stopName = getStopByBaseIdx(currentDirection, stopIdx)?.name || ``; if (!stopName) { showAlert(`Parada inválida`, `error`); return } let holdKey = `holdCooldown:${currentDirection}:${prev}:${stopIdx}`, lastLocal = Number(localStorage.getItem(holdKey) || 0); if (Date.now() - lastLocal < 9e4) { showAlert(`Esperá un poco antes de volver a renovar esta parada`, `info`); return } let latest = getLatestReportForDeparture(currentDirection, prev), latestDirIdx = latest?.dirIdx ?? -1, thisDirIdx = getDirectionalIndexFromBase(currentDirection, stopIdx); if (thisDirIdx < latestDirIdx) { showAlert(`El bus ya fue reportado más adelante`, `info`); return } try { await addDoc(collection(db, `reports_acosta`), { stopIdx, stopName, direction: currentDirection, departure: prev, userName: `Comunidad`, reportType: `hold`, date: todayKey(), reportedAt: Date.now(), reportedAtMin: nowMin(), timestamp: (/* @__PURE__ */ new Date()).toLocaleTimeString(`es-CR`, { hour: `2-digit`, minute: `2-digit` }) }), localStorage.setItem(holdKey, String(Date.now())), showAlert(`🚌 Se renovó la posición en ${stopName}`, `info`) } catch (e) { showAlert(`Error: ` + e.message, `error`) } }, window._report = async function (stopIdx) { let prev = getPrevBus(currentDirection); if (!prev) { showAlert(`Aún no ha salido ningún bus hoy en esta dirección`, `info`); return } let stopName = getStopByBaseIdx(currentDirection, stopIdx)?.name || ``; if (!stopName) { showAlert(`Parada inválida`, `error`); return } let cooldownKey = `reportCooldown:${currentDirection}:${prev}:${stopIdx}`, lastLocal = Number(localStorage.getItem(cooldownKey) || 0); if (Date.now() - lastLocal < 9e4) { showAlert(`Esperá un poco antes de volver a reportar esta misma parada`, `info`); return } if (reports.some(r => r.direction === currentDirection && r.departure === prev && r.stopIdx === stopIdx && (r.reportType || `passed`) === `passed` && Math.abs((r.reportedAt || 0) - Date.now()) < 12e4)) { showAlert(`Ya existe un reporte reciente para esta parada y este bus`, `info`); return } let latest = getLatestReportForDeparture(currentDirection, prev), latestDirIdx = latest?.dirIdx ?? -1, thisDirIdx = getDirectionalIndexFromBase(currentDirection, stopIdx); if (thisDirIdx < latestDirIdx) { showAlert(`Ya hay un reporte más adelante para este viaje`, `info`); return } let userName = normText((prompt(`¿Tu nombre o apodo? (podés dejarlo vacío)`) || ``).slice(0, 30)) || `Anónimo`; try { await addDoc(collection(db, `reports_acosta`), { stopIdx, stopName, direction: currentDirection, departure: prev, userName, reportType: `passed`, date: todayKey(), reportedAt: Date.now(), reportedAtMin: nowMin(), timestamp: (/* @__PURE__ */ new Date()).toLocaleTimeString(`es-CR`, { hour: `2-digit`, minute: `2-digit` }) }), localStorage.setItem(cooldownKey, String(Date.now())), localStorage.removeItem(`holdCooldown:${currentDirection}:${prev}:${stopIdx}`), showAlert(`✅ Bus de las ${prev} — pasó por ${stopName}`, `success`) } catch (e) { showAlert(`Error: ` + e.message, `error`) } }; function renderReportHistory() {
+        let el = document.getElementById(`report-history-list`); if (!reports.length) { el.innerHTML = `<div style="color:var(--muted);font-size:13px;padding:4px 0;">Sin reportes hoy 👆</div>`; return } el.innerHTML = reports.slice(0, 8).map(r => `<div class="report-item"><div><div class="ri-stop">${r.stopName}</div><div class="ri-sub">${dirLabel(r.direction)} · Bus ${r.departure} · ${r.userName}${(r.reportType || `passed`) === `hold` ? ` · Sigue acá` : ``}</div></div><div class="ri-sub" style="white-space:nowrap;">${r.timestamp}</div></div>`).join(``)
       }
+
       // ── SCHEDULES ────────────────────────────────────────────────────────────────
       function renderSchedules() { if (!appData) return; let now = nowMin(), todayKey = getTodayDayKey(), todayLabel = DAY_LABELS[todayKey] || `Hoy`, sub = document.getElementById(`schedule-day-sub`); sub && (sub.textContent = `Mostrando horarios activos para ${todayLabel}`), [[`Acosta-UCR`, `sched-list-ucr`], [`UCR-Acosta`, `sched-list-cor`]].forEach(([dir, id]) => { let el = document.getElementById(id), times = getEnabledTimes(dir, todayKey); if (!times.length) { el.innerHTML = `<div style="padding:10px 13px;color:var(--muted);font-size:13px;">Sin horarios activos para ${todayLabel.toLowerCase()}</div>`; return } let ni = times.findIndex(t => toMin(t) >= now); el.innerHTML = times.map((t, i) => { let past = toMin(t) < now, isNext = i === ni; return `<div class="sched-entry${past ? ` past` : ``}${isNext ? ` next-dep` : ``}"><span class="sched-time">${t}</span>${isNext ? `<span class="sched-badge badge-next">Próximo</span>` : past ? `<span class="sched-badge badge-past">Pasado</span>` : ``}</div>` }).join(``) }) }
       // ── WA ────────────────────────────────────────────────────────────────────────
@@ -2203,8 +2458,33 @@
       <a class="wa-join" href="${x.link}" target="_blank" rel="noopener">Unirse</a>
     </div>`).join(``)}</div>`
       }
+      // ── PARADAS ───────────────────────────────────────────────────────────────────
+      let paradasDirection = `Acosta-UCR`;
+      function renderParadasView() {
+        let listEl = document.getElementById(`paradas-list`), subEl = document.getElementById(`paradas-dir-sub`);
+        if (!listEl || !subEl) return;
+        let stops = getStopsForDirection(paradasDirection);
+        subEl.textContent = dirLabel(paradasDirection);
+        document.getElementById(`pbtn-ucr`)?.classList.toggle(`active`, paradasDirection === `Acosta-UCR`);
+        document.getElementById(`pbtn-cor`)?.classList.toggle(`active`, paradasDirection === `UCR-Acosta`);
+        if (!stops.length) {
+          listEl.innerHTML = `<div class="wa-empty">No hay paradas cargadas</div>`;
+          return;
+        }
+        listEl.innerHTML = stops.map((s, i) => `
+          <div class="stop-row">
+            <div class="stop-left">
+              <div class="stop-circle">${i + 1}</div>
+              <div class="stop-info">
+                <div class="stop-name">${s.name}</div>
+                <div class="stop-tags"><span class="stop-eta">+${Number(s.offset || 0)} min desde inicio</span></div>
+              </div>
+            </div>
+          </div>`).join(``);
+      }
+      window.setParadasDir = function (dir) { paradasDirection = dir, renderParadasView() };
       // ── VIEWS ────────────────────────────────────────────────────────────────────
-      window.setDirection = function (dir) { currentDirection = dir, document.getElementById(`btn-ucr`).classList.toggle(`active`, dir === `Acosta-UCR`), document.getElementById(`btn-cor`).classList.toggle(`active`, dir === `UCR-Acosta`), refreshHome() }, window.showView = function (name) { if (name === `admin` && !adminEggUnlocked) return; document.querySelectorAll(`.view`).forEach(v => v.classList.remove(`active`)), document.getElementById(`view-` + name).classList.add(`active`), document.querySelectorAll(`.tab-btn`).forEach(b => b.classList.remove(`active`)); let map = { home: `inicio`, horarios: `horario`, grupos: `grupos`, admin: `admin` }; document.querySelectorAll(`.tab-btn`).forEach(b => { b.textContent.toLowerCase().includes(map[name]) && b.classList.add(`active`) }), name === `horarios` && renderSchedules(), name === `grupos` && renderWaGroups() };
+      window.setDirection = function (dir) { currentDirection = dir, document.getElementById(`btn-ucr`).classList.toggle(`active`, dir === `Acosta-UCR`), document.getElementById(`btn-cor`).classList.toggle(`active`, dir === `UCR-Acosta`), refreshHome() }, window.showView = function (name) { if (name === `admin` && !adminEggUnlocked) return; document.querySelectorAll(`.view`).forEach(v => v.classList.remove(`active`)), document.getElementById(`view-` + name).classList.add(`active`), document.querySelectorAll(`.tab-btn`).forEach(b => b.classList.remove(`active`)); let map = { home: `inicio`, horarios: `horario`, grupos: `grupos`, admin: `admin` }; document.querySelectorAll(`.tab-btn`).forEach(b => { b.textContent.toLowerCase().includes(map[name]) && b.classList.add(`active`) }), name === `horarios` && renderSchedules(), name === `grupos` && renderWaGroups(), name === `paradas` && renderParadasView() };
       // ── ADMIN AUTH ────────────────────────────────────────────────────────────────
       function updateAdminAuthUI(user) { let lock = document.getElementById(`admin-lock`), panel = document.getElementById(`admin-panel`), err = document.getElementById(`pass-error`); if (user) { lock.style.display = `none`, panel.style.display = `block`, renderAdminContent(); let endOfDay =/* @__PURE__ */ new Date; endOfDay.setHours(23, 59, 0, 0), document.getElementById(`new-notif-exp`).value = localDateTimeInputValue(endOfDay), err && (err.innerHTML = `<div class="alert alert-info" style="margin-top:8px;">Panel protegido con Firebase Authentication<br><span style="font-size:12px;opacity:.9;">Sesión: ${user.email || `admin`}</span></div>`) } else lock.style.display = `block`, panel.style.display = `none`, err && (err.innerHTML = ``) } onAuthStateChanged(auth, user => { updateAdminAuthUI(user) }), window.checkPass = async function () { let email = document.getElementById(`admin-email`).value.trim(), password = document.getElementById(`admin-pass`).value, err = document.getElementById(`pass-error`); if (!email || !password) { err.innerHTML = `<div class="alert alert-error" style="margin-top:8px;">Escribí correo y contraseña</div>`; return } try { err.innerHTML = `<div class="alert alert-info" style="margin-top:8px;">Iniciando sesión...</div>`, await signInWithEmailAndPassword(auth, email, password), document.getElementById(`admin-pass`).value = `` } catch (e) { let msg = `No se pudo iniciar sesión`; e.code === `auth/invalid-credential` || e.code === `auth/wrong-password` || e.code === `auth/user-not-found` ? msg = `Credenciales incorrectas` : e.code === `auth/invalid-email` ? msg = `Correo inválido` : e.code === `auth/too-many-requests` && (msg = `Demasiados intentos. Probá más tarde`), err.innerHTML = `<div class="alert alert-error" style="margin-top:8px;">${msg}</div>` } }, window.lockAdmin = async function () { try { await signOut(auth) } catch (e) { console.warn(e) } document.getElementById(`admin-pass`).value = `` };
       // ── ADMIN RENDER ──────────────────────────────────────────────────────────────
@@ -2254,25 +2534,7 @@
     </a>
   </div>
 
-  © <span id="year"></span>
-  · <a onmouseout="this.style.color='var(--muted)'" onmouseover="this.style.color='var(--text)'"
-      style="color:var(--muted);text-decoration:none;transition:color .2s"
-      href="https://github.com/Desmond16170" target="_blank"> Desmond </a>
-
-  · <a onmouseout="this.style.color='var(--muted)'"
-      onmouseover="this.style.color='var(--text)'"
-      style="color:var(--muted);text-decoration:none;transition:color .2s"
-      href="/" target="_blank"> Créditos </a>
-
-  · <a href="https://www.instagram.com/bus_u.c.r?igsh=c2trNDRoaG13ZGJj/"
-      onmouseout="this.style.color='var(--muted)'" onmouseover="this.style.color='var(--text)'"
-      style="color:var(--muted);text-decoration:none;transition:color .2s"
-      target="_blank"> Contacto </a>
-
-  · <a href="https://ko-fi.com/Q5Q2187D5I" target="_blank"
-      style="color: var(--muted);text-decoration: none;transition: color 0.2s;"
-      onmouseover="this.style.color='var(--accent)'"
-      onmouseout="this.style.color='var(--muted)'">Donación</a>
+ 
 
 </footer>
 

@@ -9,15 +9,19 @@
 ---
  
 ## ✨ Funcionalidades
- 
-- 🕐 **Próximo bus en tiempo real** — calculado según el horario del día actual
-- 📍 **GPS inteligente** — detecta tu parada más cercana automáticamente
-- 🚌 **Posición estimada del bus** — basada en reportes de usuarios y offsets de paradas
-- 📊 **Reportes colaborativos** — los usuarios reportan dónde está el bus en tiempo real
-- 📋 **Horarios por día** — lunes a domingo, con horarios diferenciados
-- 💬 **Grupos de WhatsApp** — links a grupos de cada ruta
-- 🔔 **Notificaciones** — avisos de cancelaciones o cambios en tiempo real
-- ⚙️ **Panel de administración** — protegido con Firebase Authentication
+
+- 🕐 **Próximo bus según el horario del día** — muestra la próxima salida disponible según la ruta y el día actual
+- 📍 **GPS inteligente** — detecta automáticamente la parada más cercana al usuario
+- 🚌 **Posición estimada del bus** — calculada con horarios, reportes de usuarios y offsets entre paradas
+- 📊 **Reportes colaborativos** — permite reportar si el bus ya pasó, dónde va o si viene con atraso
+- 📋 **Horarios por día** — horarios diferenciados de lunes a domingo según cada ruta
+- 💬 **Grupos de WhatsApp** — acceso directo a los grupos de cada ruta
+- 🔔 **Notificaciones** — avisos importantes sobre cancelaciones, cambios o información relevante
+- 🏪 **Emprendimientos estudiantiles** — espacio para apoyar y visualizar emprendimientos de la comunidad UCR
+- 📍 **Ferias de emprendedores** — desde `/emprendimientos` se pueden ver las ferias disponibles, su ubicación en el mapa y los detalles del evento
+- ☕ **Donaciones opcionales** — permite apoyar el mantenimiento del proyecto sin afectar el uso gratuito de la app
+- 📱 **Diseño responsive y PWA** — funciona desde celular, computadora y puede instalarse como app
+- ⚙️ **Panel de administración** — protegido con Firebase Authentication para gestionar horarios, avisos, emprendimientos y ferias
  
 ---
  
@@ -36,6 +40,8 @@
 | Desamparados ↔ UCR | `/desamparados` |
 | La Periférica ↔ UCR | `/periferica` |
 | Pavas ↔ UCR | `/pavas` |
+| Interlinea ↔ UCR | `/interlinea` |
+| Emprendimientos| `/emprendimientos` |
  
 ---
  
@@ -64,6 +70,8 @@ busucr/
 ├── san_rafael.html         # Ruta San Rafael ↔ UCR
 ├── desamparados.html       # Ruta Desamparados ↔ UCR
 ├── periferica.html         # Ruta La Periférica ↔ UCR
+├── interlinea.html         # Ruta Interlinea↔ UCR
+├── emprendimientos.html    # Emprendimientos
 ├── pavas.html              # Ruta Pavas ↔ UCR
 ├── creditos.html           # Easter egg — créditos del proyecto
 ├── manifest.json           # PWA manifest

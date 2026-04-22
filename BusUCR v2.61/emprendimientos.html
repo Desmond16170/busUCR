@@ -82,11 +82,11 @@ body{color:var(--text);font-family:var(--font);background:radial-gradient(circle
 .emp-banner-sub{font-size:12px;color:var(--muted)}
 
 /* ── FERIAS MAP ── */
-.ferias-layout{display:grid;grid-template-columns:1fr 340px;gap:16px;align-items:start}
-@media(max-width:860px){.ferias-layout{grid-template-columns:1fr}}
-
-.map-wrap{border:1px solid var(--border);border-radius:18px;overflow:hidden;position:relative;height:480px;background:var(--surface)}
-#ferias-map{width:100%;height:100%}
+.ferias-layout{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;align-items:start;margin-top:.5rem}
+.ferias-map-card,.ferias-list-card{border:1px solid var(--border);box-shadow:var(--shadow);background:linear-gradient(#ffffff05,#ffffff02);border-radius:18px;padding:1.2rem;position:relative;overflow:hidden;min-width:0}
+.ferias-map-card:before,.ferias-list-card:before{content:"";height:3px;position:absolute;inset:0 0 auto;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.map-wrap{border:1px solid var(--border2);border-radius:14px;overflow:hidden;position:relative;aspect-ratio:1/1;background:var(--surface);width:100%;min-width:0;height:auto}
+#ferias-map{width:100%;height:100%;min-height:260px}
 
 /* Leaflet dark override */
 .leaflet-tile{filter:brightness(.6) saturate(.8) hue-rotate(185deg)}
@@ -126,6 +126,18 @@ body{color:var(--text);font-family:var(--font);background:radial-gradient(circle
 @media(max-width:520px){
   .emp-grid{grid-template-columns:1fr}
   .container{padding:1rem .9rem 2.5rem}
+}
+
+/* Ajuste móvil: ferias se comporta como las cards de emprendimientos */
+@media(max-width:520px){
+  body{overflow-x:hidden}
+  .ferias-layout{grid-template-columns:1fr;gap:14px;min-width:0}
+  .ferias-map-card,.ferias-list-card{padding:1.2rem;border-radius:18px;width:100%;max-width:100%}
+  .map-wrap{aspect-ratio:1/1;width:100%;max-width:100%;height:auto;border-radius:14px}
+  #ferias-map{width:100%;height:100%;min-height:0}
+  .feria-item-head{flex-direction:column;align-items:flex-start;gap:6px}
+  .feria-item-date{white-space:normal}
+  .leaflet-control-zoom a{width:30px!important;height:30px!important;line-height:30px!important}
 }
 
 /* Custom Leaflet marker */
@@ -175,12 +187,14 @@ body{color:var(--text);font-family:var(--font);background:radial-gradient(circle
 
     <div class="ferias-layout">
       <!-- Mapa -->
-      <div class="map-wrap">
-        <div id="ferias-map"></div>
+      <div class="ferias-map-card">
+        <div class="map-wrap">
+          <div id="ferias-map"></div>
+        </div>
       </div>
 
       <!-- Lista lateral -->
-      <div>
+      <div class="ferias-list-card">
         <div class="section-title">Próximas ferias</div>
         <div class="ferias-list" id="ferias-list">
           <div class="ferias-empty">⏳ Cargando ferias...</div>
@@ -228,8 +242,14 @@ window.showTab = function(tab) {
   document.getElementById('tab-' + tab).classList.add('active');
   if (tab === 'ferias') {
     setTimeout(() => { if (map) map.invalidateSize(); }, 100);
+    setTimeout(() => { if (map) map.invalidateSize(); }, 350);
+    setTimeout(() => { if (map) map.invalidateSize(); }, 350);
   }
 };
+
+window.addEventListener('resize', () => {
+  if (map) setTimeout(() => map.invalidateSize(), 120);
+});
 
 // ── EMPRENDIMIENTOS ───────────────────────────────────────────────────────────
 const CONTACT_ICONS = {

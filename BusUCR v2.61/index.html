@@ -1,0 +1,2945 @@
+<!doctype html>
+<html lang=es>
+<meta charset=UTF-8>
+<meta content="width=device-width,initial-scale=1.0" name=viewport>
+<title>BusUCR · Rutas externas</title>
+<link
+  href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap"
+  rel=stylesheet>
+<link href=/icons/icon-192.png rel=icon sizes=192x192 type=image/png>
+<link href=/manifest.json rel=manifest>
+<meta content=#060b16 name=theme-color>
+<link href=/icons/icon-192.png rel=apple-touch-icon>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0
+  }
+
+  :root {
+    --bg: #060b16;
+    --bg2: #091120;
+    --surface: #0f1726;
+    --surface-soft: #131d2d;
+    --surface2: #182234;
+    --border: #ffffff14;
+    --border2: #ffffff24;
+    --text: #eef4ff;
+    --muted: #91a0ba;
+    --accent: #f0a500;
+    --accent2: #e86a57;
+    --blue: #58a6ff;
+    --green: #6ee787;
+    --purple: #a371f7;
+    --gold-soft: #f0a5001f;
+    --font: "Space Grotesk", sans-serif;
+    --display: "Syne", sans-serif;
+    --shadow: 0 18px 34px #00000038
+  }
+
+  body {
+    color: var(--text);
+    font-family: var(--font);
+    background: radial-gradient(circle at 0 0, #58a6ff17, #0000 30%), radial-gradient(circle at top, #a371f714, #0000 24%), linear-gradient(#08111f 0%, #040913 100%);
+    min-height: 100vh;
+    line-height: 1.5
+  }
+
+  .header {
+    backdrop-filter: blur(10px);
+    z-index: 100;
+    background: #050a13e6;
+    border-bottom: 1px solid #ffffff0f;
+    padding: .9rem 1.25rem;
+    position: sticky;
+    top: 0
+  }
+
+  .header-inner {
+justify-content: space-between;
+
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    max-width: 1180px;
+    margin: 0 auto;
+    display: flex;
+    position: relative
+  }
+
+  .logo {
+    font-family: var(--display);
+    letter-spacing: -.03em;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.18rem;
+    font-weight: 800;
+    display: flex
+  }
+
+  .logo-dot {
+    color: var(--accent)
+  }
+
+  .live-badge {
+    color: var(--green);
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex
+  }
+
+  .live-dot {
+    background: var(--green);
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+    animation: 1.5s infinite pulse
+  }
+
+  @keyframes pulse {
+
+    0%,
+    to {
+      opacity: 1;
+      transform: scale(1)
+    }
+
+    50% {
+      opacity: .45;
+      transform: scale(.8)
+    }
+  }
+
+  .container {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 1.35rem 1.25rem 3rem
+  }
+
+  .hero {
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    background: linear-gradient(#ffffff05, #ffffff03);
+    border-radius: 22px;
+    margin-bottom: 1rem;
+    padding: 1.5rem 1.2rem 1.15rem;
+    position: relative;
+    overflow: hidden
+  }
+
+  .hero:before {
+    content: "";
+    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--purple));
+    height: 3px;
+    position: absolute;
+    inset: 0 0 auto
+  }
+
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: var(--muted);
+    margin-bottom: 8px;
+    font-size: 10px;
+    font-weight: 700
+  }
+
+  .hero h1 {
+    font-family: var(--display);
+    letter-spacing: -.05em;
+    margin-bottom: 10px;
+    font-size: clamp(2.2rem, 4.2vw, 3.7rem);
+    line-height: 1
+  }
+
+  .hero p {
+    color: #a4b0c4;
+    max-width: 760px;
+    font-size: 14px
+  }
+
+  .hero-bottom {
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 1rem;
+    display: flex
+  }
+
+  .pill {
+    border: 1px solid var(--border2);
+    color: var(--text);
+    background: #ffffff08;
+    border-radius: 999px;
+    padding: 7px 12px;
+    font-size: 12px;
+    font-weight: 700
+  }
+
+  .pill.accent {
+    background: var(--gold-soft);
+    color: var(--accent);
+    border-color: #f0a50038
+  }
+
+  .hero-bottom {
+    width: 100%
+  }
+
+  .fincas-row {
+    gap: 10px;
+    width: 100%;
+    display: flex
+  }
+
+  .finca-btn {
+    border: 1.5px solid var(--border2);
+    cursor: pointer;
+    min-width: 0;
+    color: var(--text);
+    font-family: var(--font);
+    background: 0 0;
+    border-radius: 14px;
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    padding: 14px 4px;
+    transition: all .18s;
+    display: flex
+  }
+
+  .finca-btn .finca-icon {
+    font-size: clamp(.85rem, 3.5vw, 1.2rem)
+  }
+
+  .finca-btn .finca-sub {
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--muted);
+    white-space: nowrap;
+    max-width: 100%;
+    font-size: clamp(7px, 2.2vw, 10px);
+    font-weight: 700
+  }
+
+  .finca-btn .finca-name {
+    color: var(--text);
+    white-space: normal;
+    text-align: center;
+    word-break: break-word;
+    font-size: clamp(.62rem, 2.4vw, .88rem);
+    font-weight: 700;
+    line-height: 1.2
+  }
+
+  .finca-btn.f1:hover,
+  .finca-btn.f1.active {
+    border-color: var(--accent);
+    background: #f0a50014
+  }
+
+  .finca-btn.f1:hover .finca-name,
+  .finca-btn.f1.active .finca-name {
+    color: var(--accent)
+  }
+
+  .finca-btn.f2:hover,
+  .finca-btn.f2.active {
+    border-color: var(--blue);
+    background: #58a6ff14
+  }
+
+  .finca-btn.f2:hover .finca-name,
+  .finca-btn.f2.active .finca-name {
+    color: var(--blue)
+  }
+
+  .finca-btn.f3:hover,
+  .finca-btn.f3.active {
+    border-color: var(--purple);
+    background: #a371f714
+  }
+
+  .finca-btn.f3:hover .finca-name,
+  .finca-btn.f3.active .finca-name {
+    color: var(--purple)
+  }
+
+  .finca-panel {
+    border: 1px solid var(--border);
+    background: #ffffff05;
+    border-radius: 14px;
+    margin-top: 12px;
+    animation: .2s fincaSlide;
+    display: none;
+    overflow: hidden
+  }
+
+  .finca-panel.visible {
+    display: block
+  }
+
+  @keyframes fincaSlide {
+    0% {
+      opacity: 0;
+      transform: translateY(-5px)
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0)
+    }
+  }
+
+  .finca-panel-header {
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    padding: 10px 14px 8px;
+    font-size: 10px;
+    font-weight: 700
+  }
+
+  .finca-panel-header.h1 {
+    color: var(--accent)
+  }
+
+  .finca-panel-header.h2 {
+    color: var(--blue)
+  }
+
+  .finca-panel-header.h3 {
+    color: var(--purple)
+  }
+
+  .finca-bus-list {
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px 14px 12px;
+    display: flex
+  }
+
+  .finca-bus-item {
+    color: var(--muted);
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    line-height: 1.35;
+    display: flex
+  }
+
+  .finca-dot {
+    border-radius: 50%;
+    flex-shrink: 0;
+    width: 6px;
+    height: 6px;
+    margin-top: 5px
+  }
+
+  .dot-f1 {
+    background: var(--accent)
+  }
+
+  .dot-f2 {
+    background: var(--blue)
+  }
+
+  .dot-f3 {
+    background: var(--purple)
+  }
+
+  .finca-bus-item b {
+    color: var(--text);
+    font-weight: 500
+  }
+
+  .finca-train-note {
+    color: var(--muted);
+    background: #ffffff08;
+    border-radius: 8px;
+    gap: 6px;
+    margin-top: 8px;
+    padding: 8px 10px;
+    font-size: 12px;
+    line-height: 1.4;
+    display: flex
+  }
+
+  .days-note {
+    border: 1px solid var(--border);
+    background: linear-gradient(#ffffff06, #ffffff03);
+    border-radius: 16px;
+    max-width: 760px;
+    margin-top: 1rem;
+    padding: 12px 14px
+  }
+
+  .days-note-label {
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    color: var(--muted);
+    margin-bottom: 5px;
+    font-size: 10px;
+    font-weight: 700
+  }
+
+  .days-note-text {
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 500
+  }
+
+  .summary {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 1.2rem;
+    display: grid
+  }
+
+  .summary-card {
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    background: linear-gradient(#ffffff05, #ffffff03);
+    border-radius: 18px;
+    padding: 1rem 1rem .9rem
+  }
+
+  .summary-value {
+    font-family: var(--display);
+    letter-spacing: -.05em;
+    color: var(--accent);
+    margin-bottom: 7px;
+    font-size: clamp(1rem, 4vw, 1.6rem);
+    line-height: 1.1;
+    word-break: break-word
+  }
+
+  .summary-label {
+    color: #97a5bc;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    font-size: 11px;
+    font-weight: 700
+  }
+
+  .section-title {
+    text-transform: uppercase;
+    letter-spacing: .16em;
+    color: var(--muted);
+    margin: 1.25rem 0 .8rem;
+    font-size: 10px;
+    font-weight: 700
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(258px, 1fr));
+    gap: 14px;
+    display: grid
+  }
+
+  .card {
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    background: linear-gradient(#ffffff05, #ffffff02);
+    border-radius: 18px;
+    padding: 1rem 1rem .95rem;
+    transition: transform .18s, border-color .18s, box-shadow .18s;
+    position: relative;
+    overflow: hidden
+  }
+
+  .card:before {
+    content: "";
+    background: linear-gradient(90deg, var(--blue), var(--purple));
+    opacity: .95;
+    height: 3px;
+    position: absolute;
+    inset: 0 0 auto
+  }
+
+  .card:hover {
+    border-color: #58a6ff38;
+    transform: translateY(-2px);
+    box-shadow: 0 18px 36px #00000042
+  }
+
+  .card-head {
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+    display: flex
+  }
+
+  .card-title {
+    align-items: flex-start;
+    gap: 8px;
+    min-width: 0;
+    display: flex
+  }
+
+  .card-title h3 {
+    letter-spacing: -.04em;
+    font-size: 1.48rem;
+    line-height: 1.05;
+    font-family: var(--display)
+  }
+
+  .card-badge {
+    color: var(--accent);
+    white-space: nowrap;
+    background: #f0a5001f;
+    border: 1px solid #f0a50033;
+    border-radius: 7px;
+    padding: 4px 8px;
+    font-size: 10px;
+    font-weight: 700
+  }
+
+  .route-desc {
+    color: #9ca9bf;
+    margin-bottom: 10px;
+    font-size: 14px
+  }
+
+  .meta {
+    color: var(--muted);
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 12px;
+    font-size: 12px;
+    display: flex
+  }
+
+  .meta span {
+    align-items: center;
+    gap: 6px;
+    display: inline-flex
+  }
+
+  .fare-row {
+    border-bottom: 1px solid #ffffff14;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    display: flex
+  }
+
+  .fare-label {
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 700
+  }
+
+  .fare-price {
+    font-family: var(--display);
+    color: var(--blue);
+    letter-spacing: -.05em;
+    font-size: 1.8rem;
+    line-height: 1
+  }
+
+  .btn {
+    background: var(--gold-soft);
+    color: var(--accent);
+    border: 1px solid #f0a50038;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    padding: 9px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all .15s;
+    display: inline-flex
+  }
+
+  .btn:hover {
+    background: #f0a50033;
+    transform: translateY(-1px)
+  }
+
+  .footer {
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    font-size: 12px
+  }
+
+  .footer strong {
+    color: var(--text)
+  }
+
+  @media (width<=900px) {
+    .summary {
+      grid-template-columns: repeat(2, minmax(0, 1fr))
+    }
+  }
+
+  @media (width<=520px) {
+    .container {
+      padding: 1rem .9rem 2.5rem
+    }
+
+    .hero,
+    .summary-card,
+    .card {
+      border-radius: 16px
+    }
+
+    .summary {
+      grid-template-columns: 1fr 1fr
+    }
+
+    .card-title h3 {
+      font-size: 1.22rem
+    }
+
+    .hero h1 {
+      font-size: 2.4rem
+    }
+  }
+
+  .routes-toolbar {
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: .9rem;
+    display: flex
+  }
+
+  .search-input-wrap {
+    flex: 1;
+    min-width: 180px;
+    position: relative
+  }
+
+  .search-input-wrap .search-icon {
+    pointer-events: none;
+    color: var(--muted);
+    font-size: 14px;
+    position: absolute;
+    top: 50%;
+    left: 11px;
+    transform: translateY(-50%)
+  }
+
+  .search-input {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    width: 100%;
+    color: var(--text);
+    font-family: var(--font);
+    border-radius: 10px;
+    outline: none;
+    padding: 9px 12px 9px 34px;
+    font-size: 13px;
+    transition: border-color .15s
+  }
+
+  .search-input::placeholder {
+    color: var(--muted)
+  }
+
+  .search-input:focus {
+    border-color: var(--blue)
+  }
+
+  .sort-select {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    color: var(--text);
+    font-family: var(--font);
+    cursor: pointer;
+    border-radius: 10px;
+    outline: none;
+    padding: 9px 12px;
+    font-size: 13px;
+    transition: border-color .15s
+  }
+
+  .sort-select:focus {
+    border-color: var(--blue)
+  }
+
+  .fav-filter-btn {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    color: var(--muted);
+    font-family: var(--font);
+    cursor: pointer;
+    white-space: nowrap;
+    border-radius: 10px;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 13px;
+    font-size: 13px;
+    font-weight: 700;
+    transition: all .15s;
+    display: flex
+  }
+
+  .fav-filter-btn.active {
+    color: var(--accent);
+    background: #f0a5001f;
+    border-color: #f0a50052
+  }
+
+  .fav-btn {
+    cursor: pointer;
+    opacity: .38;
+    background: 0 0;
+    border: none;
+    border-radius: 6px;
+    margin-left: auto;
+    padding: 2px 4px;
+    font-size: 1.15rem;
+    line-height: 1;
+    transition: transform .15s, opacity .15s
+  }
+
+  .fav-btn:hover {
+    opacity: .75;
+    transform: scale(1.15)
+  }
+
+  .fav-btn.is-fav {
+    opacity: 1
+  }
+
+  .card.is-fav:before {
+    background: linear-gradient(90deg, var(--accent), var(--accent2))
+  }
+
+  .card.is-fav {
+    border-color: #f0a50038
+  }
+
+  .fav-divider {
+    text-transform: uppercase;
+    letter-spacing: .16em;
+    color: var(--accent);
+    grid-column: 1/-1;
+    margin: .5rem 0 .6rem;
+    font-size: 10px;
+    font-weight: 700;
+    display: none
+  }
+
+  .fav-divider.visible {
+    display: block
+  }
+
+  .other-divider {
+    text-transform: uppercase;
+    letter-spacing: .16em;
+    color: var(--muted);
+    grid-column: 1/-1;
+    margin: .85rem 0 .6rem;
+    font-size: 10px;
+    font-weight: 700;
+    display: none
+  }
+
+  .other-divider.visible {
+    display: block
+  }
+
+  .routes-empty {
+    text-align: center;
+    color: var(--muted);
+    grid-column: 1/-1;
+    padding: 2.5rem 1rem;
+    font-size: 14px;
+    display: none
+  }
+
+  .routes-empty.visible {
+    display: block
+  }
+
+  .routes-empty .empty-icon {
+    margin-bottom: 10px;
+    font-size: 2.2rem
+  }
+
+  .install-banner-wrap {
+    max-width: 1180px;
+    margin: 12px auto 0;
+    padding: 0 1.25rem
+  }
+
+  .install-banner {
+    color: #dbeafe;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    background: #58a6ff14;
+    border: 1px solid #58a6ff2e;
+    border-radius: 16px;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    display: none
+  }
+
+  .install-banner.visible {
+    display: flex
+  }
+
+  .install-banner-icon {
+    width: 24px;
+    height: 24px;
+    color: var(--blue);
+    border: 1px solid #58a6ff42;
+    border-radius: 999px;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    font-weight: 800;
+    display: inline-flex
+  }
+
+  .install-banner-text {
+    font-size: 14px;
+    font-weight: 700
+  }
+
+  .install-banner-sub {
+    color: #a9c6f5;
+    margin-top: 2px;
+    font-size: 12px;
+    font-weight: 500
+  }
+
+
+
+  .home-tab {
+    background: 0 0;
+    border: none;
+    color: var(--muted);
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all .15s;
+    text-decoration: none;
+    display: inline-block
+  }
+
+  .home-tab:hover {
+    color: var(--text);
+    background: #ffffff0d
+  }
+
+  .home-tab.active {
+    color: var(--accent);
+    background: var(--gold-soft)
+  }
+
+  .home-view {
+    display: none
+  }
+
+  .home-view.active {
+    display: block
+  }
+
+  .nov-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 1rem
+  }
+
+  .nov-card {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.1rem 1.15rem;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(#ffffff05, #ffffff02)
+  }
+
+  .nov-card:before {
+    content: "";
+    height: 3px;
+    position: absolute;
+    inset: 0 0 auto;
+    border-radius: 999px
+  }
+
+  .nov-card.tipo-novedad:before {
+    background: linear-gradient(90deg, var(--blue), var(--purple))
+  }
+
+  .nov-card.tipo-encuesta:before {
+    background: linear-gradient(90deg, var(--green), var(--blue))
+  }
+
+  .nov-card.tipo-donacion:before {
+    background: linear-gradient(90deg, var(--accent), var(--accent2))
+  }
+
+  .nov-card.tipo-bus_interno:before {
+    background: linear-gradient(90deg, var(--purple), var(--blue))
+  }
+
+  .nov-tag {
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    font-size: 10px;
+    font-weight: 700;
+    margin-bottom: 6px
+  }
+
+  .nov-card.tipo-novedad .nov-tag {
+    color: var(--blue)
+  }
+
+  .nov-card.tipo-encuesta .nov-tag {
+    color: var(--green)
+  }
+
+  .nov-card.tipo-donacion .nov-tag {
+    color: var(--accent)
+  }
+
+  .nov-card.tipo-bus_interno .nov-tag {
+    color: var(--purple)
+  }
+
+  .nov-title {
+    font-family: var(--display);
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: -.03em;
+    margin-bottom: 6px
+  }
+
+  .nov-body {
+    color: #a4b0c4;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 12px
+  }
+
+  .nov-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all .15s
+  }
+
+  .nov-card.tipo-encuesta .nov-link {
+    background: #6ee7871f;
+    color: var(--green);
+    border: 1px solid #6ee78738
+  }
+
+  .nov-card.tipo-donacion .nov-link {
+    background: var(--gold-soft);
+    color: var(--accent);
+    border: 1px solid #f0a50038
+  }
+
+  .nov-card.tipo-bus_interno .nov-link {
+    background: #a371f71f;
+    color: var(--purple);
+    border: 1px solid #a371f738
+  }
+
+  .nov-card.tipo-novedad .nov-link {
+    background: #58a6ff1f;
+    color: var(--blue);
+    border: 1px solid #58a6ff38
+  }
+
+  .nov-link:hover {
+    transform: translateY(-1px)
+  }
+
+  .nov-empty {
+    text-align: center;
+    color: var(--muted);
+    padding: 3rem 1rem;
+    font-size: 14px
+  }
+
+  .nov-admin-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    margin-top: 1.5rem;
+    padding: 1.15rem
+  }
+
+  .nov-admin-title {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: .9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px
+  }
+
+  .nov-admin-badge {
+    background: #58a6ff1f;
+    color: var(--blue);
+    border-radius: 5px;
+    padding: 2px 7px;
+    font-size: 10px;
+    font-weight: 600
+  }
+
+  .nov-admin-row {
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0
+  }
+
+  .nov-admin-row:last-child {
+    border-bottom: none
+  }
+
+  .nov-admin-body {
+    flex: 1;
+    min-width: 0
+  }
+
+  .nov-admin-name {
+    font-size: 13px;
+    font-weight: 500
+  }
+
+  .nov-admin-meta {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px
+  }
+
+  .nav-tabs {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    gap: 3px;
+    padding: 3px;
+    display: flex
+  }
+
+  .home-tab-donate {
+    color: var(--accent) !important;
+    background: #f0a5001f !important;
+    border: 1px solid #f0a50033 !important;
+    border-radius: 7px !important
+  }
+
+  .home-tab-donate:hover {
+    background: #f0a50033 !important
+  }
+
+  
+
+.services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:1rem}
+.service-card{border:1px solid var(--border);box-shadow:var(--shadow);background:linear-gradient(#ffffff05,#ffffff02);border-radius:18px;padding:1.2rem;transition:transform .18s,border-color .18s,box-shadow .18s;position:relative;overflow:hidden;text-decoration:none;display:block}
+.service-card:before{content:"";background:linear-gradient(90deg,var(--blue),var(--purple));opacity:.95;height:3px;position:absolute;inset:0 0 auto}
+.service-card:hover{border-color:#58a6ff38;transform:translateY(-2px);box-shadow:0 18px 36px #00000042}
+.service-icon{font-size:2rem;margin-bottom:10px}
+.service-name{font-family:var(--display);font-size:1.2rem;font-weight:800;letter-spacing:-.03em;margin-bottom:5px;color:var(--text)}
+.service-desc{color:var(--muted);font-size:13px;line-height:1.5}
+.service-arrow{color:var(--blue);font-size:12px;font-weight:700;margin-top:12px;display:inline-block}
+@media(width<=520px){.services-grid{grid-template-columns:1fr}}
+
+.faq-section { margin-bottom: 2rem; }
+.faq-section-title { font-family: var(--display); font-size: 1rem; font-weight: 800; letter-spacing: -.02em; color: var(--accent); margin-bottom: .75rem; display: flex; align-items: center; gap: 8px; }
+.faq-item { border: 1px solid var(--border); border-radius: 14px; margin-bottom: 8px; overflow: hidden; transition: border-color .15s; }
+.faq-item:hover { border-color: var(--border2); }
+.faq-q { width: 100%; background: 0 0; border: none; color: var(--text); font-family: var(--font); font-size: 14px; font-weight: 600; text-align: left; padding: 14px 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.faq-q .faq-arrow { color: var(--muted); font-size: 12px; flex-shrink: 0; transition: transform .2s; }
+.faq-item.open .faq-arrow { transform: rotate(180deg); }
+.faq-a { color: #a4b0c4; font-size: 13px; line-height: 1.7; padding: 0 16px 14px; display: none; }
+.faq-item.open .faq-a { display: block; }
+.faq-a a { color: var(--blue); text-decoration: none; }
+.faq-a a:hover { text-decoration: underline; }
+.install-guide { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 1rem; }
+.install-card { border: 1px solid var(--border); border-radius: 16px; padding: 1.2rem; position: relative; overflow: hidden; background: linear-gradient(#ffffff05, #ffffff02); }
+.install-card:before { content: ""; height: 3px; position: absolute; inset: 0 0 auto; }
+.install-card.android:before { background: linear-gradient(90deg, #3fb950, #58a6ff); }
+.install-card.ios:before { background: linear-gradient(90deg, #a371f7, #58a6ff); }
+.install-card-icon { font-size: 2rem; margin-bottom: 10px; }
+.install-card-title { font-family: var(--display); font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; }
+.install-card.android .install-card-title { color: var(--green); }
+.install-card.ios .install-card-title { color: var(--purple); }
+.install-steps { list-style: none; padding: 0; margin: 0; }
+.install-steps li { color: #a4b0c4; font-size: 13px; line-height: 1.6; padding: 5px 0; border-bottom: 1px solid var(--border); display: flex; gap: 10px; align-items: flex-start; }
+.install-steps li:last-child { border-bottom: none; }
+.install-step-num { background: var(--surface2); border-radius: 50%; width: 20px; height: 20px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: var(--muted); margin-top: 2px; }
+.features-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin-top: 1rem; }
+.feature-card { border: 1px solid var(--border); border-radius: 14px; padding: 1rem; background: linear-gradient(#ffffff05, #ffffff02); }
+.feature-icon { font-size: 1.6rem; margin-bottom: 8px; }
+.feature-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.feature-desc { color: var(--muted); font-size: 12px; line-height: 1.5; }
+@media (width <= 520px) { .install-guide { grid-template-columns: 1fr; } .features-grid { grid-template-columns: 1fr 1fr; } }
+
+.menu-btn{font-size:22px;cursor:pointer;display:none;margin-left:auto}
+.sidebar{
+  position:fixed;
+  top:0;
+  right:0;
+  bottom:0;
+  width:280px;
+  max-width:85vw;
+  background:var(--surface);
+  border-left:1px solid var(--border2);
+  border-radius:20px 0 0 20px;
+  z-index:200;
+  padding:0 0 max(20px, env(safe-area-inset-bottom));
+  transform:translateX(100%);
+  transition:transform .26s cubic-bezier(.32,.72,0,1);
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  box-shadow:12px 0 36px rgba(0,0,0,.35)
+}
+.sidebar.open{transform:translateX(0)}
+.sidebar::before{
+  content:"";
+  position:absolute;
+  inset:0 0 auto 0;
+  height:3px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2),var(--purple));
+}
+.overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.4);
+opacity:0;
+pointer-events:none;
+transition:0.3s;
+z-index:150;
+backdrop-filter:blur(4px);
+-webkit-backdrop-filter:blur(4px);
+}
+.overlay.active{
+opacity:1;
+pointer-events:auto;
+}
+
+.drawer-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:20px 18px 16px;
+  border-bottom:1px solid var(--border)
+}
+.drawer-logo{
+  font-family:var(--display);
+  font-size:1rem;
+  font-weight:800;
+  letter-spacing:-.02em;
+  color:var(--text)
+}
+.drawer-logo span{color:var(--accent)}
+.drawer-close{
+  margin-left:auto;
+  background:transparent;
+  border:none;
+  color:var(--muted);
+  cursor:pointer;
+  font-size:20px;
+  line-height:1;
+  padding:4px;
+  border-radius:6px;
+  transition:color .15s
+}
+.drawer-close:hover{color:var(--text)}
+.drawer-close svg{width:20px;height:20px;display:block;stroke:currentColor}
+.drawer-section-label{
+  color:var(--muted);
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  padding:0 18px;
+  margin-bottom:4px
+}
+.drawer-item{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:12px 18px;
+  cursor:pointer;
+  transition:background .1s
+}
+.drawer-item:hover{background:rgba(255,255,255,.04)}
+.drawer-item-icon{
+  width:30px;
+  height:30px;
+  text-align:center;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--muted)
+}
+.drawer-item-icon svg{
+  width:20px;
+  height:20px;
+  stroke:currentColor
+}
+.drawer-item-text{flex:1}
+.drawer-item-title{
+  font-size:14px;
+  font-weight:500;
+  color:var(--text)
+}
+.drawer-item-sub{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:1px
+}
+.drawer-sep{
+  height:1px;
+  background:var(--border);
+  margin:6px 18px
+}
+.drawer-spacer{flex:1}
+.drawer-version{
+  padding:12px 18px;
+  font-size:10px;
+  color:var(--muted);
+  border-top:1px solid var(--border)
+}
+.drawer-item.green .drawer-item-title{color:var(--green)}
+.drawer-item.amber .drawer-item-title{color:var(--accent)}
+
+
+.header-actions{display:flex;align-items:center;gap:8px;margin-left:auto}
+.header-link{display:inline-flex;align-items:center;justify-content:center;padding:8px 12px;border-radius:10px;text-decoration:none;font-size:13px;font-weight:700;color:var(--text);background:transparent;border:none}
+.header-link:hover{background:transparent;opacity:.85}
+.header-link-donate{color:var(--accent);background:transparent;border:none}
+.header-link-donate:hover{background:transparent;opacity:.85}
+
+.menu-btn{
+  width:40px;
+  height:40px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:5px;
+  border-radius:11px;
+  border:none;
+  box-shadow:none;
+  outline:none;
+  background:transparent;
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+  transition:transform .2s ease, opacity .2s ease;
+}
+.menu-btn:hover,.menu-btn:active,.menu-btn:focus{background:transparent;box-shadow:none;outline:none;opacity:.85}
+.menu-btn span{
+  width:17px;
+  height:2px;
+  border-radius:999px;
+  background:var(--text);
+  transition:transform .28s ease, opacity .2s ease, width .2s ease;
+  display:block;
+}
+.menu-btn.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.menu-btn.active span:nth-child(2){opacity:0}
+.menu-btn.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+
+.header-inner{
+  display:flex;
+  align-items:center;
+}
+.header-actions{
+  margin-left:auto;
+  gap:8px;
+}
+.menu-btn{
+  margin-left:8px;
+}
+
+
+/* ── HEADER MOBILE ─────────────────────────────── */
+@media(max-width:768px){
+  .nav-tabs{display:none}
+  .menu-btn{display:flex}
+  .header-inner{
+    display:flex !important;
+    flex-wrap:nowrap;
+    align-items:center;
+    gap:8px;
+  }
+  .logo{order:1;flex-shrink:0}
+  .nav-tabs{order:2}
+  .header-actions{order:3;margin-left:auto;gap:6px}
+  .header-link{padding:7px 9px;font-size:11px}
+  .menu-btn{order:4;margin-left:0;flex-shrink:0}
+}
+@media(min-width:769px){
+  .menu-btn{display:none !important}
+}
+
+/* ══ CAMPUS ══════════════════════════════════════════ */
+.campus-subtabs{display:flex;gap:6px;margin-bottom:1.2rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:4px}
+.campus-tab{flex:1;background:0 0;border:none;color:var(--muted);font-family:var(--font);font-size:13px;font-weight:600;padding:8px 10px;border-radius:8px;cursor:pointer;transition:all .15s;text-align:center}
+.campus-tab:hover{color:var(--text);background:#ffffff0d}
+.campus-tab.active{color:var(--accent);background:var(--gold-soft)}
+.campus-panel{display:none}.campus-panel.active{display:block}
+.campus-section-label{text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-size:10px;font-weight:700;margin-bottom:8px}
+
+/* Horario semanal */
+.horario-week{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:.5rem}
+.horario-day-col{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;min-height:80px}
+.horario-day-header{text-align:center;padding:6px 4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--border);color:var(--muted)}
+.horario-day-header.hoy{color:var(--accent)}
+.horario-block{margin:4px;border-radius:8px;padding:5px 6px;font-size:10px;font-weight:600;line-height:1.3;cursor:pointer;transition:opacity .15s}
+.horario-block:hover{opacity:.8}
+.horario-block .hb-nombre{font-size:10px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.horario-block .hb-hora{font-size:9px;opacity:.8;margin-top:1px}
+.horario-empty{color:var(--muted);font-size:11px;text-align:center;padding:10px 4px}
+
+/* Lista materias */
+.materia-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;position:relative;overflow:hidden}
+.materia-color-bar{width:4px;height:100%;position:absolute;left:0;top:0;bottom:0;border-radius:4px 0 0 4px}
+.materia-info{flex:1;min-width:0;padding-left:8px}
+.materia-nombre{font-size:14px;font-weight:700}
+.materia-meta{color:var(--muted);font-size:12px;margin-top:3px;display:flex;gap:10px;flex-wrap:wrap}
+.materia-dias{display:flex;gap:3px;margin-top:5px}
+.materia-dia-pill{font-size:10px;font-weight:700;border-radius:5px;padding:2px 6px}
+.materia-actions{display:flex;gap:6px;flex-shrink:0}
+.btn-materia-del{background:#e86a5720;color:var(--accent2);border:1px solid #e86a5733;border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer;font-family:var(--font)}
+.materias-empty{text-align:center;color:var(--muted);padding:2rem 1rem;font-size:13px;border:1px dashed var(--border);border-radius:14px}
+
+/* Modal */
+.campus-modal-overlay{position:fixed;inset:0;background:#0000008c;backdrop-filter:blur(4px);z-index:300;display:flex;justify-content:center;align-items:center;padding:16px}
+.campus-modal{background:var(--surface);border:1px solid var(--border2);border-radius:20px;width:min(480px,100%);padding:1.4rem;position:relative;overflow:hidden;max-height:90vh;overflow-y:auto}
+.campus-modal:before{content:"";background:linear-gradient(90deg,var(--accent),var(--accent2));height:3px;position:absolute;inset:0 0 auto}
+.campus-modal-title{font-family:var(--display);font-size:1.3rem;font-weight:800;letter-spacing:-.03em;margin-bottom:1rem}
+.campus-field{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.campus-field label{text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-size:10px;font-weight:700}
+.campus-field input,.campus-field select{background:var(--bg);color:var(--text);border:1px solid var(--border2);font-size:13px;font-family:var(--font);border-radius:8px;outline:none;padding:9px 11px;transition:border-color .15s;width:100%}
+.campus-field input:focus{border-color:var(--accent)}
+.dias-picker{display:flex;gap:6px;flex-wrap:wrap}
+.dia-btn{width:36px;height:36px;border-radius:8px;border:1px solid var(--border2);background:var(--bg);color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font);transition:all .15s}
+.dia-btn.selected{border-color:var(--accent);background:var(--gold-soft);color:var(--accent)}
+.color-picker-row{display:flex;gap:8px;flex-wrap:wrap}
+.color-opt{width:28px;height:28px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .15s}
+.color-opt.selected{border-color:var(--text);transform:scale(1.15)}
+.btn-campus-add{background:var(--gold-soft);color:var(--accent);border:1px solid #f0a50038;border-radius:10px;padding:8px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);transition:all .15s}
+.btn-campus-add:hover{background:#f0a50033}
+.btn-campus-save{background:var(--accent);color:#000;border:none;border-radius:8px;padding:9px 18px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font)}
+.btn-campus-cancel{background:var(--surface2);color:var(--text);border:1px solid var(--border2);border-radius:8px;padding:9px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font)}
+
+/* Edificios */
+.edificio-search-wrap{position:relative;margin-bottom:10px}
+.edificio-search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;pointer-events:none}
+.edificio-search{background:var(--surface);border:1px solid var(--border2);color:var(--text);font-family:var(--font);border-radius:10px;outline:none;padding:9px 12px 9px 36px;font-size:13px;width:100%;transition:border-color .15s}
+.edificio-search:focus{border-color:var(--blue)}
+.finca-filter{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.finca-filter-btn{background:var(--surface);border:1px solid var(--border2);color:var(--muted);font-family:var(--font);cursor:pointer;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;transition:all .15s}
+.finca-filter-btn.active{color:var(--accent);background:var(--gold-soft);border-color:#f0a50038}
+.edificios-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.edificio-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;position:relative;overflow:hidden;transition:all .18s;cursor:default}
+.edificio-card:before{content:"";height:3px;position:absolute;inset:0 0 auto}
+.edificio-card.f1:before{background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.edificio-card.f2:before{background:linear-gradient(90deg,var(--blue),var(--purple))}
+.edificio-card.f3:before{background:linear-gradient(90deg,var(--green),var(--blue))}
+.edificio-card:hover{transform:translateY(-2px);border-color:var(--border2)}
+.edificio-sigla{font-family:var(--display);font-size:1.8rem;font-weight:800;letter-spacing:-.03em;line-height:1;margin-bottom:5px}
+.edificio-card.f1 .edificio-sigla{color:var(--accent)}
+.edificio-card.f2 .edificio-sigla{color:var(--blue)}
+.edificio-card.f3 .edificio-sigla{color:var(--green)}
+.edificio-nombre{font-size:12px;font-weight:600;color:var(--text);line-height:1.3}
+.edificio-finca{font-size:10px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.06em}
+.edificios-empty{text-align:center;color:var(--muted);padding:2rem;font-size:13px}
+
+@media(max-width:520px){
+  .horario-week{grid-template-columns:repeat(3,1fr)}
+  .edificios-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+}
+/* ── POPUP TOASTS ─────────────────────────────────────────────────────────── */
+#popup-container{
+  position:fixed;
+  bottom:1.1rem;
+  right:1.1rem;
+  z-index:9999;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  max-width:min(340px, calc(100vw - 2rem));
+  pointer-events:none
+}
+.popup-toast{
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:14px;
+  padding:12px 14px;
+  box-shadow:0 8px 28px #00000055;
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  pointer-events:all;
+  animation:.3s cubic-bezier(.34,1.56,.64,1) popup-in;
+  position:relative;
+  overflow:hidden
+}
+.popup-toast:before{
+  content:"";
+  position:absolute;
+  inset:0 0 auto;
+  height:3px
+}
+.popup-toast.tipo-info:before{background:linear-gradient(90deg,var(--blue),var(--purple))}
+.popup-toast.tipo-aviso:before{background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.popup-toast.tipo-urgente:before{background:linear-gradient(90deg,var(--accent2),#c0392b)}
+.popup-toast.tipo-buena:before{background:linear-gradient(90deg,var(--green),var(--blue))}
+.popup-toast-icon{font-size:1.25rem;flex-shrink:0;line-height:1.2}
+.popup-toast-body{flex:1;min-width:0}
+.popup-toast-title{font-size:13px;font-weight:700;color:var(--text);line-height:1.3}
+.popup-toast-msg{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.4}
+.popup-toast-link{display:inline-block;margin-top:6px;font-size:11px;font-weight:700;color:var(--blue);text-decoration:none}
+.popup-toast-link:hover{text-decoration:underline}
+.popup-toast-close{
+  background:0 0;
+  border:none;
+  color:var(--muted);
+  font-size:1rem;
+  cursor:pointer;
+  padding:0;
+  line-height:1;
+  flex-shrink:0;
+  opacity:.6;
+  transition:opacity .15s
+}
+.popup-toast-close:hover{opacity:1}
+.popup-toast.hiding{animation:.25s ease-in popup-out forwards}
+.popup-bar{
+  position:absolute;
+  bottom:0;left:0;
+  height:3px;
+  background:#ffffff20;
+  border-radius:0 0 14px 14px;
+  transform-origin:left;
+  transition:transform linear
+}
+@keyframes popup-in{
+  0%{opacity:0;transform:translateY(16px) scale(.96)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes popup-out{
+  to{opacity:0;transform:translateY(10px) scale(.95)}
+}
+@media(max-width:480px){
+  #popup-container{bottom:.7rem;right:.7rem;left:.7rem;max-width:100%}
+}
+</style>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+
+<div class="header">
+  <div class="header-inner">
+  <div class="logo" id="logo-easter-egg" title="BusUCR">🚌<span>BusUCR</span></div>
+    <div class="nav-tabs">
+      <button class="home-tab active" onclick="showHomeView('rutas')" id="tab-rutas">Rutas</button>
+
+      <button class="home-tab" onclick="showHomeView('campus')" id="tab-campus">Campus</button>
+      
+      <a class="home-tab" href="/emprendimientos" id="tab-emprendimientos">Emprendimientos</a>
+
+      <button class="home-tab" onclick="showHomeView('novedades')" id="tab-novedades">Novedades</button>
+
+      <button class="home-tab" onclick="showHomeView('servicios')" id="tab-servicios">Servicios</button>
+
+      <button class="home-tab" onclick="showHomeView('faq')" id="tab-faq">FAQ</button>
+
+      
+
+
+    </div>
+
+
+    <button class="menu-btn" id="menuBtn" onclick="toggleMenu()" aria-label="Abrir menú" type="button">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</div>
+
+<div id="overlay" class="overlay" onclick="closeMenu()"></div>
+<div id="sidebar" class="sidebar drawer-style" aria-hidden="true">
+  <div class="drawer-header">
+    <span style="font-size:18px">🚌</span>
+    <div class="drawer-logo">Bus<span>UCR</span></div>
+    <button class="drawer-close" onclick="closeMenu()" aria-label="Cerrar" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+  </div>
+  <div style="height:12px"></div>
+  <div class="drawer-section-label">Navegación</div>
+  <div class="drawer-item" onclick="showHomeView('rutas');closeMenu()">
+    <div class="drawer-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="22" height="14" rx="3"/><path d="M16 17v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2"/><path d="M5 10h14"/><circle cx="7.5" cy="14" r="1"/><circle cx="16.5" cy="14" r="1"/></svg></div>
+    <div class="drawer-item-text">
+      <div class="drawer-item-title">Rutas</div>
+      <div class="drawer-item-sub">Todas las rutas externas disponibles</div>
+    </div>
+  </div>
+  <div class="drawer-item" onclick="showHomeView('campus');closeMenu()">
+    <div class="drawer-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18"/><path d="M4 10v9"/><path d="M20 10v9"/><path d="M8 10v9"/><path d="M12 10v9"/><path d="M16 10v9"/><path d="M2 19h20"/><path d="M12 3l10 5H2z"/></svg></div>
+    <div class="drawer-item-text">
+      <div class="drawer-item-title">Campus</div>
+      <div class="drawer-item-sub">Horario personal y guía de edificios</div>
+    </div>
+  </div>
+  <a class="drawer-item" href="/emprendimientos" style="text-decoration:none">
+    <div class="drawer-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+    <div class="drawer-item-text">
+      <div class="drawer-item-title">Emprendimientos</div>
+      <div class="drawer-item-sub">Emprendimientos estudiantiles UCR</div>
+    </div>
+  </a>
+  <div class="drawer-item" onclick="showHomeView('novedades');closeMenu()">
+    <div class="drawer-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 13z"/><path d="M11.6 16.8a3 3 0 1 1-5.8 1.4"/></svg></div>
+    <div class="drawer-item-text">
+      <div class="drawer-item-title">Novedades</div>
+      <div class="drawer-item-sub">Actualizaciones y anuncios del proyecto</div>
+    </div>
+  </div>
+  <div class="drawer-item" onclick="showHomeView('servicios');closeMenu()">
+    <div class="drawer-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19.439 7.85c.049.322.074.649.074.979 0 3.18-2.683 5.758-5.993 5.758-.446 0-.881-.047-1.3-.137.401.501.641 1.128.641 1.809 0 1.644-1.402 2.976-3.132 2.976-1.73 0-3.132-1.332-3.132-2.976 0-.681.24-1.308.641-1.81A6.174 6.174 0 0 1 6 14.587c-3.31 0-5.993-2.578-5.993-5.758S2.69 3.071 6 3.071c.338 0 .67.027.995.08-.097-.394-.148-.804-.148-1.226C6.847.86 8.279-.5 10.046-.5s3.199 1.36 3.199 3.425c0 .422-.05.832-.148 1.226.325-.053.657-.08.995-.08 2.798 0 5.173 1.844 5.347 4.279z" transform="translate(2 2) scale(.9)"/></svg></div>
+    <div class="drawer-item-text">
+      <div class="drawer-item-title">Servicios</div>
+      <div class="drawer-item-sub">Accesos rápidos a recursos de la UCR</div>
+    </div>
+  </div>
+  <div class="drawer-item" onclick="showHomeView('faq');closeMenu()">
+    <div class="drawer-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 1 1 5.82 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></div>
+    <div class="drawer-item-text">
+      <div class="drawer-item-title">FAQ</div>
+      <div class="drawer-item-sub">Preguntas frecuentes e instalación</div>
+    </div>
+  </div>
+
+  <div class="drawer-sep"></div>
+  <div class="drawer-item" onclick="window.open('https://bus-pronto.vercel.app/','_blank');closeMenu()">
+    <div class="drawer-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s.5-8.5-2-12c-1-1.4-3-2-5-2H9C7 4 5 4.6 4 6c-2.5 3.5-2 12-2 12h3"/><path d="M6 18h12"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></div>
+    <div class="drawer-item-text">
+      <div class="drawer-item-title">Bus Interno</div>
+      <div class="drawer-item-sub">Abrir seguimiento del bus interno</div>
+    </div>
+  </div>
+  <div class="drawer-item amber" onclick="window.open('https://ko-fi.com/Q5Q2187D5I','_blank');closeMenu()">
+    <div class="drawer-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
+    <div class="drawer-item-text">
+      <div class="drawer-item-title">Donar</div>
+      <div class="drawer-item-sub">Apoyar el proyecto en Ko-fi</div>
+    </div>
+  </div>
+  <div class="drawer-item green" onclick="window.open('https://www.instagram.com/bus_u.c.r','_blank');closeMenu()">
+    <div class="drawer-item-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+    <div class="drawer-item-text">
+      <div class="drawer-item-title">Contacto</div>
+      <div class="drawer-item-sub">Instagram de BusUCR</div>
+    </div>
+  </div>
+  <div class="drawer-spacer"></div>
+  <div class=drawer-version>BusUCR v2.4 © Desmond <span id="year">· <a onmouseout="this.style.color='var(--muted)'"onmouseover="this.style.color='var(--text)'"style="color:var(--muted);text-decoration:none;transition:color .2s"href="/" target="_blank"> Créditos </a>
+  </div>
+</div>
+
+  <div class=install-banner-wrap>
+    <div title="Instalar app" class=install-banner id=installBanner>
+      <div class=install-banner-icon>i</div>
+      <div>
+        <div class=install-banner-text>¡Opción de instalación disponible!</div>
+        <div class=install-banner-sub>Tocá aquí para instalar BusUCR como app</div>
+      </div>
+    </div>
+  </div>
+  <div id=view-rutas class="home-view active">
+    <div class=container>
+      <section class=hero>
+        <div class=eyebrow></div>
+        <h1>BusUCR</h1>
+        <p>Un espacio construido por estudiantes para estudiantes, pensado para simplificar el acceso a las rutas
+          externas de la UCR y hacer más fácil el día a día.</p>
+        <div class=hero-bottom><span class="pill accent">Ahora puedes visualizar las rutas que pasan mas cerca de cada
+            campus universitario.</span>
+          <div class=fincas-row><button class="finca-btn f1" onclick=toggleFinca(1)><span class=finca-icon>🏛️</span>
+              <span class=finca-sub>Finca 1</span> <span class=finca-name>Ciudad Universitaria Rodrigo
+                Facio</span></button><button class="finca-btn f2" onclick=toggleFinca(2)><span
+                class=finca-icon>🔬</span> <span class=finca-sub>Finca 2</span> <span class=finca-name>Ciudad de la
+                Investigación</span></button><button class="finca-btn f3" onclick=toggleFinca(3)><span
+                class=finca-icon>⚽</span> <span class=finca-sub>Finca 3</span> <span class=finca-name>Instalaciones
+                Deportivas</span></button></div>
+        </div>
+        <div class=finca-panel id=finca-panel-1>
+          <div class="finca-panel-header h1">🚌 Buses cercanos a Finca 1</div>
+          <div class=finca-bus-list>
+            <div class=finca-bus-item>
+              <div class="finca-dot dot-f1"></div><b>Heredia – UCR</b>
+            </div>
+            <div class=finca-bus-item>
+              <div class="finca-dot dot-f1"></div><b>Pavas – UCR</b>
+            </div>
+            <div class=finca-bus-item>
+              <div class="finca-dot dot-f1"></div><b>Alajuela – UCR</b>
+            </div>
+            <div class=finca-bus-item>
+              <div class="finca-dot dot-f1"></div><b>Alajuelita – UCR</b>
+            </div>
+            <div class=finca-bus-item>
+              <div class="finca-dot dot-f1"></div><b>San Ramón – UCR</b>
+            </div>
+            <div class=finca-bus-item>
+              <div class="finca-dot dot-f1"></div><b>Santa Ana / Escazú – UCR</b>
+            </div>
+            <div class=finca-bus-item>
+              <div class="finca-dot dot-f1"></div><b>Cartago – UCR</b>
+            </div>
+            <div class=finca-bus-item>
+              <div class="finca-dot dot-f1"></div><b>SJ – Barrio Escalante – UCR</b>
+            </div>
+            <div class=finca-bus-item>
+              <div class="finca-dot dot-f1"></div><b>SJ – San Pedro – Carmiol</b>
+            </div>
+            <div class=finca-bus-item>
+              <div class="finca-dot dot-f1"></div><b>SJ – San Pedro – Granadilla</b>
+            </div>
+            <div class=finca-bus-item>
+              <div class="finca-dot dot-f1"></div><b>SJ – San Pedro – Vargas Araya</b>
+            </div>
+            <div class=finca-bus-item>
+              <div class="finca-dot dot-f1"></div><b>SJ – San Pedro – San Rafael – Salitrillos</b>
+            </div>
+            <div class=finca-bus-item>
+              <div class="finca-dot dot-f1"></div><b>SJ – San Pedro – La Campiña</b>
+            </div>
+            <div class=finca-bus-item>
+              <div class="finca-dot dot-f1"></div><b>SJ – Tres Ríos por Pista</b>
+            </div>
+            <div class=finca-bus-item>
+              <div class="finca-dot dot-f1"></div><b>SJ – Barrio La Lía – Lomas de Ayarco</b>
+            </div>
+            <div class=finca-bus-item>
+              <div class="finca-dot dot-f1"></div><b>SJ – Concepción – Salitrillo</b>
+            </div>
+            <div class=finca-bus-item>
+              <div class="finca-dot dot-f1"></div><b>Interlínea Desamparados – Moravia</b>
+            </div>
+          </div>
+        </div>
+        <div class=finca-panel id=finca-panel-2>
+          <div class="finca-panel-header h2">🚌 Buses cercanos a Finca 2</div>
+          <div class=finca-bus-list>
+            <div class=finca-bus-item>
+              <div class="finca-dot dot-f2"></div><b>SJ – San Pedro – Sabanilla</b>
+            </div>
+            <div class=finca-bus-item>
+              <div class="finca-dot dot-f2"></div><b>SJ – Barrio Escalante – UCR</b>
+            </div>
+            <div class=finca-bus-item>
+              <div class="finca-dot dot-f2"></div><b>SJ – San Pedro – Carmiol</b>
+            </div>
+            <div class=finca-bus-item>
+              <div class="finca-dot dot-f2"></div><b>Interlínea Desamparados – Moravia</b>
+            </div>
+          </div>
+        </div>
+        <div class=finca-panel id=finca-panel-3>
+          <div class="finca-panel-header h3">🚌 Buses cercanos a Finca 3</div>
+          <div class=finca-bus-list>
+            <div class=finca-bus-item>
+              <div class="finca-dot dot-f3"></div><b>SJ – San Pedro – Sabanilla</b>
+            </div>
+            <div class=finca-bus-item>
+              <div class="finca-dot dot-f3"></div><b>SJ – San Pedro – Carmiol</b>
+            </div>
+            <div class=finca-bus-item>
+              <div class="finca-dot dot-f3"></div><b>SJ – San Pedro – Vargas Araya</b>
+            </div>
+            <div class=finca-bus-item>
+              <div class="finca-dot dot-f3"></div><b>Interlínea Desamparados – Moravia</b>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class=summary style=grid-template-columns:repeat(3,minmax(0,1fr));max-width:1920px>
+        <div class=summary-card>
+          <div class=summary-value>11</div>
+          <div class=summary-label>Rutas</div>
+          <div id=stat-routes-sub style="font-size:11px;color:#97a5bc;margin-top:5px;letter-spacing:.04em"></div>
+        </div>
+        <div class=summary-card>
+          <div class=summary-value id=stat-clock>--:--</div>
+          <div class=summary-label>Hora actual</div>
+          <div id=stat-clock-sub style="font-size:11px;color:#97a5bc;margin-top:5px;letter-spacing:.04em;display:flex;align-items:center;gap:5px"><span id=stat-dot style="width:7px;height:7px;border-radius:50%;background:#6ee787;display:inline-block;flex-shrink:0"></span><span id=stat-status-text></span></div>
+        </div>
+        <div class=summary-card>
+          <div class=summary-value id=stat-peak>--</div>
+          <div class=summary-label>Próximo pico</div>
+          <div id=stat-peak-sub style="font-size:11px;color:#97a5bc;margin-top:5px;letter-spacing:.04em"></div>
+        </div>
+      </section>
+      <div class=section-title>Aplicaciones disponibles</div>
+      <div class=routes-toolbar>
+        <div class=search-input-wrap><span class=search-icon>🔍</span><input placeholder="Buscar ruta…" autocomplete=off
+            class=search-input id=route-search type=search></div><select class=sort-select id=route-sort>
+          <option value=default>Orden por defecto</option>
+          <option value=az>A → Z</option>
+          <option value=za>Z → A</option>
+          <option value=fare-asc>Tarifa: menor primero</option>
+          <option value=fare-desc>Tarifa: mayor primero</option>
+          <option value=time-asc>Tiempo: menor primero</option>
+          <option value=time-desc>Tiempo: mayor primero</option>
+        </select><button class=fav-filter-btn id=fav-filter-btn type=button><span>❤️</span><span>Solo
+            favoritas</span></button>
+      </div>
+      <section class=grid id=routes-grid>
+        <div class=fav-divider id=fav-divider>❤️ Mis favoritas</div>
+        <div class=other-divider id=other-divider>Todas las rutas</div>
+        <article class=card data-fare=630 data-name=Coronado data-route-key=coronado data-time=52>
+          <div class=card-head>
+            <div class=card-title>
+              <div>🚌</div>
+              <h3 data-route-name=coronado>Coronado</h3>
+            </div><button title="Marcar favorita" class=fav-btn data-fav-key=coronado type=button>❤️</button>
+          </div>
+          <div class=route-desc>Ruta UCR ↔ Coronado</div>
+          <div class=meta><span>📍 18 paradas</span><span>⏱️ ~52 min</span></div>
+          <div class=fare-row>
+            <div class=fare-label>Tarifa</div>
+            <div class=fare-price data-route=coronado>₡</div>
+          </div><a class=btn href=/coronado>Abrir ruta</a>
+        </article>
+        <article class=card data-fare=640 data-name=Tibás data-route-key=tibas data-time=50>
+          <div class=card-head>
+            <div class=card-title>
+              <div>🚌</div>
+              <h3 data-route-name=tibas>Tibás</h3>
+            </div><button title="Marcar favorita" class=fav-btn data-fav-key=tibas type=button>❤️</button>
+          </div>
+          <div class=route-desc>Ruta UCR ↔ Tibás</div>
+          <div class=meta><span>📍 20 paradas</span><span>⏱️ ~50 min</span></div>
+          <div class=fare-row>
+            <div class=fare-label>Tarifa</div>
+            <div class=fare-price data-route=tibas>₡</div>
+          </div><a class=btn href=/tibas>Abrir ruta</a>
+        </article>
+        <article class=card data-fare=790 data-name=Heredia data-route-key=heredia data-time=58>
+          <div class=card-head>
+            <div class=card-title>
+              <div>🚌</div>
+              <h3 data-route-name=heredia>Heredia</h3>
+            </div><button title="Marcar favorita" class=fav-btn data-fav-key=heredia type=button>❤️</button>
+          </div>
+          <div class=route-desc>Ruta UCR ↔ Heredia</div>
+          <div class=meta><span>📍 19 paradas</span><span>⏱️ ~58 min</span></div>
+          <div class=fare-row>
+            <div class=fare-label>Tarifa</div>
+            <div class=fare-price data-route=heredia>₡</div>
+          </div><a class=btn href=/heredia>Abrir ruta</a>
+        </article>
+        <article data-name="Acosta Aserrí" class=card data-fare=1330 data-route-key=acosta data-time=124>
+          <div class=card-head>
+            <div class=card-title>
+              <div>🚌</div>
+              <h3 data-route-name=acosta>Acosta / Aserrí</h3>
+            </div><button title="Marcar favorita" class=fav-btn data-fav-key=acosta type=button>❤️</button>
+          </div>
+          <div class=route-desc>Ruta UCR ↔ Acosta / Aserrí</div>
+          <div class=meta><span>📍 15 paradas</span><span>⏱️ ~124 min</span></div>
+          <div class=fare-row>
+            <div class=fare-label>Tarifa</div>
+            <div class=fare-price data-route=acosta>₡</div>
+          </div><a class=btn href=/acosta>Abrir ruta</a>
+        </article>
+        <article data-name="San Ramón" class=card data-fare=2200 data-route-key=sanramon data-time=114>
+          <div class=card-head>
+            <div class=card-title>
+              <div>🚌</div>
+              <h3 data-route-name=sanramon>San Ramón</h3>
+            </div><button title="Marcar favorita" class=fav-btn data-fav-key=sanramon type=button>❤️</button>
+          </div>
+          <div class=route-desc>Ruta UCR ↔ San Ramón</div>
+          <div class=meta><span>📍 13 paradas</span><span>⏱️ ~114 min</span></div>
+          <div class=fare-row>
+            <div class=fare-label>Tarifa</div>
+            <div class=fare-price data-route=sanramon>₡</div>
+          </div><a class=btn href=/san_ramon>Abrir ruta</a>
+        </article>
+        <article data-name="Santa Ana Escazú" class=card data-fare=840 data-route-key=santaanaescazu data-time=60>
+          <div class=card-head>
+            <div class=card-title>
+              <div>🚌</div>
+              <h3 data-route-name=santaanaescazu>Santa Ana / Escazú</h3>
+            </div><button title="Marcar favorita" class=fav-btn data-fav-key=santaanaescazu type=button>❤️</button>
+          </div>
+          <div class=route-desc>Ruta UCR ↔ Santa Ana / Escazú</div>
+          <div class=meta><span>📍 18 paradas</span><span>⏱️ ~60 min</span></div>
+          <div class=fare-row>
+            <div class=fare-label>Tarifa</div>
+            <div class=fare-price data-route=santaanaescazu>₡</div>
+          </div><a class=btn href=/santa_ana_escazu>Abrir ruta</a>
+        </article>
+        <article class=card data-fare=1000 data-name=Alajuela data-route-key=alajuela data-time=62>
+          <div class=card-head>
+            <div class=card-title>
+              <div>🚌</div>
+              <h3 data-route-name=alajuela>Alajuela</h3>
+            </div><button title="Marcar favorita" class=fav-btn data-fav-key=alajuela type=button>❤️</button>
+          </div>
+          <div class=route-desc>Ruta UCR ↔ Alajuela</div>
+          <div class=meta><span>📍 29 paradas</span><span>⏱️ ~62 min</span></div>
+          <div class=fare-row>
+            <div class=fare-label>Tarifa</div>
+            <div class=fare-price data-route=alajuela>₡</div>
+          </div><a class=btn href=/alajuela>Abrir ruta</a>
+        </article>
+        <article data-name="San Rafael" class=card data-fare=670 data-route-key=sanRafael data-time=45>
+          <div class=card-head>
+            <div class=card-title>
+              <div>🚌</div>
+              <h3 data-route-name=sanRafael>San Rafael</h3>
+            </div><button title="Marcar favorita" class=fav-btn data-fav-key=sanRafael type=button>❤️</button>
+          </div>
+          <div class=route-desc>Ruta UCR ↔ San Rafael</div>
+          <div class=meta><span>📍 15 paradas</span><span>⏱️ ~45 min</span></div>
+          <div class=fare-row>
+            <div class=fare-label>Tarifa</div>
+            <div class=fare-price data-route=sanRafael>₡</div>
+          </div><a class=btn href=/san_rafael>Abrir ruta</a>
+        </article>
+        <article class=card data-fare=600 data-name=Desamparados data-route-key=desamparados data-time=60>
+          <div class=card-head>
+            <div class=card-title>
+              <div>🚌</div>
+              <h3 data-route-name=desamparados>Desampa</h3>
+            </div><button title="Marcar favorita" class=fav-btn data-fav-key=desamparados type=button>❤️</button>
+          </div>
+          <div class=route-desc>Ruta UCR ↔ Desamparados</div>
+          <div class=meta><span>📍 25 paradas</span><span>⏱️ ~60 min</span></div>
+          <div class=fare-row>
+            <div class=fare-label>Tarifa</div>
+            <div class=fare-price data-route=desamparados>₡</div>
+          </div><a class=btn href=/desamparados>Abrir ruta</a>
+        </article>
+
+
+        <article class=card data-fare=600 data-name=Periferica data-route-key=periferica data-time=60>
+          <div class=card-head>
+            <div class=card-title>
+              <div>🚌</div>
+              <h3 data-route-name=periferica>Periferica</h3>
+            </div><button title="Marcar favorita" class=fav-btn data-fav-key=periferica type=button>❤️</button>
+          </div>
+          <div class=route-desc>Ruta UCR ↔ Periferica</div>
+          <div class=meta><span>📍 19 paradas</span><span>⏱️ ~40 min</span></div>
+          <div class=fare-row>
+            <div class=fare-label>Tarifa</div>
+            <div class=fare-price data-route=periferica>₡</div>
+          </div><a class=btn href=/periferica>Abrir ruta</a>
+        </article>
+
+        <article class=card data-fare=600 data-name=Interlinea data-route-key=interlinea data-time=60>
+          <div class=card-head>
+            <div class=card-title>
+              <div>🚌</div>
+              <h3 data-route-name=interlinea>Interlinea</h3>
+            </div><button title="Marcar favorita" class=fav-btn data-fav-key=interlinea type=button>❤️</button>
+          </div>
+          <div class=route-desc>Ruta UCR ↔ Interlinea</div>
+          <div class=meta><span>📍 19 paradas</span><span>⏱️ ~40 min</span></div>
+          <div class=fare-row>
+            <div class=fare-label>Tarifa</div>
+            <div class=fare-price data-route=interlinea>₡</div>
+          </div><a class=btn href=/interlinea>Abrir ruta</a>
+        </article>
+
+
+        <article class=card data-fare=680 data-name=Pavas data-route-key=pavas data-time=60>
+          <div class=card-head>
+            <div class=card-title>
+              <div>🚌</div>
+              <h3 data-route-name=pavas>Pavas</h3>
+            </div><button title="Marcar favorita" class=fav-btn data-fav-key=pavas type=button>❤️</button>
+          </div>
+          <div class=route-desc>Ruta UCR ↔ Pavas</div>
+          <div class=meta><span>📍 22 paradas</span><span>⏱️ ~60 min</span></div>
+          <div class=fare-row>
+            <div class=fare-label>Tarifa</div>
+            <div class=fare-price data-route=pavas>₡</div>
+          </div><a class=btn href=/pavas>Abrir ruta</a>
+        </article>
+        <div class=routes-empty id=routes-empty>
+          <div class=empty-icon>🔍</div>
+          <div>No se encontraron rutas con ese criterio.</div>
+        </div>
+      </section>
+    </div>
+  </div>
+  </div>
+  </div>
+  <div id=view-novedades class="home-view">
+    <div class=container>
+      <div class=section-title>Novedades del proyecto</div>
+      <div class=nov-grid id=nov-grid>
+        <div class=nov-empty>Cargando novedades...</div>
+      </div>
+      <div id=nov-admin-wrap style=display:none>
+        <div class=nov-admin-section>
+          <div class=nov-admin-title>Publicar novedad <span class=nov-admin-badge>ADMIN</span></div>
+          <div class=form-row style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px">
+            <div class=field style="flex:1;min-width:200px"><label
+                style="text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-size:10px;font-weight:700">Título</label><input
+                id=nov-new-title placeholder="Ej: Nueva ruta disponible"
+                style="background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--font);border-radius:8px;outline:none;width:100%;padding:8px 10px;font-size:13px">
+            </div>
+            <div class=field style="max-width:160px"><label
+                style="text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-size:10px;font-weight:700">Tipo</label><select
+                id=nov-new-tipo
+                style="background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--font);border-radius:8px;outline:none;width:100%;padding:8px 10px;font-size:13px">
+                <option value=novedad>📢 Novedad</option>
+                <option value=encuesta>📊 Encuesta</option>
+                <option value=donacion> Donación</option>
+                <option value=bus_interno>🚌 Bus Interno</option>
+              </select></div>
+          </div>
+          <div class=field style="margin-bottom:8px"><label
+              style="text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-size:10px;font-weight:700">Contenido</label><textarea
+              id=nov-new-body placeholder="Descripción de la novedad..."
+              style="background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--font);border-radius:8px;outline:none;width:100%;padding:8px 10px;font-size:13px;resize:vertical;min-height:70px"></textarea>
+          </div>
+          <div class=field style="margin-bottom:12px"><label
+              style="text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-size:10px;font-weight:700">Link
+              (opcional)</label><input id=nov-new-link placeholder="https://..."
+              style="background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--font);border-radius:8px;outline:none;width:100%;padding:8px 10px;font-size:13px">
+          </div>
+          <div style="display:flex;justify-content:flex-end"><button onclick=window.publishNovedad()
+              style="background:var(--gold-soft);color:var(--accent);border:1px solid #f0a50038;border-radius:8px;padding:9px 18px;font-size:13px;font-weight:700;cursor:pointer">Publicar</button>
+          </div>
+          <div id=nov-admin-msg style="margin-top:8px;font-size:12px;color:var(--muted)"></div>
+        </div>
+        <div class=nov-admin-section style="margin-top:1rem">
+          <div class=nov-admin-title>Novedades activas</div>
+          <div id=nov-admin-list></div>
+        </div>
+      </div>
+    </div>
+  </div>
+<div id=view-servicios class="home-view"><div class=container>
+<div class=section-title>Servicios</div>
+<p style="color:var(--muted);font-size:14px;margin-bottom:1rem">Accesos rápidos a plataformas y recursos de la Universidad de Costa Rica.</p>
+<div class=services-grid>
+  <a class=service-card href="https://soda.ucr.ac.cr/SodasUCR/servicioAlimentacion" target=_blank rel=noopener>
+    <div class=service-icon>🧃</div>
+    <div class=service-name>Sodas UCR</div>
+    <div class=service-desc>Consultá los menús y horarios de las sodas del campus universitario.</div>
+    <div class=service-arrow>Abrir →</div>
+  </a>
+  <a class=service-card href="https://www.ucr.ac.cr/mapas" target=_blank rel=noopener>
+    <div class=service-icon>🗺️</div>
+    <div class=service-name>Mapa UCR</div>
+    <div class=service-desc>Consultá los mapas de toda la UCR para ver dónde están los edificios.</div>
+    <div class=service-arrow>Abrir →</div>
+  </a>
+  <a class=service-card href="https://bus-pronto.vercel.app/" target=_blank rel=noopener>
+    <div class=service-icon>🚌</div>
+    <div class=service-name>Bus Interno</div>
+    <div class=service-desc>Seguimiento en tiempo real del bus interno que circula dentro del campus.</div>
+    <div class=service-arrow>Abrir →</div>
+  </a>
+  <a class=service-card href="https://ematricula.ucr.ac.cr/" target=_blank rel=noopener>
+    <div class=service-icon>🧾</div>
+    <div class=service-name>Matrícula</div>
+    <div class=service-desc>Accedé al sistema de matrícula en línea de la Universidad de Costa Rica.</div>
+    <div class=service-arrow>Abrir →</div>
+  </a>
+  <a class=service-card href="https://mediacionvirtual.ucr.ac.cr/" target=_blank rel=noopener>
+    <div class=service-icon>💻</div>
+    <div class=service-name>Mediación Virtual</div>
+    <div class=service-desc>Plataforma virtual para cursos, tareas, foros y recursos académicos.</div>
+    <div class=service-arrow>Abrir →</div>
+  </a>
+  <a class=service-card href="https://sibdi.ucr.ac.cr/" target=_blank rel=noopener>
+    <div class=service-icon>📚</div>
+    <div class=service-name>Biblioteca SIBDI</div>
+    <div class=service-desc>Sistema de Bibliotecas, Documentación e Información de la UCR.</div>
+    <div class=service-arrow>Abrir →</div>
+  </a>
+</div>
+</div></div>
+<div id=view-faq class="home-view"><div class=container>
+
+<!-- GUÍAS DE INSTALACIÓN -->
+<div class=section-title>Cómo instalar BusUCR</div>
+<p style="color:var(--muted);font-size:14px;margin-bottom:4px">BusUCR es una PWA — se instala como app nativa sin pasar por ninguna tienda.</p>
+<div class=install-guide>
+  <div class="install-card android">
+    <div class=install-card-icon>🤖</div>
+    <div class=install-card-title>Android</div>
+    <ul class=install-steps>
+      <li><span class=install-step-num>1</span>Abrí BusUCR en Chrome</li>
+      <li><span class=install-step-num>2</span>Tocá el banner "Instalar app" que aparece arriba</li>
+      <li><span class=install-step-num>3</span>O tocá el menú ⋮ → "Añadir a pantalla de inicio"</li>
+      <li><span class=install-step-num>4</span>Confirmá la instalación — ¡listo!</li>
+    </ul>
+  </div>
+  <div class="install-card ios">
+    <div class=install-card-icon>🍎</div>
+    <div class=install-card-title>iOS</div>
+    <ul class=install-steps>
+      <li><span class=install-step-num>1</span>Abrí BusUCR en Safari (no Chrome)</li>
+      <li><span class=install-step-num>2</span>Tocá el botón de compartir <strong style="color:var(--purple)">⬆</strong></li>
+      <li><span class=install-step-num>3</span>Seleccioná "Añadir a pantalla de inicio"</li>
+      <li><span class=install-step-num>4</span>Confirmá — ¡listo!</li>
+    </ul>
+  </div>
+</div>
+
+<!-- FUNCIONES DESTACADAS -->
+<div class=section-title style="margin-top:2rem">Lo que podés hacer con BusUCR</div>
+<div class=features-grid>
+  <div class=feature-card>
+    <div class=feature-icon>🚌</div>
+    <div class=feature-name>Próximo bus</div>
+    <div class=feature-desc>Ve cuánto falta para la próxima salida en tu ruta, actualizado al minuto.</div>
+  </div>
+  <div class=feature-card>
+    <div class=feature-icon>📍</div>
+    <div class=feature-name>Parada más cercana</div>
+    <div class=feature-desc>Activá el GPS y la app detecta automáticamente en qué parada estás.</div>
+  </div>
+  <div class=feature-card>
+    <div class=feature-icon>👥</div>
+    <div class=feature-name>Reportes en tiempo real</div>
+    <div class=feature-desc>Otros estudiantes reportan dónde está el bus — vos también podés hacerlo.</div>
+  </div>
+  <div class=feature-card>
+    <div class=feature-icon>⏱️</div>
+    <div class=feature-name>Estimación de llegada</div>
+    <div class=feature-desc>La app calcula cuándo va a pasar el bus por cada parada según los reportes.</div>
+  </div>
+  <div class=feature-card>
+    <div class=feature-icon>📅</div>
+    <div class=feature-name>Horarios por día</div>
+    <div class=feature-desc>Lunes a domingo con horarios diferenciados según el día de la semana.</div>
+  </div>
+  <div class=feature-card>
+    <div class=feature-icon>💬</div>
+    <div class=feature-name>Grupos de WhatsApp</div>
+    <div class=feature-desc>Links a grupos de estudiantes de cada ruta para coordinarse.</div>
+  </div>
+  <div class=feature-card>
+    <div class=feature-icon>🔔</div>
+    <div class=feature-name>Avisos de ruta</div>
+    <div class=feature-desc>Notificaciones cuando hay cancelaciones o cambios en tu ruta.</div>
+  </div>
+  <div class=feature-card>
+    <div class=feature-icon>❤️</div>
+    <div class=feature-name>Rutas favoritas</div>
+    <div class=feature-desc>Marcá tus rutas favoritas para encontrarlas más rápido en el inicio.</div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class=section-title style="margin-top:2rem">Preguntas frecuentes</div>
+
+<div class=faq-section>
+  <div class=faq-section-title>🚌 Sobre el proyecto</div>
+
+  <div class=faq-item>
+    <button class=faq-q onclick=toggleFaq(this)>¿BusUCR es oficial de la UCR? <span class=faq-arrow>▼</span></button>
+    <div class=faq-a>No. BusUCR es un proyecto independiente creado por un estudiante de la UCR. No tiene afiliación oficial con la universidad ni con las empresas de autobuses. Los horarios son recopilados por la comunidad y pueden no estar 100% actualizados.</div>
+  </div>
+
+  <div class=faq-item>
+    <button class=faq-q onclick=toggleFaq(this)>¿Es gratis? ¿Tiene anuncios? <span class=faq-arrow>▼</span></button>
+    <div class=faq-a>Completamente gratis y sin anuncios. Si querés apoyar el proyecto podés donar desde el botón de Ko-fi, pero no es obligatorio. Con difundirlo entre otros estudiantes ya ayudás muchísimo.</div>
+  </div>
+
+  <div class=faq-item>
+    <button class=faq-q onclick=toggleFaq(this)>¿Por qué el bus no aparece en el mapa? <span class=faq-arrow>▼</span></button>
+    <div class=faq-a>BusUCR no tiene GPS en los buses — la posición es estimada con base en los reportes de otros usuarios y los tiempos de cada parada. Si nadie reportó todavía, el bus aparece en modo estimado. ¡Podés ser el primero en reportar!</div>
+  </div>
+
+  <div class=faq-item>
+    <button class=faq-q onclick=toggleFaq(this)>¿Los horarios son exactos? <span class=faq-arrow>▼</span></button>
+    <div class=faq-a>Los horarios son recopilados por estudiantes y administradores voluntarios. Pueden tener variaciones respecto a los horarios oficiales. Si bien las horas de salida son las mismas que salen en las paginas de la U, puedes verificar en los grupos oficiales en caso de problemas en alguna ruta.</div>
+  </div>
+</div>
+
+<div class=faq-section>
+  <div class=faq-section-title>📍 Sobre las funciones</div>
+
+  <div class=faq-item>
+    <button class=faq-q onclick=toggleFaq(this)>¿Cómo reporto dónde está el bus? <span class=faq-arrow>▼</span></button>
+    <div class=faq-a>En la vista de tu ruta, en la lista de paradas, tocá el botón "Reportar" al lado de la parada donde está el bus. El reporte se comparte en tiempo real con todos los usuarios de esa ruta.</div>
+  </div>
+
+  <div class=faq-item>
+    <button class=faq-q onclick=toggleFaq(this)>¿Por qué el GPS no detecta mi parada? <span class=faq-arrow>▼</span></button>
+    <div class=faq-a>Asegurate de tener el GPS activado en tu dispositivo y de darle permiso de ubicación al navegador. En iOS, abrí desde Safari. Si la señal es débil la app igual intenta detectar la parada más cercana con menor precisión.</div>
+  </div>
+
+  <div class=faq-item>
+    <button class=faq-q onclick=toggleFaq(this)>¿Qué significa "estimado" vs "reportado"? <span class=faq-arrow>▼</span></button>
+    <div class=faq-a>"Reportado" significa que un usuario confirmó que el bus pasó por esa parada recientemente. "Estimado" es el cálculo automático de la app basado en el horario y los offsets de tiempo entre paradas. El reportado es más confiable.</div>
+  </div>
+
+  <div class=faq-item>
+    <button class=faq-q onclick=toggleFaq(this)>¿Cómo instalo BusUCR como app? <span class=faq-arrow>▼</span></button>
+    <div class=faq-a>En Android: abrí en Chrome y tocá "Añadir a pantalla de inicio" en el menú ⋮. En iPhone: abrí en Safari, tocá el botón compartir ⬆ y seleccioná "Añadir a pantalla de inicio". No necesitás descargar nada de ninguna tienda.</div>
+  </div>
+</div>
+
+<div class=faq-section>
+  <div class=faq-section-title>🛠️ Problemas y soporte</div>
+
+  <div class=faq-item>
+    <button class=faq-q onclick=toggleFaq(this)>La app no carga o se ve desactualizada <span class=faq-arrow>▼</span></button>
+    <div class=faq-a>Intentá cerrar y volver a abrir la app. Si el problema persiste, en Chrome abrí Configuración → Privacidad → Borrar datos de navegación y limpiá el caché. Esto fuerza la descarga de la versión más reciente.</div>
+  </div>
+
+  <div class=faq-item>
+    <button class=faq-q onclick=toggleFaq(this)>¿Cómo reporto un error o sugiero algo? <span class=faq-arrow>▼</span></button>
+    <div class=faq-a>Podés escribirnos por Instagram <a href="https://www.instagram.com/bus_u.c.r" target="_blank">@bus_u.c.r</a>. Toda sugerencia es bienvenida — muchas de las funciones actuales salieron de ideas de estudiantes.</div>
+  </div>
+
+  <div class=faq-item>
+    <button class=faq-q onclick=toggleFaq(this)>¿Mi ruta no está disponible, qué hago? <span class=faq-arrow>▼</span></button>
+    <div class=faq-a>Escribinos por Instagram con el nombre de tu ruta y los horarios. Si hay suficiente información para armarla, la agregamos. El proyecto crece gracias a que los mismos estudiantes comparten los datos de sus rutas.</div>
+  </div>
+</div>
+
+</div></div>
+
+<!-- ═══ CAMPUS VIEW ═══ -->
+<div class="home-view" id="view-campus">
+  <div class="container">
+
+    <!-- subtabs -->
+    <div class="campus-subtabs">
+      <button class="campus-tab active" id="ctab-horario" onclick="showCampusTab('horario')">📅 Mi Horario</button>
+      <button class="campus-tab" id="ctab-edificios" onclick="showCampusTab('edificios')">🏛️ Edificios</button>
+    </div>
+
+    <!-- ── MI HORARIO ── -->
+    <div class="campus-panel active" id="cpanel-horario">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:1rem">
+        <div>
+          <div style="font-family:var(--display);font-size:1.4rem;font-weight:800;letter-spacing:-.03em">Mi Horario</div>
+          <div style="color:var(--muted);font-size:13px;margin-top:2px">Guardado solo en este dispositivo</div>
+        </div>
+        <button class="btn-campus-add" onclick="openAddMateria()">+ Agregar materia</button>
+      </div>
+
+      <!-- Semana view -->
+      <div class="horario-week" id="horario-week"></div>
+
+      <!-- Lista de materias -->
+      <div style="margin-top:1.25rem">
+        <div class="campus-section-label">Todas las materias</div>
+        <div id="materias-list"></div>
+      </div>
+
+      <!-- Modal agregar materia -->
+      <div class="campus-modal-overlay" id="materia-modal" style="display:none" onclick="if(event.target===this)closeAddMateria()">
+        <div class="campus-modal">
+          <div class="campus-modal-title">Agregar materia</div>
+          <div class="campus-field">
+            <label>Nombre de la materia</label>
+            <input type="text" id="m-nombre" placeholder="Ej: Cálculo I">
+          </div>
+          <div class="campus-field">
+            <label>Edificio / Sigla</label>
+            <input type="text" id="m-edificio" placeholder="Ej: IF, ME, EG...">
+          </div>
+          <div class="campus-field">
+            <label>Aula</label>
+            <input type="text" id="m-aula" placeholder="Ej: 101">
+          </div>
+          <div class="campus-field">
+            <label>Grupo</label>
+            <input type="text" id="m-grupo" placeholder="Ej: 01, 02, 03...">
+          </div>
+          <div class="campus-field">
+            <label>Días</label>
+            <div class="dias-picker" id="dias-picker">
+              <button class="dia-btn" data-dia="L">L</button>
+              <button class="dia-btn" data-dia="K">K</button>
+              <button class="dia-btn" data-dia="M">M</button>
+              <button class="dia-btn" data-dia="J">J</button>
+              <button class="dia-btn" data-dia="V">V</button>
+              <button class="dia-btn" data-dia="S">S</button>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px">
+            <div class="campus-field" style="flex:1">
+              <label>Hora inicio</label>
+              <input type="time" id="m-inicio">
+            </div>
+            <div class="campus-field" style="flex:1">
+              <label>Hora fin</label>
+              <input type="time" id="m-fin">
+            </div>
+          </div>
+          <div class="campus-field">
+            <label>Color</label>
+            <div class="color-picker-row" id="color-picker"></div>
+          </div>
+          <div id="m-error" style="color:var(--accent2);font-size:12px;margin-top:4px;display:none"></div>
+          <div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end">
+            <button class="btn-campus-cancel" onclick="closeAddMateria()">Cancelar</button>
+            <button class="btn-campus-save" onclick="saveMateria()">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── EDIFICIOS ── -->
+    <div class="campus-panel" id="cpanel-edificios">
+      <div style="margin-bottom:1rem">
+        <div style="font-family:var(--display);font-size:1.4rem;font-weight:800;letter-spacing:-.03em">Guía de Edificios</div>
+        <div style="color:var(--muted);font-size:13px;margin-top:2px">Sede Rodrigo Facio — Finca 1, 2 y 3</div>
+      </div>
+
+      <!-- Buscador -->
+      <div class="edificio-search-wrap">
+        <span class="edificio-search-icon">🔍</span>
+        <input type="search" class="edificio-search" id="edificio-search" placeholder="Buscar por sigla o nombre... Ej: IF, Informática" oninput="filterEdificios()">
+      </div>
+
+      <!-- Filtro finca -->
+      <div class="finca-filter" id="finca-filter">
+        <button class="finca-filter-btn active" data-finca="all" onclick="setFincaFilter('all',this)">Todas</button>
+        <button class="finca-filter-btn" data-finca="1" onclick="setFincaFilter('1',this)">🏛️ Finca 1</button>
+        <button class="finca-filter-btn" data-finca="2" onclick="setFincaFilter('2',this)">🔬 Finca 2</button>
+        <button class="finca-filter-btn" data-finca="3" onclick="setFincaFilter('3',this)">⚽ Finca 3</button>
+      </div>
+
+      <div class="edificios-grid" id="edificios-grid"></div>
+      <div class="edificios-empty" id="edificios-empty" style="display:none">No se encontraron edificios con ese criterio.</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- POPUP TOAST CONTAINER -->
+<div id="popup-container"></div>
+
+ <div class="footer">
+  <div style="margin-bottom:6px;">
+    Proyecto no oficial de la UCR ni de las empresas de autobuses mencionadas.
+    Puede revisar los horarios oficiales 
+    <a href="https://www.ucr.ac.cr/acerca-u/campus/bus-externo.html" target="_blank" style="color:var(--blue); text-decoration:underline;">
+      aquí
+    </a>
+  </div>
+    © <span id=year></span><a onmouseout="this.style.color='var(--muted)'"
+      onmouseover="this.style.color='var(--text)'" style="color:var(--muted);text-decoration:none;transition:color .2s"
+      href=https://github.com/Desmond16170 target=_blank> Desmond </a> · <a onmouseout="this.style.color='var(--muted)'"
+      onmouseover="this.style.color='var(--text)'" style="color:var(--muted);text-decoration:none;transition:color .2s"
+      href=/creditos target=_blank> Créditos </a> · <a href="https://www.instagram.com/bus_u.c.r?igsh=c2trNDRoaG13ZGJj/"
+      onmouseout="this.style.color='var(--muted)'" onmouseover="this.style.color='var(--text)'"
+      style="color:var(--muted);text-decoration:none;transition:color .2s" target=_blank> Contacto </a> · <a
+      onmouseout="this.style.color='var(--muted)'" onmouseover="this.style.color='var(--accent)'"
+      style="color:var(--muted);text-decoration:none;transition:color .2s" href=https://ko-fi.com/Q5Q2187D5I
+      target=_blank> Donación </a></div>    
+  <script type=module>import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js"; import { getFirestore, doc, getDoc, setDoc, collection, onSnapshot, addDoc, deleteDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js"; import { getAuth, setPersistence, browserLocalPersistence, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js"; const app = initializeApp({ apiKey: `AIzaSyDxUI4bJsQ2wVPz9SS8UkfIiFPxLC9YMmY`, authDomain: `bus-externo-ucr.firebaseapp.com`, projectId: `bus-externo-ucr`, storageBucket: `bus-externo-ucr.firebasestorage.app`, messagingSenderId: `295955223912`, appId: `1:295955223912:web:e02626d38a8cb57cfd32dd` }), db = getFirestore(app), auth = getAuth(app); setPersistence(auth, browserLocalPersistence).catch(console.warn); const EGG_KEY = `adminEggUnlocked_portada`, PRICE_DOC = doc(db, `config`, `landing_prices`), DAYS_TEXT_DEFAULT = `Lunes a sábado`, ROUTES = { coronado: { label: `Coronado`, defaultFare: 630 }, tibas: { label: `Tibás`, defaultFare: 640 }, heredia: { label: `Heredia`, defaultFare: 790 }, acosta: { label: `Acosta / Aserrí`, defaultFare: 1330 }, sanramon: { label: `San Ramón`, defaultFare: 2200 }, sanRafael: { label: `San Rafael`, defaultFare: 2200 }, interlinea: { label: `Interlinea`, defaultFare: 600 }, pavas: { label: `Pavas`, defaultFare: 680 }, desamparados: { label: `Desamparados`, defaultFare: 2200 }, santaanaescazu: { label: `Santa Ana / Escazú`, defaultFare: 840 }, alajuela: { label: `Alajuela`, defaultFare: 1205 }, periferica: { label: `Periferica`, defaultFare: 320 } }; let adminEggUnlocked = sessionStorage.getItem(EGG_KEY) === `true`, logoTapCount = 0, logoTapTimer = null, currentPrices = {}, currentDaysText = DAYS_TEXT_DEFAULT; const adminFab = document.getElementById(`admin-fab`), authOverlay = document.getElementById(`admin-auth-overlay`), pricesOverlay = document.getElementById(`price-admin-overlay`), authMsg = document.getElementById(`auth-msg`), priceMsg = document.getElementById(`price-msg`), priceFields = document.getElementById(`price-fields`), availableDaysTextEl = document.getElementById(`available-days-text`), availableDaysInput = document.getElementById(`available-days-input`), passwordInput = document.getElementById(`admin-password-input`), logo = document.getElementById(`logo-easter-egg`), yearEl = document.getElementById(`year`); yearEl && (yearEl.textContent = (/* @__PURE__ */ new Date()).getFullYear()); function formatFare(value) { return `₡${Number(value || 0).toLocaleString(`es-CR`)}` } function normalizePrices(raw = {}) { let normalized = {}; return Object.entries(ROUTES).forEach(([key, route]) => { let value = Number(raw[key]); normalized[key] = Number.isFinite(value) && value >= 0 ? value : route.defaultFare }), normalized } async function loadPrices() { try { let snap = await getDoc(PRICE_DOC); if (snap.exists()) { let data = snap.data() || {}; currentPrices = normalizePrices(data), currentDaysText = typeof data.availableDaysText == `string` && data.availableDaysText.trim() ? data.availableDaysText.trim() : DAYS_TEXT_DEFAULT } else currentPrices = normalizePrices({}), currentDaysText = DAYS_TEXT_DEFAULT, await setDoc(PRICE_DOC, { ...currentPrices, availableDaysText: currentDaysText }, { merge: !0 }) } catch (e) { console.error(`Error cargando precios desde Firebase:`, e), currentPrices = normalizePrices({}), currentDaysText = DAYS_TEXT_DEFAULT } applyPrices(), applyDaysText() } function applyPrices() { document.querySelectorAll(`.fare-price[data-route]`).forEach(el => { let route = (el.dataset.route || ``).trim(), routeConfig = ROUTES[route]; if (!routeConfig) { console.warn(`Ruta no definida en ROUTES:`, route); return } el.textContent = formatFare(Number.isFinite(Number(currentPrices[route])) ? Number(currentPrices[route]) : routeConfig.defaultFare) }) } function applyDaysText() { availableDaysTextEl && (availableDaysTextEl.textContent = currentDaysText || DAYS_TEXT_DEFAULT) } function renderPriceFields() {
+      priceFields.innerHTML = Object.entries(ROUTES).map(([key, route]) => {
+        let value = Number.isFinite(Number(currentPrices[key])) ? Number(currentPrices[key]) : route.defaultFare; return `
+      <div class="field-row">
+        <div class="field">
+          <label>${route.label}</label>
+          <input type="text" value="${route.label}" disabled />
+        </div>
+        <div class="field">
+          <label>Precio</label>
+          <input type="number" min="0" step="1" data-price-route="${key}" value="${value}" />
+        </div>
+      </div>
+    `}).join(``), availableDaysInput && (availableDaysInput.value = currentDaysText || DAYS_TEXT_DEFAULT)
+    } function updateAdminFab() { adminFab && adminFab.classList.toggle(`visible`, adminEggUnlocked) } function openAuth() { authMsg.textContent = ``, passwordInput.value = ``; let emailInput = document.getElementById(`admin-email-input`); emailInput && (emailInput.value = ``), authOverlay.classList.add(`visible`), setTimeout(() => { emailInput ? emailInput.focus() : passwordInput.focus() }, 50) } function closeAuth() { authOverlay.classList.remove(`visible`) } function openPrices() { renderPriceFields(), priceMsg.textContent = ``, pricesOverlay.classList.add(`visible`) } function closePrices() { pricesOverlay.classList.remove(`visible`) } function unlockAdminEgg(showMsg = !0) { adminEggUnlocked = !0, sessionStorage.setItem(EGG_KEY, `true`), updateAdminFab(), showMsg && alert(`🔓 Acceso admin disponible`) } async function savePricesToFirebase() { let data = {}, invalid = !1; document.querySelectorAll(`[data-price-route]`).forEach(input => { let num = Number(input.value); (!Number.isFinite(num) || num < 0) && (invalid = !0), data[input.dataset.priceRoute] = num }); let nextDaysText = availableDaysInput?.value?.trim() || DAYS_TEXT_DEFAULT; if (data.availableDaysText = nextDaysText, invalid) { priceMsg.textContent = `Revisá los precios antes de guardar`; return } try { await setDoc(PRICE_DOC, data, { merge: !0 }) } catch (e) { console.error(`Error guardando precios en Firebase:`, e), priceMsg.textContent = `No se pudieron guardar los cambios en Firebase`; return } try { currentPrices = normalizePrices(data), currentDaysText = nextDaysText, applyPrices(), applyDaysText(), priceMsg.textContent = `Precios y días disponibles guardados correctamente` } catch (e) { console.error(`Se guardó en Firebase, pero falló la actualización visual:`, e), priceMsg.textContent = `Se guardó en Firebase, pero hubo un error al actualizar la página` } } async function resetPricesInFirebase() { try { currentPrices = normalizePrices({}), currentDaysText = DAYS_TEXT_DEFAULT, await setDoc(PRICE_DOC, { ...currentPrices, availableDaysText: currentDaysText }, { merge: !0 }), renderPriceFields(), applyPrices(), applyDaysText(), priceMsg.textContent = `Precios y días disponibles restablecidos en Firebase` } catch (e) { console.error(`Error restableciendo precios en Firebase:`, e), priceMsg.textContent = `No se pudieron restablecer los valores` } } document.getElementById(`open-admin-btn`)?.addEventListener(`click`, () => { auth.currentUser ? openPrices() : openAuth() }), document.querySelectorAll(`[data-close-auth]`).forEach(btn => btn.addEventListener(`click`, closeAuth)), document.querySelectorAll(`[data-close-prices]`).forEach(btn => btn.addEventListener(`click`, closePrices)), document.getElementById(`admin-auth-submit`)?.addEventListener(`click`, async () => { let emailInput = document.getElementById(`admin-email-input`), email = emailInput ? emailInput.value.trim() : ``, password = passwordInput.value; if (!email || !password) { authMsg.textContent = `Escribí correo y contraseña`; return } authMsg.textContent = `Iniciando sesión...`; try { await signInWithEmailAndPassword(auth, email, password), closeAuth(), openPrices() } catch (e) { let msg = `No se pudo iniciar sesión`; e.code === `auth/invalid-credential` || e.code === `auth/wrong-password` || e.code === `auth/user-not-found` ? msg = `Credenciales incorrectas` : e.code === `auth/invalid-email` ? msg = `Correo inválido` : e.code === `auth/too-many-requests` && (msg = `Demasiados intentos. Probá más tarde`), authMsg.textContent = msg } }), passwordInput?.addEventListener(`keydown`, e => { e.key === `Enter` && document.getElementById(`admin-auth-submit`)?.click() }), document.getElementById(`admin-email-input`)?.addEventListener(`keydown`, e => { e.key === `Enter` && passwordInput?.focus() }), document.getElementById(`save-prices-btn`)?.addEventListener(`click`, savePricesToFirebase), document.getElementById(`reset-prices-btn`)?.addEventListener(`click`, resetPricesInFirebase), logo && (logo.style.cursor = `pointer`, logo.addEventListener(`click`, () => { logoTapCount += 1, clearTimeout(logoTapTimer), logoTapTimer = setTimeout(() => { logoTapCount = 0 }, 1500), logoTapCount >= 5 && (logoTapCount = 0, unlockAdminEgg(!0)) })), onAuthStateChanged(auth, user => {
+      // If user signs out while price panel is open, close it
+      user || closePrices()
+    }), loadPrices(), updateAdminFab();
+
+    // ── NOVEDADES ────────────────────────────────────────────────────────────────
+    const TIPO_CONFIG = {
+      novedad: { icon: '', label: 'Novedad', linkText: 'Ver más' },
+      encuesta: { icon: '', label: 'Encuesta', linkText: 'Participar' },
+      donacion: { icon: '', label: 'Donación', linkText: 'Donar en Ko-fi' },
+      bus_interno: { icon: '', label: 'Interno', linkText: 'Abrir app' }
+    };
+
+    let novedades = [];
+
+    function renderNovedades() {
+      const grid = document.getElementById('nov-grid');
+      if (!grid) return;
+      const activas = novedades.filter(n => n.activo !== false);
+      if (!activas.length) {
+        grid.innerHTML = '<div class="nov-empty">📭 No hay novedades por ahora.<br><span style="font-size:12px">Volvé pronto.</span></div>';
+        return;
+      }
+      grid.innerHTML = activas.map(n => {
+        const t = TIPO_CONFIG[n.tipo] || TIPO_CONFIG.novedad;
+        const linkHtml = n.link ? `<a href="${n.link}" target="_blank" rel="noopener" class="nov-link">${t.icon} ${t.linkText}</a>` : '';
+        return `<div class="nov-card tipo-${n.tipo || 'novedad'}">
+      <div class="nov-tag">${t.icon} ${t.label}</div>
+      <div class="nov-title">${n.titulo || ''}</div>
+      <div class="nov-body">${n.contenido || ''}</div>
+      ${linkHtml}
+    </div>`;
+      }).join('');
+    }
+
+    function renderNovAdminList() {
+      const el = document.getElementById('nov-admin-list');
+      if (!el) return;
+      if (!novedades.length) { el.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:6px 0">Sin novedades publicadas</div>'; return; }
+      el.innerHTML = novedades.map(n => `
+    <div class="nov-admin-row">
+      <div class="nov-admin-body">
+        <div class="nov-admin-name">${n.titulo}</div>
+        <div class="nov-admin-meta">${TIPO_CONFIG[n.tipo]?.label || n.tipo} · ${n.activo !== false ? '✅ Activa' : '⏸ Inactiva'}</div>
+      </div>
+      <button onclick="window.toggleNovedad('${n.id}',${n.activo !== false})" style="background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer;font-family:var(--font)">
+        ${n.activo !== false ? 'Desactivar' : 'Activar'}
+      </button>
+      <button onclick="window.deleteNovedad('${n.id}')" style="background:#e6534a26;border:1px solid #e6534a33;color:var(--accent2);border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer;font-family:var(--font);margin-left:4px">
+        Eliminar
+      </button>
+    </div>`).join('');
+    }
+
+    // Suscribir novedades en tiempo real
+    try {
+      const qNov = query(collection(db, 'novedades'), orderBy('creadoEn', 'desc'));
+      onSnapshot(qNov, snap => {
+        novedades = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderNovedades();
+        renderNovAdminList();
+      });
+    } catch (e) { console.warn('Novedades:', e); }
+
+    window.publishNovedad = async function () {
+      const titulo = document.getElementById('nov-new-title')?.value.trim();
+      const contenido = document.getElementById('nov-new-body')?.value.trim();
+      const tipo = document.getElementById('nov-new-tipo')?.value || 'novedad';
+      const link = document.getElementById('nov-new-link')?.value.trim() || null;
+      const msg = document.getElementById('nov-admin-msg');
+      if (!titulo || !contenido) { if (msg) msg.textContent = 'Título y contenido son requeridos'; return; }
+      try {
+        await addDoc(collection(db, 'novedades'), { titulo, contenido, tipo, link, activo: true, creadoEn: Date.now() });
+        document.getElementById('nov-new-title').value = '';
+        document.getElementById('nov-new-body').value = '';
+        document.getElementById('nov-new-link').value = '';
+        if (msg) msg.textContent = '✅ Novedad publicada';
+        setTimeout(() => { if (msg) msg.textContent = ''; }, 3000);
+      } catch (e) { if (msg) msg.textContent = 'Error: ' + e.message; }
+    };
+
+    window.toggleNovedad = async function (id, isActive) {
+      try {
+        const { updateDoc } = await import("https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js");
+        await updateDoc(doc(db, 'novedades', id), { activo: !isActive });
+      } catch (e) { console.error(e); }
+    };
+
+    window.deleteNovedad = async function (id) {
+      if (!confirm('¿Eliminar esta novedad?')) return;
+      try { await deleteDoc(doc(db, 'novedades', id)); } catch (e) { console.error(e); }
+    };
+
+    // ── POPUPS (toasts no invasivos) ─────────────────────────────────────────────
+    const POPUP_ICONS = { info:'ℹ️', aviso:'⚠️', urgente:'🚨', buena:'✅' };
+    const shownPopups = new Set(JSON.parse(sessionStorage.getItem('shownPopups') || '[]'));
+
+    function saveShown() {
+      sessionStorage.setItem('shownPopups', JSON.stringify([...shownPopups]));
+    }
+
+    function showToast(popup) {
+      const container = document.getElementById('popup-container');
+      if (!container) return;
+
+      const icon = POPUP_ICONS[popup.tipo] || 'ℹ️';
+      const duracion = (popup.duracion || 10) * 1000;
+
+      const toast = document.createElement('div');
+      toast.className = `popup-toast tipo-${popup.tipo || 'info'}`;
+      toast.innerHTML = `
+        <div class="popup-toast-icon">${icon}</div>
+        <div class="popup-toast-body">
+          <div class="popup-toast-title">${popup.titulo || ''}</div>
+          ${popup.mensaje ? `<div class="popup-toast-msg">${popup.mensaje}</div>` : ''}
+          ${popup.link ? `<a href="${popup.link}" target="_blank" rel="noopener" class="popup-toast-link">Ver más →</a>` : ''}
+        </div>
+        <button class="popup-toast-close" aria-label="Cerrar">✕</button>
+        <div class="popup-bar" id="bar-${popup.id}"></div>
+      `;
+
+      container.appendChild(toast);
+
+      // Barra de progreso
+      const bar = toast.querySelector('.popup-bar');
+      requestAnimationFrame(() => {
+        bar.style.transition = `transform ${duracion}ms linear`;
+        bar.style.transform = 'scaleX(0)';
+      });
+
+      function dismiss() {
+        toast.classList.add('hiding');
+        setTimeout(() => toast.remove(), 260);
+      }
+
+      toast.querySelector('.popup-toast-close').addEventListener('click', dismiss);
+
+      const timer = setTimeout(dismiss, duracion);
+
+      // Pausar en hover
+      toast.addEventListener('mouseenter', () => {
+        clearTimeout(timer);
+        bar.style.transition = 'none';
+      });
+    }
+
+    // Solo suscribir una vez; mostrar los activos que no se hayan visto en esta sesión
+    let popupFirstLoad = true;
+    try {
+      const qPop = query(collection(db, 'popups'), orderBy('creadoEn', 'desc'));
+      onSnapshot(qPop, snap => {
+        const activos = snap.docs
+          .map(d => ({ id: d.id, ...d.data() }))
+          .filter(p => p.activo !== false);
+
+        if (popupFirstLoad) {
+          // Primera carga: mostrar todos los activos no vistos en esta sesión
+          popupFirstLoad = false;
+          activos.forEach((p, i) => {
+            if (!shownPopups.has(p.id)) {
+              setTimeout(() => showToast(p), i * 600);
+              shownPopups.add(p.id);
+            }
+          });
+          saveShown();
+        } else {
+          // Cambios en tiempo real: solo mostrar popups nuevos (recién activados)
+          snap.docChanges().forEach(change => {
+            if ((change.type === 'added' || change.type === 'modified')) {
+              const p = { id: change.doc.id, ...change.doc.data() };
+              if (p.activo !== false && !shownPopups.has(p.id)) {
+                showToast(p);
+                shownPopups.add(p.id);
+                saveShown();
+              }
+            }
+          });
+        }
+      });
+    } catch(e) { console.warn('Popups:', e); }
+
+    // ── NAV HOME ─────────────────────────────────────────────────────────────────
+
+    window.toggleFaq = function(btn) {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    };
+
+    window.showHomeView = function (view) {
+      document.querySelectorAll('.home-view').forEach(v => v.classList.remove('active'));
+      document.querySelectorAll('.home-tab').forEach(t => t.classList.remove('active'));
+      const el = document.getElementById('view-' + view);
+      const tab = document.getElementById('tab-' + view);
+      if (el) el.classList.add('active');
+      if (tab) tab.classList.add('active');
+      // Mostrar panel admin de novedades si está logueado
+      if (view === 'novedades') {
+        const wrap = document.getElementById('nov-admin-wrap');
+        if (wrap) wrap.style.display = adminEggUnlocked ? 'block' : 'none';
+      }
+    };
+
+  
+function openMenu(){
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+  const menuBtn = document.getElementById("menuBtn");
+  if(!sidebar || !overlay || !menuBtn) return;
+  sidebar.classList.add("open");
+  sidebar.setAttribute("aria-hidden", "false");
+  overlay.classList.add("active");
+  menuBtn.classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+function closeMenu(){
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+  const menuBtn = document.getElementById("menuBtn");
+  if(!sidebar || !overlay || !menuBtn) return;
+  sidebar.classList.remove("open");
+  sidebar.setAttribute("aria-hidden", "true");
+  overlay.classList.remove("active");
+  menuBtn.classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+function toggleMenu(){
+  const sidebar = document.getElementById("sidebar");
+  if(!sidebar) return;
+  const isOpen = sidebar.classList.contains("open");
+  if(isOpen) closeMenu();
+  else openMenu();
+}
+
+document.addEventListener("keydown", (e) => {
+  if(e.key === "Escape") closeMenu();
+});
+
+document.getElementById("menuBtn")?.addEventListener("keydown", (e) => {
+  if(e.key === "Enter" || e.key === " ") {
+    e.preventDefault();
+    toggleMenu();
+  }
+});
+
+let touchStartX = 0;
+let touchCurrentX = 0;
+let isSwiping = false;
+
+document.addEventListener("touchstart", (e) => {
+  const sidebar = document.getElementById("sidebar");
+  const isOpen = sidebar && sidebar.classList.contains("open");
+  touchStartX = e.changedTouches[0].clientX;
+  touchCurrentX = touchStartX;
+
+  if(isOpen || touchStartX > window.innerWidth - 28){
+    isSwiping = true;
+  }
+}, {passive:true});
+
+document.addEventListener("touchmove", (e) => {
+  if(!isSwiping) return;
+  touchCurrentX = e.changedTouches[0].clientX;
+}, {passive:true});
+
+document.addEventListener("touchend", () => {
+  const sidebar = document.getElementById("sidebar");
+  if(!sidebar || !isSwiping) return;
+
+  const deltaX = touchCurrentX - touchStartX;
+  const isOpen = sidebar.classList.contains("open");
+
+  if(!isOpen && touchStartX > window.innerWidth - 28 && deltaX < -35){
+    openMenu();
+  } else if(isOpen && deltaX > 35){
+    closeMenu();
+  }
+
+  isSwiping = false;
+  touchStartX = 0;
+  touchCurrentX = 0;
+}, {passive:true});
+
+
+
+// ══ CAMPUS ════════════════════════════════════════════════════════════════
+
+// --- Edificios data ---
+const EDIFICIOS = [
+  // Finca 1
+  {sigla:'AD',nombre:'Artes Dramáticas',finca:'1'},
+  {sigla:'AG',nombre:'Agroalimentarias',finca:'1'},
+  {sigla:'AM',nombre:'Artes Musicales',finca:'1'},
+  {sigla:'AP',nombre:'Artes Plásticas',finca:'1'},
+  {sigla:'AQ',nombre:'Arquitectura',finca:'1'},
+  {sigla:'AU',nombre:'Aulas',finca:'1'},
+  {sigla:'BA',nombre:'Bellas Artes',finca:'1'},
+  {sigla:'BI',nombre:'Biología',finca:'1'},
+  {sigla:'BL',nombre:'Bibliotecología',finca:'1'},
+  {sigla:'CE',nombre:'Ciencias Económicas',finca:'1'},
+  {sigla:'DE',nombre:'Derecho',finca:'1'},
+  {sigla:'EG',nombre:'Estudios Generales',finca:'1'},
+  {sigla:'ES',nombre:'Edificio Saprissa',finca:'1'},
+  {sigla:'ED',nombre:'Educación',finca:'1'},
+  {sigla:'FA',nombre:'Farmacia',finca:'1'},
+  {sigla:'FM',nombre:'Física Matemática',finca:'1'},
+  {sigla:'GE',nombre:'Geología',finca:'1'},
+  {sigla:'IF',nombre:'Informática',finca:'1'},
+  {sigla:'LE',nombre:'Letras',finca:'1'},
+  {sigla:'ME',nombre:'Medicina',finca:'1'},
+  {sigla:'MI',nombre:'Microbiología',finca:'1'},
+  {sigla:'QU',nombre:'Química',finca:'1'},
+  {sigla:'TA',nombre:'Tecnología de Alimentos',finca:'1'},
+  {sigla:'TS',nombre:'Tecnologías en Salud',finca:'1'},
+  // Finca 2
+  {sigla:'CS',nombre:'Ciencias Sociales',finca:'2'},
+  {sigla:'EE',nombre:'Enfermería',finca:'2'},
+  {sigla:'FC',nombre:'Facultad de Ciencias',finca:'2'},
+  {sigla:'IE',nombre:'Ingeniería Eléctrica',finca:'2'},
+  {sigla:'IN',nombre:'Ingeniería',finca:'2'},
+  {sigla:'NU',nombre:'Nutrición',finca:'2'},
+  {sigla:'SA',nombre:'Salud Pública',finca:'2'},
+  // Finca 3
+  {sigla:'EF',nombre:'Educación Física',finca:'3'},
+  {sigla:'OD',nombre:'Odontología',finca:'3'},
+];
+
+const MATERIA_COLORS = ['#f0a500','#58a6ff','#6ee787','#a371f7','#e86a57','#f78c6c','#5ccfe6','#bae67e'];
+const DIAS_LABEL = {L:'Lunes',K:'Martes',M:'Miércoles',J:'Jueves',V:'Viernes',S:'Sábado'};
+const DIAS_ORDER = ['L','K','M','J','V','S'];
+
+let materias = JSON.parse(localStorage.getItem('busucr_materias') || '[]');
+let activeFincaFilter = 'all';
+let editingId = null;
+
+// --- Campus tab switch ---
+window.showCampusTab = function(tab) {
+  document.querySelectorAll('.campus-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.campus-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('ctab-' + tab).classList.add('active');
+  document.getElementById('cpanel-' + tab).classList.add('active');
+  if (tab === 'edificios') renderEdificios();
+  if (tab === 'horario') renderHorario();
+};
+
+// --- Horario ---
+function saveMaterias() {
+  localStorage.setItem('busucr_materias', JSON.stringify(materias));
+}
+
+function renderHorario() {
+  renderWeek();
+  renderMateriasList();
+}
+
+function getTodayDia() {
+  const d = new Date().getDay(); // 0=dom,1=lun...6=sab
+  return ['','L','K','M','J','V','S'][d] || '';
+}
+
+function renderWeek() {
+  const week = document.getElementById('horario-week');
+  if (!week) return;
+  const hoy = getTodayDia();
+  week.innerHTML = DIAS_ORDER.map(dia => {
+    const bloques = materias.filter(m => m.dias.includes(dia));
+    return `<div class="horario-day-col">
+      <div class="horario-day-header${dia===hoy?' hoy':''}">${DIAS_LABEL[dia].substring(0,3)}</div>
+      ${bloques.length ? bloques.map(m => `
+        <div class="horario-block" style="background:${m.color}22;border-left:3px solid ${m.color}" onclick="deleteMateria('${m.id}')">
+          <div class="hb-nombre" style="color:${m.color}">${m.nombre}</div>
+          <div class="hb-hora">${m.inicio}–${m.fin}</div>
+          ${m.edificio ? `<div class="hb-hora">${m.edificio}${m.aula?' '+m.aula:''}</div>` : ''}
+        </div>`).join('') : `<div class="horario-empty">—</div>`}
+    </div>`;
+  }).join('');
+}
+
+function renderMateriasList() {
+  const el = document.getElementById('materias-list');
+  if (!el) return;
+  if (!materias.length) {
+    el.innerHTML = '<div class="materias-empty">📚 No hay materias aún.<br><span style="font-size:12px">Tocá "+ Agregar materia" para empezar.</span></div>';
+    return;
+  }
+  el.innerHTML = materias.map(m => `
+    <div class="materia-card">
+      <div class="materia-color-bar" style="background:${m.color}"></div>
+      <div class="materia-info">
+        <div class="materia-nombre">${m.nombre}</div>
+        <div class="materia-meta">
+          ${m.edificio ? `<span>🏛️ ${m.edificio}${m.aula?' · Aula '+m.aula:''}</span>` : ''}
+          ${m.grupo ? `<span>👥 Grupo ${m.grupo}</span>` : ''}
+          <span>🕐 ${m.inicio} – ${m.fin}</span>
+        </div>
+        <div class="materia-dias">
+          ${m.dias.map(d => `<span class="materia-dia-pill" style="background:${m.color}22;color:${m.color}">${DIAS_LABEL[d].substring(0,3)}</span>`).join('')}
+        </div>
+      </div>
+      <div class="materia-actions">
+        <button class="btn-materia-del" onclick="deleteMateria('${m.id}')">Eliminar</button>
+      </div>
+    </div>`).join('');
+}
+
+window.openAddMateria = function() {
+  // Reset form
+  document.getElementById('m-nombre').value = '';
+  document.getElementById('m-edificio').value = '';
+  document.getElementById('m-aula').value = '';
+  document.getElementById('m-grupo').value = '';
+  document.getElementById('m-inicio').value = '';
+  document.getElementById('m-fin').value = '';
+  document.getElementById('m-error').style.display = 'none';
+
+  // Dias picker
+  document.querySelectorAll('.dia-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.dia-btn').forEach(b => {
+    b.onclick = () => b.classList.toggle('selected');
+  });
+
+  // Color picker
+  const cp = document.getElementById('color-picker');
+  cp.innerHTML = MATERIA_COLORS.map((c,i) =>
+    `<div class="color-opt${i===0?' selected':''}" style="background:${c}" data-color="${c}" onclick="selectColor(this)"></div>`
+  ).join('');
+
+  document.getElementById('materia-modal').style.display = 'flex';
+};
+
+window.selectColor = function(el) {
+  document.querySelectorAll('.color-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+};
+
+window.closeAddMateria = function() {
+  document.getElementById('materia-modal').style.display = 'none';
+};
+
+window.saveMateria = function() {
+  const nombre = document.getElementById('m-nombre').value.trim();
+  const edificio = document.getElementById('m-edificio').value.trim().toUpperCase();
+  const aula = document.getElementById('m-aula').value.trim();
+  const grupo = document.getElementById('m-grupo').value.trim();
+  const inicio = document.getElementById('m-inicio').value;
+  const fin = document.getElementById('m-fin').value;
+  const dias = [...document.querySelectorAll('.dia-btn.selected')].map(b => b.dataset.dia);
+  const color = document.querySelector('.color-opt.selected')?.dataset.color || MATERIA_COLORS[0];
+  const errEl = document.getElementById('m-error');
+
+  if (!nombre) { errEl.textContent = 'Escribí el nombre de la materia'; errEl.style.display='block'; return; }
+  if (!dias.length) { errEl.textContent = 'Seleccioná al menos un día'; errEl.style.display='block'; return; }
+  if (!inicio || !fin) { errEl.textContent = 'Poné la hora de inicio y fin'; errEl.style.display='block'; return; }
+
+  materias.push({ id: Date.now().toString(), nombre, edificio, aula, grupo, dias, inicio, fin, color });
+  saveMaterias();
+  closeAddMateria();
+  renderHorario();
+};
+
+window.deleteMateria = function(id) {
+  if (!confirm('¿Eliminar esta materia?')) return;
+  materias = materias.filter(m => m.id !== id);
+  saveMaterias();
+  renderHorario();
+};
+
+// --- Edificios ---
+window.setFincaFilter = function(finca, btn) {
+  activeFincaFilter = finca;
+  document.querySelectorAll('.finca-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterEdificios();
+};
+
+window.filterEdificios = function() {
+  const q = (document.getElementById('edificio-search')?.value || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  const grid = document.getElementById('edificios-grid');
+  const empty = document.getElementById('edificios-empty');
+  const filtered = EDIFICIOS.filter(e => {
+    const matchFinca = activeFincaFilter === 'all' || e.finca === activeFincaFilter;
+    const matchQ = !q || e.sigla.toLowerCase().includes(q) || e.nombre.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').includes(q);
+    return matchFinca && matchQ;
+  });
+  if (!filtered.length) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  const fincaLabel = {1:'🏛️ Finca 1',2:'🔬 Finca 2',3:'⚽ Finca 3'};
+  grid.innerHTML = filtered.map(e => `
+    <div class="edificio-card f${e.finca}">
+      <div class="edificio-sigla">${e.sigla}</div>
+      <div class="edificio-nombre">${e.nombre}</div>
+      <div class="edificio-finca">${fincaLabel[e.finca]}</div>
+    </div>`).join('');
+};
+
+function renderEdificios() { filterEdificios(); }
+
+// Init horario when campus view loads
+const origShowHomeView = window.showHomeView;
+window.showHomeView = function(view) {
+  origShowHomeView(view);
+  if (view === 'campus') {
+    renderHorario();
+    renderEdificios();
+  }
+};
+
+
+</script>
+  <script>const a0_0x3d833e = a0_0x512a; (function (_0x4fd5d5, _0x287243) { const _0x536d82 = a0_0x512a, _0x984dfc = _0x4fd5d5(); while (!![]) { try { const _0x21a47f = parseInt(_0x536d82(0x1a4)) / 0x1 + parseInt(_0x536d82(0x1b5)) / 0x2 + -parseInt(_0x536d82(0x19c)) / 0x3 * (-parseInt(_0x536d82(0x1be)) / 0x4) + -parseInt(_0x536d82(0x1c7)) / 0x5 + -parseInt(_0x536d82(0x1bf)) / 0x6 + parseInt(_0x536d82(0x1a5)) / 0x7 + -parseInt(_0x536d82(0x1a8)) / 0x8; if (_0x21a47f === _0x287243) break; else _0x984dfc['push'](_0x984dfc['shift']()); } catch (_0x173fbc) { _0x984dfc['push'](_0x984dfc['shift']()); } } }(a0_0xb528, 0xc1c9c)); let _activeFinca = null; function toggleFinca(_0x53dea1) { const _0x32e741 = a0_0x512a; let _0xe53681 = document[_0x32e741(0x18f)]('finca-panel-' + _0x53dea1), _0x1f889f = document['querySelectorAll']('.finca-btn'), _0x541bf4 = document[_0x32e741(0x1ba)](_0x32e741(0x192)); _activeFinca === _0x53dea1 ? (_0xe53681[_0x32e741(0x1b1)][_0x32e741(0x1ab)](_0x32e741(0x1b7)), _0x1f889f[_0x53dea1 - 0x1][_0x32e741(0x1b1)]['remove']('active'), _activeFinca = null) : (_0x541bf4[_0x32e741(0x1a7)](_0x34eef4 => _0x34eef4[_0x32e741(0x1b1)][_0x32e741(0x1ab)](_0x32e741(0x1b7))), _0x1f889f[_0x32e741(0x1a7)](_0x424f6d => _0x424f6d['classList']['remove'](_0x32e741(0x1aa))), _0xe53681['classList'][_0x32e741(0x1b2)](_0x32e741(0x1b7)), _0x1f889f[_0x53dea1 - 0x1][_0x32e741(0x1b1)][_0x32e741(0x1b2)](_0x32e741(0x1aa)), _activeFinca = _0x53dea1); } function a0_0x512a(_0x518d90, _0x3d108d) { _0x518d90 = _0x518d90 - 0x187; const _0xb5281b = a0_0xb528(); let _0x512ac5 = _0xb5281b[_0x518d90]; if (a0_0x512a['olcujt'] === undefined) { var _0x9ac679 = function (_0x57d337) { const _0x34b547 = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/='; let _0x53dea1 = '', _0xe53681 = ''; for (let _0x1f889f = 0x0, _0x541bf4, _0x34eef4, _0x424f6d = 0x0; _0x34eef4 = _0x57d337['charAt'](_0x424f6d++); ~_0x34eef4 && (_0x541bf4 = _0x1f889f % 0x4 ? _0x541bf4 * 0x40 + _0x34eef4 : _0x34eef4, _0x1f889f++ % 0x4) ? _0x53dea1 += String['fromCharCode'](0xff & _0x541bf4 >> (-0x2 * _0x1f889f & 0x6)) : 0x0) { _0x34eef4 = _0x34b547['indexOf'](_0x34eef4); } for (let _0x561230 = 0x0, _0x193220 = _0x53dea1['length']; _0x561230 < _0x193220; _0x561230++) { _0xe53681 += '%' + ('00' + _0x53dea1['charCodeAt'](_0x561230)['toString'](0x10))['slice'](-0x2); } return decodeURIComponent(_0xe53681); }; a0_0x512a['fEmrbn'] = _0x9ac679, a0_0x512a['rzySOa'] = {}, a0_0x512a['olcujt'] = !![]; } const _0x22bc9c = _0xb5281b[0x0], _0x51cfb2 = _0x518d90 + _0x22bc9c, _0x436a11 = a0_0x512a['rzySOa'][_0x51cfb2]; return !_0x436a11 ? (_0x512ac5 = a0_0x512a['fEmrbn'](_0x512ac5), a0_0x512a['rzySOa'][_0x51cfb2] = _0x512ac5) : _0x512ac5 = _0x436a11, _0x512ac5; } (function () { const _0x1b2779 = a0_0x512a; let _0x561230 = 'busucr_favorites', _0x193220 = document['getElementById']('routes-grid'), _0x55be96 = document[_0x1b2779(0x18f)](_0x1b2779(0x189)), _0xfbcf84 = document[_0x1b2779(0x18f)](_0x1b2779(0x1c1)), _0x2a915a = document[_0x1b2779(0x18f)](_0x1b2779(0x19a)), _0x3fc6fe = document[_0x1b2779(0x18f)](_0x1b2779(0x198)), _0x3cf399 = document['getElementById'](_0x1b2779(0x18c)), _0x75747a = document[_0x1b2779(0x18f)](_0x1b2779(0x187)); function _0x57546b() { const _0x5e3288 = _0x1b2779; try { return new Set(JSON[_0x5e3288(0x1c6)](localStorage[_0x5e3288(0x18a)](_0x561230) || '[]')); } catch { return new Set(); } } function _0x3e13c6(_0x34a5a4) { const _0x634c37 = _0x1b2779; localStorage[_0x634c37(0x1bd)](_0x561230, JSON[_0x634c37(0x1a3)]([..._0x34a5a4])); } let _0x4dacfe = _0x57546b(), _0x2ecce3 = !0x1; function _0x11cf04() { const _0x180f10 = _0x1b2779; document[_0x180f10(0x1ba)](_0x180f10(0x1ad))[_0x180f10(0x1a7)](_0x3e9b42 => { const _0x4059aa = _0x180f10; let _0x103120 = _0x3e9b42[_0x4059aa(0x1b8)][_0x4059aa(0x19b)], _0x2aee1e = _0x3e9b42['querySelector'](_0x4059aa(0x196)), _0x14036e = _0x4dacfe[_0x4059aa(0x1b3)](_0x103120); _0x3e9b42['classList'][_0x4059aa(0x1ae)](_0x4059aa(0x19f), _0x14036e), _0x2aee1e && _0x2aee1e[_0x4059aa(0x1b1)][_0x4059aa(0x1ae)](_0x4059aa(0x19f), _0x14036e); }); } document[_0x1b2779(0x1ba)](_0x1b2779(0x196))[_0x1b2779(0x1a7)](_0x139626 => { const _0x13a78b = _0x1b2779; _0x139626['addEventListener'](_0x13a78b(0x199), _0x1acc76 => { const _0x37bf62 = _0x13a78b; _0x1acc76['preventDefault'](), _0x1acc76['stopPropagation'](); let _0x5a9a70 = _0x139626[_0x37bf62(0x1b8)]['favKey']; _0x4dacfe[_0x37bf62(0x1b3)](_0x5a9a70) ? _0x4dacfe['delete'](_0x5a9a70) : _0x4dacfe[_0x37bf62(0x1b2)](_0x5a9a70), _0x3e13c6(_0x4dacfe), _0x11cf04(), _0x310474(); }); }), _0x2a915a[_0x1b2779(0x18d)](_0x1b2779(0x199), () => { const _0x1ca50a = _0x1b2779; _0x2ecce3 = !_0x2ecce3, _0x2a915a[_0x1ca50a(0x1b1)][_0x1ca50a(0x1ae)](_0x1ca50a(0x1aa), _0x2ecce3), _0x310474(); }), _0x55be96['addEventListener'](_0x1b2779(0x1b0), _0x310474), _0xfbcf84['addEventListener'](_0x1b2779(0x18b), _0x310474); function _0x310474() { const _0x133a77 = _0x1b2779; let _0x47fc31 = _0x55be96[_0x133a77(0x194)][_0x133a77(0x1c4)]()[_0x133a77(0x1ac)]()[_0x133a77(0x19d)]('NFD')[_0x133a77(0x1af)](/[\u0300-\u036f]/g, ''), _0xa10765 = _0xfbcf84[_0x133a77(0x194)], _0x50b470 = [...document[_0x133a77(0x1ba)](_0x133a77(0x1ad))], _0x37bd7e = _0x50b470[_0x133a77(0x197)](_0x15ddfc => { const _0x49c473 = _0x133a77; let _0x5dc256 = (_0x15ddfc[_0x49c473(0x1b8)]['name'] || '')['toLowerCase']()[_0x49c473(0x19d)](_0x49c473(0x1c0))[_0x49c473(0x1af)](/[\u0300-\u036f]/g, ''), _0x190c78 = !_0x47fc31 || _0x5dc256[_0x49c473(0x190)](_0x47fc31), _0x1a1979 = !_0x2ecce3 || _0x4dacfe[_0x49c473(0x1b3)](_0x15ddfc[_0x49c473(0x1b8)][_0x49c473(0x19b)]); return _0x190c78 && _0x1a1979; }), _0x126983 = { 'az': (_0x3544f0, _0x5e94d0) => _0x3544f0[_0x133a77(0x1b8)]['name'][_0x133a77(0x188)](_0x5e94d0[_0x133a77(0x1b8)][_0x133a77(0x1c8)], 'es'), 'za': (_0xd727d0, _0x185826) => _0x185826[_0x133a77(0x1b8)]['name'][_0x133a77(0x188)](_0xd727d0[_0x133a77(0x1b8)]['name'], 'es'), 'fare-asc': (_0x23f768, _0xa87e92) => Number(_0x23f768['dataset']['fare']) - Number(_0xa87e92[_0x133a77(0x1b8)]['fare']), 'fare-desc': (_0x28826f, _0x3066fa) => Number(_0x3066fa[_0x133a77(0x1b8)][_0x133a77(0x1bc)]) - Number(_0x28826f[_0x133a77(0x1b8)][_0x133a77(0x1bc)]), 'time-asc': (_0x3fba4d, _0x55f093) => Number(_0x3fba4d[_0x133a77(0x1b8)][_0x133a77(0x18e)]) - Number(_0x55f093['dataset']['time']), 'time-desc': (_0x7c54ed, _0x1b4604) => Number(_0x1b4604[_0x133a77(0x1b8)][_0x133a77(0x18e)]) - Number(_0x7c54ed[_0x133a77(0x1b8)][_0x133a77(0x18e)]) }; _0x126983[_0xa10765] && _0x37bd7e[_0x133a77(0x1a2)](_0x126983[_0xa10765]); let _0x13c8d3 = _0xa10765 === 'default' && !_0x2ecce3 && !_0x47fc31, _0x3d9618 = _0x13c8d3 ? _0x37bd7e[_0x133a77(0x197)](_0x4b66b6 => _0x4dacfe[_0x133a77(0x1b3)](_0x4b66b6[_0x133a77(0x1b8)][_0x133a77(0x19b)])) : [], _0x373f9d = _0x13c8d3 ? _0x37bd7e[_0x133a77(0x197)](_0x41978c => !_0x4dacfe[_0x133a77(0x1b3)](_0x41978c[_0x133a77(0x1b8)][_0x133a77(0x19b)])) : _0x37bd7e; _0x50b470[_0x133a77(0x1a7)](_0x4e42c6 => { const _0x53c42a = _0x133a77; _0x4e42c6[_0x53c42a(0x19e)][_0x53c42a(0x195)] = _0x53c42a(0x1a0), _0x4e42c6[_0x53c42a(0x19e)][_0x53c42a(0x1b6)] = ''; }); let _0x51e3a5 = _0x3d9618[_0x133a77(0x193)] > 0x0, _0x1bda5f = _0x373f9d[_0x133a77(0x193)] > 0x0; _0x3fc6fe[_0x133a77(0x1b1)][_0x133a77(0x1ae)](_0x133a77(0x1b7), _0x13c8d3 && _0x51e3a5), _0x3cf399['classList'][_0x133a77(0x1ae)](_0x133a77(0x1b7), _0x13c8d3 && _0x51e3a5 && _0x1bda5f), _0x3fc6fe['style'][_0x133a77(0x1b6)] = '0', _0x3cf399[_0x133a77(0x19e)]['order'] = String(_0x3d9618[_0x133a77(0x193)] + 0x1); let _0x5325f5 = 0x1; _0x3d9618[_0x133a77(0x1a7)](_0x4cf2da => { const _0x14580f = _0x133a77; _0x4cf2da[_0x14580f(0x19e)][_0x14580f(0x195)] = '', _0x4cf2da[_0x14580f(0x19e)][_0x14580f(0x1b6)] = String(_0x5325f5++); }), _0x5325f5 = _0x3d9618[_0x133a77(0x193)] + 0x2, _0x373f9d[_0x133a77(0x1a7)](_0xaaa9f0 => { const _0x9007b4 = _0x133a77; _0xaaa9f0[_0x9007b4(0x19e)]['display'] = '', _0xaaa9f0[_0x9007b4(0x19e)][_0x9007b4(0x1b6)] = String(_0x5325f5++); }); let _0x44067e = _0x37bd7e['length'] > 0x0; _0x75747a['classList'][_0x133a77(0x1ae)]('visible', !_0x44067e); } _0x11cf04(), _0x310474(); }()), a0_0x3d833e(0x1c2) in navigator && window[a0_0x3d833e(0x18d)](a0_0x3d833e(0x1c9), () => { const _0x55b59c = a0_0x3d833e; navigator[_0x55b59c(0x1c2)][_0x55b59c(0x1a6)](_0x55b59c(0x1b4))['catch'](_0x38e50b => console[_0x55b59c(0x1c3)]('No\x20se\x20pudo\x20registrar\x20el\x20service\x20worker:', _0x38e50b)); }); let deferredPrompt = null; const installBanner = document[a0_0x3d833e(0x18f)](a0_0x3d833e(0x1b9)); window['addEventListener'](a0_0x3d833e(0x1bb), _0x3eccf5 => { const _0x35b888 = a0_0x3d833e; _0x3eccf5[_0x35b888(0x1a9)](), deferredPrompt = _0x3eccf5, installBanner && installBanner[_0x35b888(0x1b1)]['add'](_0x35b888(0x1b7)); }), installBanner?.[a0_0x3d833e(0x18d)]('click', async () => { const _0x4c603b = a0_0x3d833e; if (deferredPrompt) { deferredPrompt[_0x4c603b(0x191)](); try { await deferredPrompt['userChoice']; } catch (_0x153fb1) { console[_0x4c603b(0x1c3)](_0x4c603b(0x1c5), _0x153fb1); } deferredPrompt = null, installBanner[_0x4c603b(0x1b1)]['remove'](_0x4c603b(0x1b7)); } }), window[a0_0x3d833e(0x18d)](a0_0x3d833e(0x1a1), () => { const _0x30867a = a0_0x3d833e; deferredPrompt = null, installBanner?.[_0x30867a(0x1b1)]['remove'](_0x30867a(0x1b7)); }); function a0_0xb528() { const _0xc514ed = ['Dg9mB3DLCKnHC2u', 'lMnHCMrBzgf0ys1YB3v0zs1RzxLD', 'Dg9Nz2XL', 'CMvWBgfJzq', 'Aw5WDxq', 'y2XHC3nmAxn0', 'ywrK', 'AgfZ', 'l3n3lMPZ', 'mtiXmZKZmKXTzKHwBq', 'B3jKzxi', 'DMLZAwjSzq', 'zgf0yxnLDa', 'Aw5ZDgfSBejHBM5LCG', 'CxvLCNLtzwXLy3rVCKfSBa', 'yMvMB3jLAw5ZDgfSBhbYB21WDa', 'zMfYzq', 'C2v0sxrLBq', 'mti0twzIrKjj', 'mtK2otu0ofPkEvryDa', 'tKze', 'CM91DguTC29YDa', 'C2vYDMLJzvDVCMTLCG', 'D2fYBG', 'DhjPBq', 'sw5ZDgfSywnPW7nUignHBMnLBgfKysbVig5VigrPC3bVBMLIBgu6', 'CgfYC2u', 'mtmYndm4nwnYt2fiwq', 'BMfTzq', 'Bg9Hza', 'CM91DgvZlwvTChr5', 'Bg9JywXLq29TCgfYzq', 'CM91DguTC2vHCMnO', 'z2v0sxrLBq', 'y2HHBMDL', 'B3rOzxiTzgL2AwrLCG', 'ywrKrxzLBNrmAxn0zw5LCG', 'DgLTzq', 'z2v0rwXLBwvUDej5swq', 'Aw5JBhvKzxm', 'ChjVBxb0', 'lMzPBMnHlxbHBMvS', 'BgvUz3rO', 'DMfSDwu', 'zgLZCgXHEq', 'lMzHDI1IDg4', 'zMLSDgvY', 'zMf2lwrPDMLKzxi', 'y2XPy2S', 'zMf2lwzPBhrLCI1IDg4', 'CM91DgvlzxK', 'ntiYnZv0AMzcwfy', 'BM9YBwfSAxPL', 'C3r5Bgu', 'AxmTzMf2', 'BM9Uzq', 'yxbWAw5ZDgfSBgvK', 'C29YDa', 'C3rYAw5NAwz5', 'mti2mJmZmMnlzMv3sG', 'ode5nZKXC1rWtxLk', 'CMvNAxn0zxi', 'zM9YrwfJAa', 'oteXnZu2mgnSCuT4tW', 'ChjLDMvUDerLzMf1Bhq', 'ywn0AxzL', 'CMvTB3zL']; a0_0xb528 = function () { return _0xc514ed; }; return a0_0xb528(); }
+function openMenu(){
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+  const menuBtn = document.getElementById("menuBtn");
+  if(!sidebar || !overlay || !menuBtn) return;
+  sidebar.classList.add("open");
+  sidebar.setAttribute("aria-hidden", "false");
+  overlay.classList.add("active");
+  menuBtn.classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+function closeMenu(){
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+  const menuBtn = document.getElementById("menuBtn");
+  if(!sidebar || !overlay || !menuBtn) return;
+  sidebar.classList.remove("open");
+  sidebar.setAttribute("aria-hidden", "true");
+  overlay.classList.remove("active");
+  menuBtn.classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+function toggleMenu(){
+  const sidebar = document.getElementById("sidebar");
+  if(!sidebar) return;
+  const isOpen = sidebar.classList.contains("open");
+  if(isOpen) closeMenu();
+  else openMenu();
+}
+
+document.addEventListener("keydown", (e) => {
+  if(e.key === "Escape") closeMenu();
+});
+
+document.getElementById("menuBtn")?.addEventListener("keydown", (e) => {
+  if(e.key === "Enter" || e.key === " ") {
+    e.preventDefault();
+    toggleMenu();
+  }
+});
+
+let touchStartX = 0;
+let touchCurrentX = 0;
+let isSwiping = false;
+
+document.addEventListener("touchstart", (e) => {
+  const sidebar = document.getElementById("sidebar");
+  const isOpen = sidebar && sidebar.classList.contains("open");
+  touchStartX = e.changedTouches[0].clientX;
+  touchCurrentX = touchStartX;
+
+  if(isOpen || touchStartX > window.innerWidth - 28){
+    isSwiping = true;
+  }
+}, {passive:true});
+
+document.addEventListener("touchmove", (e) => {
+  if(!isSwiping) return;
+  touchCurrentX = e.changedTouches[0].clientX;
+}, {passive:true});
+
+document.addEventListener("touchend", () => {
+  const sidebar = document.getElementById("sidebar");
+  if(!sidebar || !isSwiping) return;
+
+  const deltaX = touchCurrentX - touchStartX;
+  const isOpen = sidebar.classList.contains("open");
+
+  if(!isOpen && touchStartX > window.innerWidth - 28 && deltaX < -35){
+    openMenu();
+  } else if(isOpen && deltaX > 35){
+    closeMenu();
+  }
+
+  isSwiping = false;
+  touchStartX = 0;
+  touchCurrentX = 0;
+}, {passive:true});
+
+(function(){
+  const PEAKS=[
+    {start:6*60,end:8*60+30,label:"Ma\u00f1ana (6:00\u20138:30)"},
+    {start:11*60+30,end:13*60+30,label:"Mediod\u00eda (11:30\u201313:30)"},
+    {start:16*60,end:18*60+30,label:"Tarde (16:00\u201318:30)"}
+  ];
+  function pad(n){return String(n).padStart(2,"0")}
+  function tick(){
+    const now=new Date(),h=now.getHours(),m=now.getMinutes(),day=now.getDay();
+    const isWeekend=day===0||day===6;
+    const mins=h*60+m;
+    const clockEl=document.getElementById("stat-clock");
+    const dotEl=document.getElementById("stat-dot");
+    const statusEl=document.getElementById("stat-status-text");
+    const peakEl=document.getElementById("stat-peak");
+    const peakSubEl=document.getElementById("stat-peak-sub");
+    const routesSubEl=document.getElementById("stat-routes-sub");
+    if(!clockEl)return;
+    clockEl.textContent=pad(h)+":"+pad(m);
+    let statusType="quiet";
+    if(isWeekend)statusType="weekend";
+    else if(h<5||h>=21)statusType="closed";
+    else for(const p of PEAKS){if(mins>=p.start&&mins<p.end){statusType="peak";break;}}
+    const dotColors={peak:"#f0a500",quiet:"#6ee787",closed:"#4a5568",weekend:"#a371f7"};
+    const statusLabels={peak:"Hora pico UCR",quiet:"Servicio en curso",closed:"Sin servicio regular",weekend:"Fin de semana"};
+    const routesLabels={peak:"\u2191 Alta demanda ahora",quiet:"Frecuencia normal activa",closed:"Sin buses en este horario",weekend:"Sin servicio hoy"};
+    dotEl.style.background=dotColors[statusType];
+    dotEl.style.animation=statusType==="peak"?"blink-stat 1.4s infinite":"none";
+    statusEl.textContent=statusLabels[statusType];
+    routesSubEl.textContent=routesLabels[statusType];
+    if(isWeekend){peakEl.textContent="Lunes";peakSubEl.textContent="Servicio retoma el lunes";return;}
+    if(statusType==="closed"&&h>=21){peakEl.textContent="Ma\u00f1ana";peakSubEl.textContent="Pico ma\u00f1ana (6:00 a.m.)";return;}
+    let found=false;
+    for(const p of PEAKS){
+      if(mins>=p.start&&mins<p.end){
+        const diff=p.end-mins,hh=Math.floor(diff/60),mm=diff%60;
+        peakEl.textContent=hh>0?hh+"h "+pad(mm)+"m":mm+" min";
+        peakSubEl.textContent="Termina el pico actual";
+        found=true;break;
+      }
+      if(mins<p.start){
+        const diff=p.start-mins,hh=Math.floor(diff/60),mm=diff%60;
+        peakEl.textContent=hh>0?hh+"h "+pad(mm)+"m":mm+" min";
+        peakSubEl.textContent="Para "+p.label;
+        found=true;break;
+      }
+    }
+    if(!found){peakEl.textContent="Ma\u00f1ana";peakSubEl.textContent="Pico ma\u00f1ana (6:00 a.m.)";}
+  }
+  const style=document.createElement("style");
+  style.textContent="@keyframes blink-stat{0%,100%{opacity:1}50%{opacity:.25}}";
+  document.head.appendChild(style);
+  tick();
+  setInterval(tick,1000);
+})();
+</script>

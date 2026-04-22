@@ -1,0 +1,80 @@
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+# Rutas limpias (sin .html en la URL)
+[[redirects]]
+  from = "/coronado"
+  to = "/coronado.html"
+  status = 200
+
+[[redirects]]
+  from = "/tibas"
+  to = "/tibas.html"
+  status = 200
+
+[[redirects]]
+  from = "/heredia"
+  to = "/heredia.html"
+  status = 200
+
+[[redirects]]
+  from = "/acosta"
+  to = "/acosta.html"
+  status = 200
+
+[[redirects]]
+  from = "/san_ramon"
+  to = "/san_ramon.html"
+  status = 200
+
+[[redirects]]
+  from = "/santa_ana_escazu"
+  to = "/santa_ana_escazu.html"
+  status = 200
+
+[[redirects]]
+  from = "/alajuela"
+  to = "/alajuela.html"
+  status = 200
+
+[[redirects]]
+  from = "/san_rafael"
+  to = "/san_rafael.html"
+  status = 200
+
+[[redirects]]
+  from = "/desamparados"
+  to = "/desamparados.html"
+  status = 200
+
+[[redirects]]
+  from = "/periferica"
+  to = "/periferica.html"
+  status = 200
+
+[[redirects]]
+  from = "/pavas"
+  to = "/pavas.html"
+  status = 200
+
+[[redirects]]
+  from = "/creditos"
+  to = "/creditos.html"
+  status = 200
+
+[[redirects]]
+  from = "/182930adminherrera"
+  to = "/admin.html"
+  status = 200
+
+[[redirects]]
+  from = "/emprendimientos"
+  to = "/emprendimientos.html"
+  status = 200
+
+[[redirects]]
+  from = "/interlinea"
+  to = "/interlinea.html"
+  status = 200

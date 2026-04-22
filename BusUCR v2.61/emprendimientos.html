@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="es">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Emprendimientos · BusUCR</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link href="/icons/icon-192.png" rel="icon" sizes="192x192" type="image/png">
+<link href="/manifest.json" rel="manifest">
+<meta content="#060b16" name="theme-color">
+<!-- Leaflet para el mapa -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#060b16;--bg2:#091120;--surface:#0f1726;--surface-soft:#131d2d;--surface2:#182234;
+  --border:#ffffff14;--border2:#ffffff24;--text:#eef4ff;--muted:#91a0ba;
+  --accent:#f0a500;--accent2:#e86a57;--blue:#58a6ff;--green:#6ee787;--purple:#a371f7;
+  --gold-soft:#f0a5001f;--font:"Space Grotesk",sans-serif;--display:"Syne",sans-serif;
+  --shadow:0 18px 34px #00000038
+}
+body{color:var(--text);font-family:var(--font);background:radial-gradient(circle at 0 0,#58a6ff17,#0000 30%),radial-gradient(circle at top,#a371f714,#0000 24%),linear-gradient(#08111f 0%,#040913 100%);min-height:100vh;line-height:1.5}
+
+/* ── HEADER ── */
+.header{backdrop-filter:blur(10px);z-index:100;background:#050a13e6;border-bottom:1px solid #ffffff0f;padding:.9rem 1.25rem;position:sticky;top:0}
+.header-inner{justify-content:space-between;align-items:center;gap:12px;max-width:1180px;margin:0 auto;display:flex}
+.logo{font-family:var(--display);letter-spacing:-.03em;align-items:center;gap:8px;font-size:1.18rem;font-weight:800;display:flex;text-decoration:none;color:var(--text)}
+.logo-dot{color:var(--accent)}
+.back-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:9px;font-size:13px;font-weight:700;background:#ffffff0a;border:1px solid var(--border2);color:var(--muted);text-decoration:none;transition:all .15s}
+.back-btn:hover{background:#ffffff14;color:var(--text)}
+
+/* ── CONTAINER ── */
+.container{max-width:1180px;margin:0 auto;padding:1.5rem 1.25rem 3rem}
+
+/* ── PAGE HERO ── */
+.page-hero{border:1px solid var(--border);background:linear-gradient(#ffffff05,#ffffff02);border-radius:22px;margin-bottom:1.5rem;padding:1.5rem 1.4rem 1.3rem;position:relative;overflow:hidden}
+.page-hero:before{content:"";background:linear-gradient(90deg,var(--green),var(--blue),var(--purple));height:3px;position:absolute;inset:0 0 auto}
+.page-hero-eyebrow{text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-size:10px;font-weight:700;margin-bottom:8px}
+.page-hero h1{font-family:var(--display);letter-spacing:-.05em;font-size:clamp(2rem,4vw,3.2rem);line-height:1;margin-bottom:10px}
+.page-hero p{color:#a4b0c4;font-size:14px;max-width:640px}
+
+/* ── SECTION TITLE ── */
+.section-title{text-transform:uppercase;letter-spacing:.16em;color:var(--muted);margin:1.5rem 0 .8rem;font-size:10px;font-weight:700}
+
+/* ── TABS ── */
+.emp-tabs{display:flex;gap:4px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:4px;margin-bottom:1.2rem}
+.emp-tab{flex:1;background:0 0;border:none;color:var(--muted);font-family:var(--font);font-size:13px;font-weight:600;padding:8px 10px;border-radius:8px;cursor:pointer;transition:all .15s;text-align:center}
+.emp-tab:hover{color:var(--text);background:#ffffff0d}
+.emp-tab.active{color:var(--accent);background:var(--gold-soft)}
+.emp-panel{display:none}.emp-panel.active{display:block}
+
+/* ── EMP GRID ── */
+.emp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:.5rem}
+.emp-card{border:1px solid var(--border);box-shadow:var(--shadow);background:linear-gradient(#ffffff05,#ffffff02);border-radius:18px;padding:1.2rem;transition:transform .18s,border-color .18s,box-shadow .18s;position:relative;overflow:hidden}
+.emp-card:before{content:"";height:3px;position:absolute;inset:0 0 auto}
+.emp-card.slot-gratuito:before{background:linear-gradient(90deg,var(--green),var(--blue))}
+.emp-card.slot-destacado:before{background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.emp-card.slot-basico:before{background:linear-gradient(90deg,var(--blue),var(--purple))}
+.emp-card:hover{border-color:#58a6ff38;transform:translateY(-2px);box-shadow:0 18px 36px #00000042}
+.emp-logo-wrap{width:56px;height:56px;border-radius:14px;background:var(--surface2);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;margin-bottom:12px;overflow:hidden;flex-shrink:0}
+.emp-logo-wrap img{width:100%;height:100%;object-fit:cover}
+.emp-logo-wrap .emp-emoji-fallback{font-size:1.8rem;line-height:1}
+.emp-slot-badge{display:inline-flex;align-items:center;gap:4px;border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.emp-slot-badge.slot-gratuito{background:#6ee7871f;color:var(--green);border:1px solid #6ee78733}
+.emp-slot-badge.slot-destacado{background:#f0a5001f;color:var(--accent);border:1px solid #f0a50033}
+.emp-slot-badge.slot-basico{background:#58a6ff1f;color:var(--blue);border:1px solid #58a6ff33}
+.emp-name{font-family:var(--display);font-size:1.15rem;font-weight:800;letter-spacing:-.03em;margin-bottom:6px;color:var(--text)}
+.emp-desc{color:var(--muted);font-size:13px;line-height:1.5;margin-bottom:14px}
+.emp-contact-btn{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none;transition:all .15s;cursor:pointer;border:none;font-family:var(--font)}
+.emp-contact-btn.tipo-whatsapp{background:#25d3661f;color:#25d366;border:1px solid #25d36633}
+.emp-contact-btn.tipo-instagram{background:#e1306c1f;color:#e1306c;border:1px solid #e1306c33}
+.emp-contact-btn.tipo-facebook{background:#1877f21f;color:#1877f2;border:1px solid #1877f233}
+.emp-contact-btn.tipo-web{background:var(--gold-soft);color:var(--accent);border:1px solid #f0a50033}
+.emp-contact-btn:hover{transform:translateY(-1px);filter:brightness(1.1)}
+.emp-empty{text-align:center;color:var(--muted);padding:3rem 1rem;font-size:14px;grid-column:1/-1}
+
+/* ── EMP BANNER ── */
+.emp-banner{margin-top:2rem;border:1px solid var(--border2);border-radius:16px;padding:1.2rem;background:linear-gradient(#ffffff06,#ffffff03);display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.emp-banner-icon{font-size:2rem;flex-shrink:0}
+.emp-banner-text{flex:1}
+.emp-banner-title{font-size:14px;font-weight:700;margin-bottom:3px}
+.emp-banner-sub{font-size:12px;color:var(--muted)}
+
+/* ── FERIAS MAP ── */
+.ferias-layout{display:grid;grid-template-columns:1fr 340px;gap:16px;align-items:start}
+@media(max-width:860px){.ferias-layout{grid-template-columns:1fr}}
+
+.map-wrap{border:1px solid var(--border);border-radius:18px;overflow:hidden;position:relative;height:480px;background:var(--surface)}
+#ferias-map{width:100%;height:100%}
+
+/* Leaflet dark override */
+.leaflet-tile{filter:brightness(.6) saturate(.8) hue-rotate(185deg)}
+.leaflet-container{background:#060b16 !important}
+.leaflet-control-zoom a{background:var(--surface) !important;color:var(--text) !important;border-color:var(--border2) !important}
+.leaflet-control-zoom a:hover{background:var(--surface2) !important}
+.leaflet-popup-content-wrapper{background:var(--surface);border:1px solid var(--border2);border-radius:14px;box-shadow:0 8px 28px #00000066;color:var(--text);font-family:var(--font)}
+.leaflet-popup-tip{background:var(--surface)}
+.leaflet-popup-content{margin:14px 16px;font-size:13px;line-height:1.5}
+.popup-feria-title{font-family:var(--display);font-size:1rem;font-weight:800;letter-spacing:-.02em;margin-bottom:4px;color:var(--text)}
+.popup-feria-date{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--accent);background:var(--gold-soft);border-radius:6px;padding:3px 8px;margin-bottom:6px;border:1px solid #f0a50033}
+.popup-feria-desc{color:var(--muted);font-size:12px;line-height:1.4;margin-bottom:8px}
+.popup-feria-maps{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;background:#58a6ff1f;color:var(--blue);border:1px solid #58a6ff33;transition:all .15s}
+.popup-feria-maps:hover{background:#58a6ff33}
+
+/* Ferias list sidebar */
+.ferias-list{display:flex;flex-direction:column;gap:10px}
+.feria-item{border:1px solid var(--border);border-radius:14px;padding:14px;background:linear-gradient(#ffffff05,#ffffff02);cursor:pointer;transition:all .15s;position:relative;overflow:hidden}
+.feria-item:before{content:"";height:3px;position:absolute;inset:0 0 auto;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.feria-item:hover,.feria-item.highlighted{border-color:#f0a50038;background:#f0a5000a;transform:translateY(-1px)}
+.feria-item-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:5px}
+.feria-item-name{font-family:var(--display);font-size:.95rem;font-weight:800;letter-spacing:-.02em;color:var(--text);line-height:1.2}
+.feria-item-date{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:var(--accent);background:var(--gold-soft);border-radius:5px;padding:2px 7px;border:1px solid #f0a50033;white-space:nowrap;flex-shrink:0}
+.feria-item-loc{color:var(--muted);font-size:12px;display:flex;align-items:center;gap:5px;margin-top:3px}
+.feria-item-status{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;border-radius:5px;padding:2px 7px;margin-top:6px}
+.feria-item-status.proxima{background:#6ee7871f;color:var(--green);border:1px solid #6ee78733}
+.feria-item-status.hoy{background:#f0a5001f;color:var(--accent);border:1px solid #f0a50033;animation:1.4s infinite blink-stat}
+.feria-item-status.pasada{background:#ffffff0a;color:var(--muted);border:1px solid var(--border2)}
+@keyframes blink-stat{0%,100%{opacity:1}50%{opacity:.35}}
+
+.ferias-empty{text-align:center;color:var(--muted);padding:2rem 1rem;font-size:13px;border:1px dashed var(--border);border-radius:14px}
+.map-loading{display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);font-size:13px;gap:8px}
+
+/* ── FOOTER ── */
+.footer{border-top:1px solid var(--border);color:var(--muted);text-align:center;margin-top:2rem;padding-top:1rem;font-size:12px}
+
+@media(max-width:520px){
+  .emp-grid{grid-template-columns:1fr}
+  .container{padding:1rem .9rem 2.5rem}
+}
+
+/* Custom Leaflet marker */
+.feria-marker-icon{width:36px;height:36px;border-radius:50% 50% 50% 0;background:var(--accent);border:3px solid #fff;transform:rotate(-45deg);box-shadow:0 2px 8px #00000055;display:flex;align-items:center;justify-content:center}
+.feria-marker-inner{transform:rotate(45deg);font-size:15px;line-height:1}
+</style>
+
+<div class="header">
+  <div class="header-inner">
+    <a class="logo" href="/">🚌 <span>Bus<span class="logo-dot">UCR</span></span></a>
+    <a class="back-btn" href="/">← Volver</a>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Hero -->
+  <div class="page-hero">
+    <div class="page-hero-eyebrow">BusUCR · Comunidad</div>
+    <h1>🛍️ Emprendimientos</h1>
+    <p>Emprendimientos de la comunidad UCR y ferias de emprendedores. Apoyá a tus compañeros.</p>
+  </div>
+
+  <!-- Tabs -->
+  <div class="emp-tabs">
+    <button class="emp-tab active" id="tab-emprendimientos" onclick="showTab('emprendimientos')">🚀 Emprendimientos</button>
+    <button class="emp-tab" id="tab-ferias" onclick="showTab('ferias')">📍 Ferias en el Mapa</button>
+  </div>
+
+  <!-- ═══ PANEL: EMPRENDIMIENTOS ═══ -->
+  <div class="emp-panel active" id="panel-emprendimientos">
+    <div class="emp-grid" id="emp-grid">
+      <div class="emp-empty">⏳ Cargando emprendimientos...</div>
+    </div>
+    <div class="emp-banner">
+      <div class="emp-banner-icon">🚀</div>
+      <div class="emp-banner-text">
+        <div class="emp-banner-title">¿Tenés un emprendimiento?</div>
+        <div class="emp-banner-sub">Escribinos por Instagram <a href="https://www.instagram.com/bus_u.c.r" target="_blank" style="color:var(--blue);text-decoration:none">@bus_u.c.r</a> para aparecer acá.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PANEL: FERIAS ═══ -->
+  <div class="emp-panel" id="panel-ferias">
+    <p style="color:var(--muted);font-size:14px;margin-bottom:1rem">Marcamos en el mapa dónde y cuándo habrá ferias de emprendedores. Tocá un marcador para ver los detalles.</p>
+
+    <div class="ferias-layout">
+      <!-- Mapa -->
+      <div class="map-wrap">
+        <div id="ferias-map"></div>
+      </div>
+
+      <!-- Lista lateral -->
+      <div>
+        <div class="section-title">Próximas ferias</div>
+        <div class="ferias-list" id="ferias-list">
+          <div class="ferias-empty">⏳ Cargando ferias...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Proyecto no oficial de la UCR. © <span id="year"></span>
+  <a href="https://github.com/Desmond16170" target="_blank" style="color:var(--muted);text-decoration:none;margin:0 6px">Desmond</a> ·
+  <a href="https://www.instagram.com/bus_u.c.r" target="_blank" style="color:var(--muted);text-decoration:none">Contacto</a>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import {
+  getFirestore, doc, collection, onSnapshot, addDoc, deleteDoc,
+  query, orderBy, getDocs
+} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+import {
+  getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+
+const app = initializeApp({
+  apiKey: `AIzaSyDxUI4bJsQ2wVPz9SS8UkfIiFPxLC9YMmY`,
+  authDomain: `bus-externo-ucr.firebaseapp.com`,
+  projectId: `bus-externo-ucr`,
+  storageBucket: `bus-externo-ucr.firebasestorage.app`,
+  messagingSenderId: `295955223912`,
+  appId: `1:295955223912:web:e02626d38a8cb57cfd32dd`
+});
+const db = getFirestore(app);
+const auth = getAuth(app);
+setPersistence(auth, browserLocalPersistence).catch(console.warn);
+
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// ── TABS ──────────────────────────────────────────────────────────────────────
+window.showTab = function(tab) {
+  document.querySelectorAll('.emp-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.emp-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + tab).classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+  if (tab === 'ferias') {
+    setTimeout(() => { if (map) map.invalidateSize(); }, 100);
+  }
+};
+
+// ── EMPRENDIMIENTOS ───────────────────────────────────────────────────────────
+const CONTACT_ICONS = {
+  whatsapp: '💬', instagram: '📸', facebook: '👤', web: '🌐'
+};
+const SLOT_LABELS = {
+  gratuito: '✦ Gratuito', destacado: '⭐ Destacado', basico: '· Básico'
+};
+
+function renderEmprendimientos(emps) {
+  const grid = document.getElementById('emp-grid');
+  if (!grid) return;
+  const activos = emps.filter(e => e.activo !== false);
+  if (!activos.length) {
+    grid.innerHTML = '<div class="emp-empty">📭 No hay emprendimientos por ahora.</div>';
+    return;
+  }
+  grid.innerHTML = activos.map(e => {
+    const slot = e.slot || 'gratuito';
+    const contactHtml = e.contacto_tipo && e.contacto_valor
+      ? `<a href="${buildContactHref(e.contacto_tipo, e.contacto_valor)}" target="_blank" rel="noopener"
+            class="emp-contact-btn tipo-${e.contacto_tipo}">
+            ${CONTACT_ICONS[e.contacto_tipo] || '🔗'} ${e.contacto_tipo.charAt(0).toUpperCase() + e.contacto_tipo.slice(1)}
+         </a>` : '';
+    const logoHtml = e.logo_url
+      ? `<img src="${e.logo_url}" alt="${e.nombre}" loading="lazy">`
+      : `<span class="emp-emoji-fallback">${e.emoji || '🏪'}</span>`;
+    return `<div class="emp-card slot-${slot}">
+      <div class="emp-logo-wrap">${logoHtml}</div>
+      <div class="emp-slot-badge slot-${slot}">${SLOT_LABELS[slot] || slot}</div>
+      <div class="emp-name">${e.nombre || ''}</div>
+      <div class="emp-desc">${e.descripcion || ''}</div>
+      ${contactHtml}
+    </div>`;
+  }).join('');
+}
+
+function buildContactHref(tipo, valor) {
+  if (tipo === 'whatsapp') return `https://wa.me/${valor.replace(/\D/g,'')}`;
+  if (tipo === 'instagram') return `https://instagram.com/${valor.replace('@','')}`;
+  if (tipo === 'facebook') return valor.startsWith('http') ? valor : `https://facebook.com/${valor}`;
+  return valor.startsWith('http') ? valor : `https://${valor}`;
+}
+
+try {
+  const qEmp = query(collection(db, 'emprendimientos'), orderBy('creadoEn', 'desc'));
+  onSnapshot(qEmp, snap => {
+    const emps = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderEmprendimientos(emps);
+  });
+} catch(e) {
+  document.getElementById('emp-grid').innerHTML = '<div class="emp-empty">No se pudieron cargar los emprendimientos.</div>';
+}
+
+// ── MAPA FERIAS ───────────────────────────────────────────────────────────────
+let map = null;
+let markers = {};
+let ferias = [];
+let mapPickMode = false;
+let tempMarker = null;
+
+function initMap() {
+  if (map) return;
+  // Centrar en UCR San Pedro, Costa Rica
+  map = L.map('ferias-map', { zoomControl: true, attributionControl: false }).setView([9.9358, -84.0500], 15);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19
+  }).addTo(map);
+
+  L.control.attribution({ prefix: '© OSM' }).addTo(map);
+
+  // Click en mapa para seleccionar ubicación
+  map.on('click', function(e) {
+    if (!mapPickMode) return;
+    const { lat, lng } = e.latlng;
+    document.getElementById('feria-lat').value = lat.toFixed(6);
+    document.getElementById('feria-lng').value = lng.toFixed(6);
+    if (tempMarker) map.removeLayer(tempMarker);
+    tempMarker = L.circleMarker([lat, lng], {
+      radius: 10, color: '#f0a500', fillColor: '#f0a500', fillOpacity: .6, weight: 2
+    }).addTo(map).bindPopup('📍 Ubicación seleccionada').openPopup();
+    const msg = document.getElementById('feria-admin-msg');
+    if (msg) msg.textContent = `✅ Ubicación: ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+  });
+}
+
+function feriaStatus(fechaStr) {
+  if (!fechaStr) return 'proxima';
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  const fDate = new Date(fechaStr + 'T00:00:00');
+  const diff = fDate - hoy;
+  if (diff < 0) return 'pasada';
+  if (diff === 0) return 'hoy';
+  return 'proxima';
+}
+
+function formatFecha(fechaStr) {
+  if (!fechaStr) return '';
+  const [y, m, d] = fechaStr.split('-');
+  const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  return `${d} ${meses[parseInt(m)-1]} ${y}`;
+}
+
+function createFeriaIcon() {
+  return L.divIcon({
+    className: '',
+    html: `<div style="width:34px;height:34px;border-radius:50% 50% 50% 0;background:#f0a500;border:3px solid #fff;transform:rotate(-45deg);box-shadow:0 2px 10px #00000066;display:flex;align-items:center;justify-content:center">
+      <span style="transform:rotate(45deg);font-size:14px;line-height:1">🛍️</span>
+    </div>`,
+    iconSize: [34, 34],
+    iconAnchor: [17, 34],
+    popupAnchor: [0, -36]
+  });
+}
+
+function renderFerias(feriasList) {
+  ferias = feriasList;
+
+  // ── Mapa: limpiar y repoblar marcadores ──
+  Object.values(markers).forEach(m => map && map.removeLayer(m));
+  markers = {};
+
+  feriasList.forEach(f => {
+    if (!f.lat || !f.lng) return;
+    const status = feriaStatus(f.fecha);
+    const marker = L.marker([f.lat, f.lng], { icon: createFeriaIcon() });
+    const horaStr = f.hora_inicio ? ` · ${f.hora_inicio}${f.hora_fin ? '–'+f.hora_fin : ''}` : '';
+    const mapsUrl = `https://www.google.com/maps?q=${f.lat},${f.lng}`;
+    marker.bindPopup(`
+      <div class="popup-feria-title">${f.nombre || 'Feria'}</div>
+      <div class="popup-feria-date">📅 ${formatFecha(f.fecha)}${horaStr}</div>
+      ${f.lugar ? `<div style="color:var(--muted);font-size:12px;margin-bottom:6px">📍 ${f.lugar}</div>` : ''}
+      ${f.descripcion ? `<div class="popup-feria-desc">${f.descripcion}</div>` : ''}
+      <a href="${mapsUrl}" target="_blank" rel="noopener" class="popup-feria-maps">
+        🗺️ Ver en Google Maps
+      </a>
+    `);
+    markers[f.id] = marker;
+    if (map) marker.addTo(map);
+  });
+
+  // ── Lista lateral ──
+  const listEl = document.getElementById('ferias-list');
+  const sorted = [...feriasList].sort((a, b) => {
+    const order = { hoy: 0, proxima: 1, pasada: 2 };
+    return (order[feriaStatus(a.fecha)] || 1) - (order[feriaStatus(b.fecha)] || 1);
+  });
+
+  if (!sorted.length) {
+    listEl.innerHTML = '<div class="ferias-empty">📭 No hay ferias registradas todavía.</div>';
+    return;
+  }
+
+  listEl.innerHTML = sorted.map(f => {
+    const status = feriaStatus(f.fecha);
+    const statusLabel = { hoy: '🟡 Hoy', proxima: '🟢 Próxima', pasada: '⬜ Pasada' }[status];
+    const horaStr = f.hora_inicio ? ` ${f.hora_inicio}${f.hora_fin ? '–'+f.hora_fin : ''}` : '';
+    return `<div class="feria-item" id="fi-${f.id}" onclick="focusFeria('${f.id}')">
+      <div class="feria-item-head">
+        <div class="feria-item-name">${f.nombre || 'Feria'}</div>
+        <div class="feria-item-date">📅 ${formatFecha(f.fecha)}${horaStr}</div>
+      </div>
+      ${f.lugar ? `<div class="feria-item-loc">📍 ${f.lugar}</div>` : ''}
+      <div class="feria-item-status ${status}">${statusLabel}</div>
+    </div>`;
+  }).join('');
+
+  // ── Admin list ──
+  renderFeriasAdminList(ferias);
+}
+
+function renderFeriasAdminList(feriasList) {
+  const el = document.getElementById('ferias-admin-list');
+  if (!el) return;
+  if (!feriasList.length) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:13px">Sin ferias registradas</div>';
+    return;
+  }
+  el.innerHTML = feriasList.map(f => `
+    <div class="admin-feria-row">
+      <div class="admin-feria-info">
+        <div class="admin-feria-name">${f.nombre || '—'}</div>
+        <div class="admin-feria-meta">${formatFecha(f.fecha)} · ${f.lugar || 'Sin lugar'} · ${feriaStatus(f.fecha)}</div>
+      </div>
+      <button class="btn-del" onclick="window.deleteFeria('${f.id}')">Eliminar</button>
+    </div>`).join('');
+}
+
+window.focusFeria = function(id) {
+  document.querySelectorAll('.feria-item').forEach(el => el.classList.remove('highlighted'));
+  const el = document.getElementById('fi-' + id);
+  if (el) el.classList.add('highlighted');
+  const m = markers[id];
+  if (m && map) {
+    map.setView(m.getLatLng(), 17, { animate: true });
+    m.openPopup();
+  }
+};
+
+window.toggleMapPick = function() {
+  mapPickMode = !mapPickMode;
+  const btn = document.getElementById('btn-map-pick');
+  const info = document.getElementById('map-pick-info');
+  if (mapPickMode) {
+    btn.style.background = '#f0a5001f';
+    btn.style.color = 'var(--accent)';
+    btn.style.borderColor = '#f0a50033';
+    btn.textContent = '✋ Cancelar selección';
+    if (info) info.style.display = 'block';
+    map.getContainer().style.cursor = 'crosshair';
+  } else {
+    btn.style.background = '#58a6ff1f';
+    btn.style.color = 'var(--blue)';
+    btn.style.borderColor = '#58a6ff33';
+    btn.textContent = '📍 Seleccionar en mapa';
+    if (info) info.style.display = 'none';
+    map.getContainer().style.cursor = '';
+  }
+};
+
+window.saveFeria = async function() {
+  const nombre = document.getElementById('feria-nombre')?.value.trim();
+  const fecha = document.getElementById('feria-fecha')?.value;
+  const horaInicio = document.getElementById('feria-hora-inicio')?.value;
+  const horaFin = document.getElementById('feria-hora-fin')?.value;
+  const desc = document.getElementById('feria-desc')?.value.trim() || null;
+  const lat = parseFloat(document.getElementById('feria-lat')?.value);
+  const lng = parseFloat(document.getElementById('feria-lng')?.value);
+  const lugar = document.getElementById('feria-lugar')?.value.trim() || null;
+  const msg = document.getElementById('feria-admin-msg');
+
+  if (!nombre || !fecha) { if (msg) msg.textContent = '⚠️ Nombre y fecha son obligatorios'; return; }
+  if (isNaN(lat) || isNaN(lng)) { if (msg) msg.textContent = '⚠️ Seleccioná una ubicación en el mapa o escribí latitud/longitud'; return; }
+
+  try {
+    await addDoc(collection(db, 'ferias_emprendedores'), {
+      nombre, fecha, hora_inicio: horaInicio || null, hora_fin: horaFin || null,
+      descripcion: desc, lat, lng, lugar, activo: true, creadoEn: Date.now()
+    });
+    // Reset
+    ['feria-nombre','feria-fecha','feria-desc','feria-lat','feria-lng','feria-lugar'].forEach(id => {
+      const el = document.getElementById(id); if (el) el.value = '';
+    });
+    if (tempMarker) { map.removeLayer(tempMarker); tempMarker = null; }
+    if (msg) { msg.textContent = '✅ Feria guardada'; setTimeout(() => { msg.textContent = ''; }, 3000); }
+  } catch(e) {
+    if (msg) msg.textContent = 'Error: ' + e.message;
+  }
+};
+
+window.deleteFeria = async function(id) {
+  if (!confirm('¿Eliminar esta feria?')) return;
+  try { await deleteDoc(doc(db, 'ferias_emprendedores', id)); } catch(e) { console.error(e); }
+};
+
+// Suscribir ferias en tiempo real
+try {
+  const qFerias = query(collection(db, 'ferias_emprendedores'), orderBy('creadoEn', 'desc'));
+  onSnapshot(qFerias, snap => {
+    const data = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderFerias(data);
+  });
+} catch(e) {
+  document.getElementById('ferias-list').innerHTML = '<div class="ferias-empty">No se pudieron cargar las ferias.</div>';
+}
+
+// Inicializar mapa cuando el panel de ferias es visible por primera vez
+const feriaTab = document.getElementById('tab-ferias');
+feriaTab.addEventListener('click', () => {
+  if (!map) {
+    setTimeout(() => {
+      initMap();
+      ferias.forEach(f => {
+        if (!f.lat || !f.lng) return;
+        const m = markers[f.id];
+        if (m) m.addTo(map);
+      });
+    }, 50);
+  }
+});
+
+
+
+</script>
+</html>

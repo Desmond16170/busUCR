@@ -1,0 +1,1252 @@
+<!doctype html>
+<html lang="es">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Admin · BusUCR</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#060b16;--bg2:#091120;--surface:#0f1726;--surface2:#182234;
+  --border:#ffffff14;--border2:#ffffff24;--text:#eef4ff;--muted:#91a0ba;
+  --accent:#f0a500;--accent2:#e86a57;--blue:#58a6ff;--green:#6ee787;
+  --purple:#a371f7;--red:#e86a57;
+  --font:"Space Grotesk",sans-serif;--display:"Syne",sans-serif;
+  --shadow:0 18px 34px #00000038
+}
+body{color:var(--text);font-family:var(--font);background:radial-gradient(circle at 0 0,#58a6ff17,#0000 30%),radial-gradient(circle at top,#a371f714,#0000 24%),linear-gradient(#08111f 0%,#040913 100%);min-height:100vh;line-height:1.5}
+
+/* HEADER */
+.header{backdrop-filter:blur(10px);z-index:100;background:#050a13e6;border-bottom:1px solid #ffffff0f;padding:.9rem 1.25rem;position:sticky;top:0}
+.header-inner{justify-content:space-between;align-items:center;max-width:1100px;margin:0 auto;display:flex;gap:12px}
+.logo{font-family:var(--display);letter-spacing:-.03em;align-items:center;gap:8px;font-size:1.18rem;font-weight:800;display:flex;text-decoration:none;color:var(--text)}
+.logo-dot{color:var(--accent)}
+.admin-badge-header{background:#f0a5001f;color:var(--accent);border:1px solid #f0a50033;border-radius:6px;padding:3px 9px;font-size:11px;font-weight:700}
+.header-right{display:flex;align-items:center;gap:10px}
+.user-info{color:var(--muted);font-size:12px}
+.btn-logout{background:#e86a571a;color:var(--accent2);border:1px solid #e86a5733;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font);transition:all .15s}
+.btn-logout:hover{background:#e86a5730}
+
+/* LOCK SCREEN */
+.lock-screen{min-height:100vh;display:flex;justify-content:center;align-items:center;padding:2rem}
+.lock-box{background:var(--surface);border:1px solid var(--border2);border-radius:24px;padding:2.5rem 2rem;width:min(420px,100%);position:relative;overflow:hidden}
+.lock-box:before{content:"";background:linear-gradient(90deg,var(--accent),var(--accent2));height:3px;position:absolute;inset:0 0 auto}
+.lock-icon{font-size:2.8rem;margin-bottom:1rem}
+.lock-title{font-family:var(--display);font-size:1.8rem;font-weight:800;letter-spacing:-.03em;margin-bottom:.4rem}
+.lock-sub{color:var(--muted);font-size:13px;margin-bottom:1.5rem}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.field label{text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-size:10px;font-weight:700}
+.field input{background:var(--bg);color:var(--text);border:1px solid var(--border2);font-size:14px;font-family:var(--font);border-radius:10px;outline:none;padding:10px 12px;transition:border-color .15s;width:100%}
+.field input:focus{border-color:var(--accent)}
+.btn-login{background:var(--accent);color:#000;border:none;border-radius:10px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);width:100%;margin-top:4px;transition:opacity .15s}
+.btn-login:hover{opacity:.85}
+.auth-msg{font-size:12px;margin-top:10px;padding:8px 12px;border-radius:8px;display:none}
+.auth-msg.error{background:#e86a571a;color:var(--accent2);border:1px solid #e86a5733;display:block}
+.auth-msg.info{background:#58a6ff1a;color:var(--blue);border:1px solid #58a6ff33;display:block}
+
+/* MAIN LAYOUT */
+.admin-wrap{max-width:1100px;margin:0 auto;padding:1.5rem 1.25rem 4rem;display:none}
+.admin-wrap.visible{display:block}
+
+/* SIDEBAR NAV */
+.admin-layout{display:grid;grid-template-columns:220px 1fr;gap:20px;align-items:start}
+.sidebar{position:sticky;top:80px}
+.sidebar-nav{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.sidebar-section{color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-size:9px;font-weight:700;padding:12px 14px 6px}
+.nav-item{display:flex;align-items:center;gap:9px;padding:9px 14px;cursor:pointer;font-size:13px;font-weight:500;color:var(--muted);transition:all .15s;border:none;background:0 0;width:100%;font-family:var(--font);text-align:left}
+.nav-item:hover{color:var(--text);background:#ffffff08}
+.nav-item.active{color:var(--accent);background:#f0a5001a}
+.nav-item .nav-icon{font-size:15px;width:20px;text-align:center}
+.sidebar-divider{height:1px;background:var(--border);margin:4px 0}
+
+/* PANELS */
+.panel{display:none}
+.panel.active{display:block}
+.panel-title{font-family:var(--display);font-size:1.5rem;font-weight:800;letter-spacing:-.03em;margin-bottom:.3rem}
+.panel-sub{color:var(--muted);font-size:13px;margin-bottom:1.5rem}
+
+/* SECTIONS */
+.section{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.2rem;margin-bottom:14px;position:relative;overflow:hidden}
+.section:before{content:"";height:3px;position:absolute;inset:0 0 auto}
+.section.s-accent:before{background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.section.s-blue:before{background:linear-gradient(90deg,var(--blue),var(--purple))}
+.section.s-green:before{background:linear-gradient(90deg,var(--green),var(--blue))}
+.section.s-purple:before{background:linear-gradient(90deg,var(--purple),var(--accent2))}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:1rem}
+.section-label{font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px}
+.badge{background:#58a6ff1f;color:var(--blue);border-radius:5px;padding:2px 7px;font-size:10px;font-weight:700}
+.badge.green{background:#6ee7871f;color:var(--green)}
+.badge.accent{background:#f0a5001f;color:var(--accent)}
+.badge.purple{background:#a371f71f;color:var(--purple)}
+
+/* FORM ELEMENTS */
+.form-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px}
+.form-group{display:flex;flex-direction:column;gap:4px;flex:1;min-width:140px}
+.form-group label{text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-size:10px;font-weight:700}
+.form-group input,.form-group select,.form-group textarea{background:var(--bg);color:var(--text);border:1px solid var(--border2);font-size:13px;font-family:var(--font);border-radius:8px;outline:none;padding:8px 10px;transition:border-color .15s;width:100%}
+.form-group textarea{resize:vertical;min-height:72px}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent)}
+.form-group select option{background:var(--surface2)}
+
+.btn-primary{background:var(--accent);color:#000;border:none;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);transition:opacity .15s;white-space:nowrap}
+.btn-primary:hover{opacity:.85}
+.btn-primary.blue{background:var(--blue);color:#000}
+.btn-primary.green{background:var(--green);color:#000}
+.btn-danger{background:#e86a5720;color:var(--accent2);border:1px solid #e86a5733;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all .15s}
+.btn-danger:hover{background:#e86a5738}
+.btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border2);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all .15s}
+.btn-secondary:hover{border-color:var(--border2);background:#ffffff0d}
+
+/* ALERT */
+.alert{border-radius:8px;padding:8px 13px;font-size:12px;margin-top:10px;display:none}
+.alert.visible{display:block}
+.alert.success{background:#6ee7871a;color:var(--green);border:1px solid #6ee78733}
+.alert.error{background:#e86a571a;color:var(--accent2);border:1px solid #e86a5733}
+.alert.info{background:#58a6ff1a;color:var(--blue);border:1px solid #58a6ff33}
+
+/* ROWS */
+.list-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.list-row:last-child{border-bottom:none}
+.list-row-main{flex:1;min-width:0}
+.list-row-title{font-size:13px;font-weight:600}
+.list-row-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.list-actions{display:flex;gap:6px;flex-shrink:0}
+
+/* PRICE GRID */
+.price-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.price-item{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+.price-item label{text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-size:10px;font-weight:700;display:block;margin-bottom:5px}
+.price-item input{background:var(--bg);color:var(--accent);border:1px solid var(--border2);font-size:1.1rem;font-family:var(--display);border-radius:7px;outline:none;padding:7px 10px;width:100%;font-weight:800;transition:border-color .15s}
+.price-item input:focus{border-color:var(--accent)}
+
+/* COLOR EDITOR */
+.color-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.color-item{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:10px}
+.color-item label{text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-size:10px;font-weight:700;flex:1}
+.color-item input[type=color]{width:36px;height:36px;border:2px solid var(--border2);border-radius:8px;cursor:pointer;background:0 0;padding:2px}
+
+/* NOV TAGS */
+.nov-tag-pill{display:inline-block;border-radius:5px;padding:2px 8px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.nov-tag-pill.novedad{background:#58a6ff1f;color:var(--blue)}
+.nov-tag-pill.encuesta{background:#6ee7871f;color:var(--green)}
+.nov-tag-pill.donacion{background:#f0a5001f;color:var(--accent)}
+.nov-tag-pill.bus_interno{background:#a371f71f;color:var(--purple)}
+
+/* STATUS DOT */
+.status-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.status-dot.active{background:var(--green)}
+.status-dot.inactive{background:var(--muted)}
+
+/* TOGGLE */
+.toggle{position:relative;width:36px;height:20px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0;position:absolute}
+.toggle-slider{position:absolute;inset:0;border-radius:999px;background:var(--surface2);border:1px solid var(--border2);cursor:pointer;transition:.2s}
+.toggle-slider:before{content:"";position:absolute;width:14px;height:14px;border-radius:50%;background:var(--muted);top:2px;left:2px;transition:.2s}
+.toggle input:checked+.toggle-slider{background:#6ee7871a;border-color:var(--green)}
+.toggle input:checked+.toggle-slider:before{transform:translateX(16px);background:var(--green)}
+
+/* RESPONSIVE */
+@media(max-width:760px){
+  .admin-layout{grid-template-columns:1fr}
+  .sidebar{position:static}
+  .sidebar-nav{display:flex;overflow-x:auto;border-radius:10px;gap:0}
+  .sidebar-section{display:none}
+  .sidebar-divider{display:none}
+  .nav-item{white-space:nowrap;flex-shrink:0;border-radius:0}
+  .price-grid{grid-template-columns:1fr 1fr}
+  .color-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:420px){
+  .price-grid{grid-template-columns:1fr}
+  .color-grid{grid-template-columns:1fr}
+}
+
+@media (min-width:521px){
+  .header {
+    position: sticky;
+    top: 0;
+  }
+  .nav-tabs {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+</style>
+
+<div class="header" id="main-header" style="display:none">
+  <div class="header-inner">
+    <a href="/" class="logo">🚌 <span>BusUCR <span class="logo-dot">·</span> Admin</span></a>
+    <div class="header-right">
+      <span class="admin-badge-header">⚙️ Panel Admin</span>
+      <span class="user-info" id="user-email-label"></span>
+      <button class="btn-logout" id="btn-logout">Cerrar sesión</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOCK SCREEN -->
+<div class="lock-screen" id="lock-screen">
+  <div class="lock-box">
+    <div class="lock-icon">🔐</div>
+    <div class="lock-title">Panel de Admin</div>
+    <div class="lock-sub">Acceso exclusivo para administradores de BusUCR</div>
+    <div class="field">
+      <label>Correo</label>
+      <input type="email" id="login-email" placeholder="correo@ejemplo.com">
+    </div>
+    <div class="field">
+      <label>Contraseña</label>
+      <input type="password" id="login-pass" placeholder="••••••••">
+    </div>
+    <button class="btn-login" id="btn-login">Entrar</button>
+    <div class="auth-msg" id="auth-msg"></div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin-wrap" id="admin-wrap">
+  <div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-nav">
+        <div class="sidebar-section">Contenido</div>
+        <button class="nav-item active" data-panel="novedades"><span class="nav-icon">📢</span> Novedades</button>
+        <button class="nav-item" data-panel="popups"><span class="nav-icon">💬</span> Popups</button>
+        <button class="nav-item" data-panel="precios"><span class="nav-icon">💰</span> Precios rutas</button>
+        <button class="nav-item" data-panel="emprendimientos"><span class="nav-icon">🏪</span> Emprendimientos</button>
+        <button class="nav-item" data-panel="ferias"><span class="nav-icon">📍</span> Ferias</button>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-section">Apariencia</div>
+        <button class="nav-item" data-panel="colores"><span class="nav-icon">🎨</span> Colores del sitio</button>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-section">Sistema</div>
+        <button class="nav-item" data-panel="acceso"><span class="nav-icon">🔒</span> Acceso</button>
+      </div>
+    </aside>
+
+    <!-- PANELS -->
+    <main>
+
+      <!-- ═══ NOVEDADES ═══ -->
+      <div class="panel active" id="panel-novedades">
+        <div class="panel-title">📢 Novedades</div>
+        <div class="panel-sub">Publicá avisos, encuestas y actualizaciones para todos los usuarios.</div>
+
+        <!-- Publicar -->
+        <div class="section s-accent">
+          <div class="section-head">
+            <div class="section-label">Publicar novedad <span class="badge accent">NUEVO</span></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="flex:2;min-width:200px">
+              <label>Título</label>
+              <input type="text" id="nov-titulo" placeholder="Ej: Nueva ruta disponible">
+            </div>
+            <div class="form-group" style="max-width:160px">
+              <label>Tipo</label>
+              <select id="nov-tipo">
+                <option value="novedad">📢 Novedad</option>
+                <option value="encuesta">📊 Encuesta</option>
+                <option value="donacion">☕ Donación</option>
+                <option value="bus_interno">🚌 Bus Interno</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Contenido</label>
+              <textarea id="nov-contenido" placeholder="Describí la novedad con detalle..."></textarea>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Link (opcional)</label>
+              <input type="url" id="nov-link" placeholder="https://...">
+            </div>
+            <div style="align-self:flex-end">
+              <button class="btn-primary green" onclick="publishNovedad()">Publicar</button>
+            </div>
+          </div>
+          <div class="alert" id="nov-alert"></div>
+        </div>
+
+        <!-- Lista novedades -->
+        <div class="section s-blue">
+          <div class="section-head">
+            <div class="section-label">Novedades activas <span class="badge" id="nov-count-badge">0</span></div>
+          </div>
+          <div id="nov-list"><div style="color:var(--muted);font-size:13px">Cargando...</div></div>
+        </div>
+      </div>
+
+      <!-- ═══ POPUPS ═══ -->
+      <div class="panel" id="panel-popups">
+        <div class="panel-title">💬 Popups</div>
+        <div class="panel-sub">Enviá un mensaje emergente no invasivo a todos los usuarios que abran la app. Aparece como un toast en la esquina de la pantalla.</div>
+
+        <!-- Crear popup -->
+        <div class="section s-accent">
+          <div class="section-head">
+            <div class="section-label">Nuevo popup <span class="badge accent">TOAST</span></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="flex:2;min-width:200px">
+              <label>Título del popup</label>
+              <input type="text" id="popup-titulo" placeholder="Ej: Servicio suspendido hoy">
+            </div>
+            <div class="form-group" style="max-width:150px">
+              <label>Tipo</label>
+              <select id="popup-tipo">
+                <option value="info">ℹ️ Info</option>
+                <option value="aviso">⚠️ Aviso</option>
+                <option value="urgente">🚨 Urgente</option>
+                <option value="buena">✅ Buena noticia</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Mensaje</label>
+              <textarea id="popup-mensaje" placeholder="Texto breve que verán los usuarios al entrar..."></textarea>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="max-width:180px">
+              <label>Duración visible (segundos)</label>
+              <input type="number" id="popup-duracion" min="3" max="60" value="10" placeholder="10">
+            </div>
+            <div class="form-group">
+              <label>Link (opcional)</label>
+              <input type="url" id="popup-link" placeholder="https://...">
+            </div>
+            <div style="align-self:flex-end">
+              <button class="btn-primary green" onclick="publishPopup()">📤 Enviar popup</button>
+            </div>
+          </div>
+          <div class="alert" id="popup-alert"></div>
+        </div>
+
+        <!-- Lista popups activos -->
+        <div class="section s-blue">
+          <div class="section-head">
+            <div class="section-label">Popups activos <span class="badge" id="popup-count-badge">0</span></div>
+            <div style="color:var(--muted);font-size:11px">Solo los activos se muestran a usuarios</div>
+          </div>
+          <div id="popup-list"><div style="color:var(--muted);font-size:13px">Cargando...</div></div>
+        </div>
+      </div>
+
+      <!-- ═══ PRECIOS ═══ -->
+      <div class="panel" id="panel-precios">
+        <div class="panel-title">💰 Precios de rutas</div>
+        <div class="panel-sub">Editá las tarifas que se muestran en las tarjetas del inicio.</div>
+
+        <div class="section s-accent">
+          <div class="section-head">
+            <div class="section-label">Tarifas <span class="badge accent">FIREBASE</span></div>
+            <div style="display:flex;gap:8px">
+              <button class="btn-secondary" onclick="resetPrecios()">Restablecer</button>
+              <button class="btn-primary" onclick="savePrecios()">💾 Guardar</button>
+            </div>
+          </div>
+          <div class="price-grid" id="price-grid">
+            <div style="color:var(--muted);font-size:13px">Cargando precios...</div>
+          </div>
+          <div class="alert" id="price-alert"></div>
+        </div>
+
+        <div class="section s-blue">
+          <div class="section-head">
+            <div class="section-label">Días disponibles</div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Texto de días (aparece en la portada)</label>
+              <input type="text" id="days-text" placeholder="Ej: Lunes a sábado">
+            </div>
+            <div style="align-self:flex-end">
+              <button class="btn-primary" onclick="saveDaysText()">Guardar</button>
+            </div>
+          </div>
+          <div class="alert" id="days-alert"></div>
+        </div>
+      </div>
+
+      <!-- ═══ EMPRENDIMIENTOS ═══ -->
+      <div class="panel" id="panel-emprendimientos">
+        <div class="panel-title">🏪 Emprendimientos</div>
+        <div class="panel-sub">Administrá los emprendimientos estudiantiles que aparecen en la app. El slot gratuito muestra un emprendimiento sin costo; los slots destacado y básico son de pago.</div>
+
+        <!-- Agregar emprendimiento -->
+        <div class="section s-accent">
+          <div class="section-head">
+            <div class="section-label">Agregar emprendimiento <span class="badge accent">NUEVO</span></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="flex:2;min-width:200px">
+              <label>Nombre del emprendimiento</label>
+              <input type="text" id="emp-nombre" placeholder="Ej: Café La U">
+            </div>
+            <div class="form-group" style="max-width:160px">
+              <label>Slot</label>
+              <select id="emp-slot">
+                <option value="gratuito">🎁 Gratuito</option>
+                <option value="destacado">⭐ Destacado</option>
+                <option value="basico">📦 Básico</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Descripción</label>
+              <textarea id="emp-descripcion" placeholder="Describí el emprendimiento brevemente..."></textarea>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="max-width:180px">
+              <label>Emoji / Ícono</label>
+              <input type="text" id="emp-emoji" placeholder="🍕">
+            </div>
+            <div class="form-group">
+              <label>URL del logo (opcional)</label>
+              <input type="url" id="emp-logo" placeholder="https://...">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="max-width:160px">
+              <label>Tipo de contacto</label>
+              <select id="emp-contacto-tipo">
+                <option value="whatsapp">📱 WhatsApp</option>
+                <option value="instagram">📸 Instagram</option>
+                <option value="facebook">👤 Facebook</option>
+                <option value="web">🌐 Web / Enlace</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Contacto (número, usuario o URL)</label>
+              <input type="text" id="emp-contacto-valor" placeholder="Ej: 88001234 / @usuario / https://...">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Link de más info (opcional)</label>
+              <input type="url" id="emp-link" placeholder="https://linktr.ee/... o cualquier enlace">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="max-width:160px">
+              <label>Fecha inicio (opcional)</label>
+              <input type="date" id="emp-fecha-inicio">
+            </div>
+            <div class="form-group" style="max-width:160px">
+              <label>Fecha fin (opcional)</label>
+              <input type="date" id="emp-fecha-fin">
+            </div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;margin-top:6px">
+            <button class="btn-primary green" onclick="addEmprendimiento()">➕ Agregar</button>
+          </div>
+          <div class="alert" id="emp-alert"></div>
+        </div>
+
+        <!-- Lista emprendimientos -->
+        <div class="section s-blue">
+          <div class="section-head">
+            <div class="section-label">Emprendimientos activos <span class="badge" id="emp-count-badge">0</span></div>
+          </div>
+          <div id="emp-list"><div style="color:var(--muted);font-size:13px">Cargando...</div></div>
+        </div>
+      </div>
+
+      <!-- ═══ FERIAS ═══ -->
+      <div class="panel" id="panel-ferias">
+        <div class="panel-title">📍 Ferias de Emprendedores</div>
+        <div class="panel-sub">Administrá las ferias que aparecen en el mapa de <code style="background:var(--surface2);padding:2px 6px;border-radius:5px;font-size:12px">/emprendimientos</code>. Se guardan en la colección <strong>ferias_emprendedores</strong>.</div>
+
+        <!-- Agregar feria -->
+        <div class="section s-green">
+          <div class="section-head">
+            <div class="section-label">Agregar feria <span class="badge green">NUEVA</span></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="flex:2;min-width:200px">
+              <label>Nombre de la feria</label>
+              <input type="text" id="feria-nombre" placeholder="Ej: Feria Emprendedores UCR">
+            </div>
+            <div class="form-group" style="max-width:180px">
+              <label>Fecha inicio</label>
+              <input type="date" id="feria-fecha">
+            </div>
+            <div class="form-group" style="max-width:180px">
+              <label>Fecha fin (opcional)</label>
+              <input type="date" id="feria-fecha-fin">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Hora inicio</label>
+              <input type="time" id="feria-hora-inicio" value="09:00">
+            </div>
+            <div class="form-group">
+              <label>Hora fin</label>
+              <input type="time" id="feria-hora-fin" value="17:00">
+            </div>
+            <div class="form-group" style="flex:2;min-width:180px">
+              <label>Nombre del lugar</label>
+              <input type="text" id="feria-lugar" placeholder="Ej: Plaza UCR, Finca 1">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Latitud</label>
+              <input type="number" id="feria-lat" placeholder="-9.93..." step="any">
+            </div>
+            <div class="form-group">
+              <label>Longitud</label>
+              <input type="number" id="feria-lng" placeholder="-84.05..." step="any">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Link de más info (opcional)</label>
+              <input type="url" id="feria-link" placeholder="https://... Instagram, formulario, etc.">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Descripción (opcional)</label>
+              <textarea id="feria-desc" placeholder="Detalles de la feria..."></textarea>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;margin-top:6px">
+            <button class="btn-primary green" onclick="addFeria()">➕ Agregar feria</button>
+          </div>
+          <div class="alert" id="feria-alert"></div>
+        </div>
+
+        <!-- Lista ferias -->
+        <div class="section s-blue">
+          <div class="section-head">
+            <div class="section-label">Ferias registradas <span class="badge" id="feria-count-badge">0</span></div>
+          </div>
+          <div id="feria-list"><div style="color:var(--muted);font-size:13px">Cargando...</div></div>
+        </div>
+      </div>
+
+      <!-- ═══ COLORES ═══ -->
+      <div class="panel" id="panel-colores">
+        <div class="panel-title">🎨 Colores del sitio</div>
+        <div class="panel-sub">Personalizá los colores principales de BusUCR. Los cambios se guardan en Firebase y aplican en tiempo real.</div>
+
+        <div class="section s-purple">
+          <div class="section-head">
+            <div class="section-label">Variables de color <span class="badge purple">CSS</span></div>
+            <div style="display:flex;gap:8px">
+              <button class="btn-secondary" onclick="resetColores()">Restablecer</button>
+              <button class="btn-primary" onclick="saveColores()">💾 Guardar colores</button>
+            </div>
+          </div>
+          <div class="color-grid" id="color-grid"></div>
+          <div class="alert" id="color-alert"></div>
+        </div>
+
+        <div class="section s-blue">
+          <div class="section-label" style="margin-bottom:10px">Vista previa en vivo</div>
+          <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+            <div style="background:var(--accent);color:#000;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:700">Botón principal</div>
+            <div style="background:var(--blue);color:#000;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:700">Botón azul</div>
+            <div style="color:var(--accent);font-weight:700;font-size:13px">₡630</div>
+            <div style="color:var(--green);font-size:12px;font-weight:700">● En vivo</div>
+            <div style="color:var(--purple);font-size:12px;font-weight:700">● Púrpura</div>
+            <div style="color:var(--muted);font-size:12px">Texto secundario</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ ACCESO ═══ -->
+      <div class="panel" id="panel-acceso">
+        <div class="panel-title">🔒 Acceso</div>
+        <div class="panel-sub">Información de tu sesión actual.</div>
+
+        <div class="section s-blue">
+          <div class="section-label" style="margin-bottom:12px">Sesión activa</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;gap:8px;align-items:center">
+              <span style="color:var(--muted);font-size:12px;width:80px">Usuario:</span>
+              <span style="font-size:13px;font-weight:600" id="acceso-email">—</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <span style="color:var(--muted);font-size:12px;width:80px">Estado:</span>
+              <span style="font-size:12px;color:var(--green);font-weight:700">● Autenticado con Firebase</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <span style="color:var(--muted);font-size:12px;width:80px">URL admin:</span>
+              <span style="font-size:11px;color:var(--muted)">/182930adminherrera</span>
+            </div>
+          </div>
+          <div style="margin-top:14px">
+            <button class="btn-danger" style="font-size:13px;padding:8px 16px" id="btn-logout-2">Cerrar sesión</button>
+          </div>
+        </div>
+
+        <div class="section s-accent">
+          <div class="section-label" style="margin-bottom:10px">Base de datos Firebase</div>
+          <div style="color:var(--muted);font-size:12px;line-height:1.7">
+            Proyecto: <strong style="color:var(--text)">bus-externo-ucr</strong><br>
+            Colecciones: <strong style="color:var(--text)">novedades · config · popups · schedule_interlinea · emprendimientos · ferias_emprendedores</strong><br>
+            Autenticación: <strong style="color:var(--text)">Firebase Auth (email/password)</strong>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, collection, onSnapshot, addDoc, deleteDoc, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+import { getAuth, setPersistence, browserLocalPersistence, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+
+const app = initializeApp({
+  apiKey: `AIzaSyDxUI4bJsQ2wVPz9SS8UkfIiFPxLC9YMmY`,
+  authDomain: `bus-externo-ucr.firebaseapp.com`,
+  projectId: `bus-externo-ucr`,
+  storageBucket: `bus-externo-ucr.firebasestorage.app`,
+  messagingSenderId: `295955223912`,
+  appId: `1:295955223912:web:e02626d38a8cb57cfd32dd`
+});
+const db = getFirestore(app);
+const auth = getAuth(app);
+setPersistence(auth, browserLocalPersistence).catch(console.warn);
+
+// ── ROUTES CONFIG ─────────────────────────────────────────────────────────────
+const ROUTES = {
+  coronado:      { label: 'Coronado',         defaultFare: 630 },
+  tibas:         { label: 'Tibás',            defaultFare: 640 },
+  heredia:       { label: 'Heredia',          defaultFare: 790 },
+  acosta:        { label: 'Acosta / Aserrí',  defaultFare: 1330 },
+  sanramon:      { label: 'San Ramón',        defaultFare: 2200 },
+  sanRafael:     { label: 'San Rafael',       defaultFare: 670 },
+  pavas:         { label: 'Pavas',            defaultFare: 680 },
+  desamparados:  { label: 'Desamparados',     defaultFare: 600 },
+  santaanaescazu:{ label: 'Santa Ana/Escazú', defaultFare: 840 },
+  alajuela:      { label: 'Alajuela',         defaultFare: 1000 },
+  periferica:    { label: 'Periférica',       defaultFare: 600 },
+  interlinea:    { label: 'Interlínea',       defaultFare: 600 }
+};
+
+const PRICE_DOC = doc(db, 'config', 'landing_prices');
+const COLORS_DOC = doc(db, 'config', 'site_colors');
+const DAYS_TEXT_DEFAULT = 'Lunes a sábado';
+
+// ── COLOR VARS ────────────────────────────────────────────────────────────────
+const COLOR_VARS = [
+  { key: '--bg',      label: 'Fondo principal',   default: '#060b16' },
+  { key: '--surface', label: 'Superficie',         default: '#0f1726' },
+  { key: '--text',    label: 'Texto principal',    default: '#eef4ff' },
+  { key: '--muted',   label: 'Texto secundario',   default: '#91a0ba' },
+  { key: '--accent',  label: 'Acento (dorado)',    default: '#f0a500' },
+  { key: '--accent2', label: 'Acento 2 (rojo)',    default: '#e86a57' },
+  { key: '--blue',    label: 'Azul',               default: '#58a6ff' },
+  { key: '--green',   label: 'Verde / En vivo',    default: '#6ee787' },
+  { key: '--purple',  label: 'Púrpura',            default: '#a371f7' },
+  { key: '--border',  label: 'Borde sutil',        default: '#ffffff14' },
+];
+
+let currentColors = {};
+let novedades = [];
+
+// ── SHOW ALERT ────────────────────────────────────────────────────────────────
+function showAlert(id, msg, type = 'success') {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = msg;
+  el.className = `alert visible ${type}`;
+  setTimeout(() => { el.className = 'alert'; }, 4000);
+}
+
+// ── AUTH ──────────────────────────────────────────────────────────────────────
+onAuthStateChanged(auth, user => {
+  if (user) {
+    document.getElementById('lock-screen').style.display = 'none';
+    document.getElementById('main-header').style.display = 'block';
+    document.getElementById('admin-wrap').classList.add('visible');
+    document.getElementById('user-email-label').textContent = user.email;
+    document.getElementById('acceso-email').textContent = user.email;
+    initAdmin();
+  } else {
+    document.getElementById('lock-screen').style.display = 'flex';
+    document.getElementById('main-header').style.display = 'none';
+    document.getElementById('admin-wrap').classList.remove('visible');
+  }
+});
+
+document.getElementById('btn-login').addEventListener('click', login);
+document.getElementById('login-pass').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+document.getElementById('login-email').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('login-pass').focus(); });
+
+async function login() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  const msg = document.getElementById('auth-msg');
+  if (!email || !pass) { msg.textContent = 'Escribí correo y contraseña'; msg.className = 'auth-msg error'; return; }
+  msg.textContent = 'Iniciando sesión...'; msg.className = 'auth-msg info';
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+    document.getElementById('login-pass').value = '';
+  } catch (e) {
+    let m = 'No se pudo iniciar sesión';
+    if (e.code === 'auth/invalid-credential' || e.code === 'auth/wrong-password' || e.code === 'auth/user-not-found') m = 'Credenciales incorrectas';
+    else if (e.code === 'auth/invalid-email') m = 'Correo inválido';
+    else if (e.code === 'auth/too-many-requests') m = 'Demasiados intentos. Probá más tarde';
+    msg.textContent = m; msg.className = 'auth-msg error';
+  }
+}
+
+async function logout() {
+  try { await signOut(auth); } catch (e) { console.warn(e); }
+}
+document.getElementById('btn-logout').addEventListener('click', logout);
+document.getElementById('btn-logout-2').addEventListener('click', logout);
+
+// ── SIDEBAR NAV ───────────────────────────────────────────────────────────────
+document.querySelectorAll('.nav-item[data-panel]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-' + btn.dataset.panel).classList.add('active');
+  });
+});
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+function initAdmin() {
+  loadPrecios();
+  loadColores();
+  subscribeNovedades();
+  subscribePopups();
+  subscribeEmprendimientos();
+  subscribeFerias();
+}
+
+// ── NOVEDADES ─────────────────────────────────────────────────────────────────
+const TIPO_CONFIG = {
+  novedad:    { icon: '📢', label: 'Novedad' },
+  encuesta:   { icon: '📊', label: 'Encuesta' },
+  donacion:   { icon: '☕', label: 'Donación' },
+  bus_interno:{ icon: '🚌', label: 'Bus Interno' }
+};
+
+function subscribeNovedades() {
+  try {
+    onSnapshot(query(collection(db, 'novedades'), orderBy('creadoEn', 'desc')), snap => {
+      novedades = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderNovList();
+    });
+  } catch (e) { console.warn(e); }
+}
+
+function renderNovList() {
+  const el = document.getElementById('nov-list');
+  const badge = document.getElementById('nov-count-badge');
+  badge.textContent = novedades.length;
+  if (!novedades.length) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:4px 0">Sin novedades publicadas</div>';
+    return;
+  }
+  el.innerHTML = novedades.map(n => {
+    const t = TIPO_CONFIG[n.tipo] || TIPO_CONFIG.novedad;
+    const isActive = n.activo !== false;
+    return `<div class="list-row">
+      <div class="status-dot ${isActive ? 'active' : 'inactive'}"></div>
+      <div class="list-row-main">
+        <div class="list-row-title">${n.titulo || '(sin título)'}</div>
+        <div class="list-row-sub">
+          <span class="nov-tag-pill ${n.tipo || 'novedad'}">${t.icon} ${t.label}</span>
+          &nbsp;${isActive ? '✅ Activa' : '⏸ Inactiva'}
+          ${n.link ? `&nbsp;· <a href="${n.link}" target="_blank" style="color:var(--blue);font-size:11px">ver link</a>` : ''}
+        </div>
+      </div>
+      <div class="list-actions">
+        <button class="btn-secondary" style="font-size:11px;padding:4px 10px" onclick="window._toggleNov('${n.id}',${isActive})">${isActive ? 'Pausar' : 'Activar'}</button>
+        <button class="btn-danger" onclick="window._deleteNov('${n.id}')">Eliminar</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+window.publishNovedad = async function () {
+  const titulo = document.getElementById('nov-titulo').value.trim();
+  const contenido = document.getElementById('nov-contenido').value.trim();
+  const tipo = document.getElementById('nov-tipo').value;
+  const link = document.getElementById('nov-link').value.trim() || null;
+  if (!titulo || !contenido) { showAlert('nov-alert', 'Título y contenido son requeridos', 'error'); return; }
+  try {
+    await addDoc(collection(db, 'novedades'), { titulo, contenido, tipo, link, activo: true, creadoEn: Date.now() });
+    document.getElementById('nov-titulo').value = '';
+    document.getElementById('nov-contenido').value = '';
+    document.getElementById('nov-link').value = '';
+    showAlert('nov-alert', '✅ Novedad publicada — ya es visible para todos', 'success');
+  } catch (e) { showAlert('nov-alert', 'Error: ' + e.message, 'error'); }
+};
+
+window._toggleNov = async function (id, isActive) {
+  try { await updateDoc(doc(db, 'novedades', id), { activo: !isActive }); }
+  catch (e) { console.error(e); }
+};
+
+window._deleteNov = async function (id) {
+  if (!confirm('¿Eliminar esta novedad? Esta acción no se puede deshacer.')) return;
+  try { await deleteDoc(doc(db, 'novedades', id)); }
+  catch (e) { console.error(e); }
+};
+
+// ── POPUPS ────────────────────────────────────────────────────────────────────
+const POPUP_TIPO_CONFIG = {
+  info:    { icon: 'ℹ️', label: 'Info' },
+  aviso:   { icon: '⚠️', label: 'Aviso' },
+  urgente: { icon: '🚨', label: 'Urgente' },
+  buena:   { icon: '✅', label: 'Buena noticia' }
+};
+
+function subscribePopups() {
+  try {
+    onSnapshot(query(collection(db, 'popups'), orderBy('creadoEn', 'desc')), snap => {
+      const popups = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderPopupList(popups);
+    });
+  } catch(e) { console.warn(e); }
+}
+
+function renderPopupList(popups) {
+  const el = document.getElementById('popup-list');
+  const badge = document.getElementById('popup-count-badge');
+  const activos = popups.filter(p => p.activo !== false);
+  badge.textContent = activos.length;
+  if (!popups.length) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:4px 0">Sin popups creados</div>';
+    return;
+  }
+  el.innerHTML = popups.map(p => {
+    const t = POPUP_TIPO_CONFIG[p.tipo] || POPUP_TIPO_CONFIG.info;
+    const isActive = p.activo !== false;
+    return `<div class="list-row">
+      <div class="status-dot ${isActive ? 'active' : 'inactive'}"></div>
+      <div class="list-row-main">
+        <div class="list-row-title">${t.icon} ${p.titulo || '(sin título)'}</div>
+        <div class="list-row-sub">
+          <span class="nov-tag-pill novedad">${t.label}</span>
+          &nbsp;${isActive ? '✅ Activo' : '⏸ Inactivo'}
+          &nbsp;· ⏱ ${p.duracion || 10}s
+          ${p.link ? `&nbsp;· <a href="${p.link}" target="_blank" style="color:var(--blue);font-size:11px">ver link</a>` : ''}
+        </div>
+        ${p.mensaje ? `<div style="color:var(--muted);font-size:11px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:340px">${p.mensaje}</div>` : ''}
+      </div>
+      <div class="list-actions">
+        <button class="btn-secondary" style="font-size:11px;padding:4px 10px" onclick="window._togglePopup('${p.id}',${isActive})">${isActive ? 'Pausar' : 'Activar'}</button>
+        <button class="btn-danger" onclick="window._deletePopup('${p.id}')">Eliminar</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+window.publishPopup = async function() {
+  const titulo = document.getElementById('popup-titulo').value.trim();
+  const mensaje = document.getElementById('popup-mensaje').value.trim();
+  const tipo = document.getElementById('popup-tipo').value;
+  const duracion = parseInt(document.getElementById('popup-duracion').value) || 10;
+  const link = document.getElementById('popup-link').value.trim() || null;
+  if (!titulo || !mensaje) { showAlert('popup-alert', 'Título y mensaje son requeridos', 'error'); return; }
+  try {
+    await addDoc(collection(db, 'popups'), { titulo, mensaje, tipo, duracion, link, activo: true, creadoEn: Date.now() });
+    document.getElementById('popup-titulo').value = '';
+    document.getElementById('popup-mensaje').value = '';
+    document.getElementById('popup-link').value = '';
+    showAlert('popup-alert', '✅ Popup enviado — los usuarios lo verán al cargar la app', 'success');
+  } catch(e) { showAlert('popup-alert', 'Error: ' + e.message, 'error'); }
+};
+
+window._togglePopup = async function(id, isActive) {
+  try { await updateDoc(doc(db, 'popups', id), { activo: !isActive }); }
+  catch(e) { console.error(e); }
+};
+
+window._deletePopup = async function(id) {
+  if (!confirm('¿Eliminar este popup? Esta acción no se puede deshacer.')) return;
+  try { await deleteDoc(doc(db, 'popups', id)); }
+  catch(e) { console.error(e); }
+};
+
+// ── PRECIOS ───────────────────────────────────────────────────────────────────
+let currentPrices = {};
+
+async function loadPrecios() {
+  try {
+    const snap = await getDoc(PRICE_DOC);
+    const data = snap.exists() ? snap.data() : {};
+    currentPrices = normalizePrices(data);
+    document.getElementById('days-text').value = data.availableDaysText || DAYS_TEXT_DEFAULT;
+  } catch (e) {
+    currentPrices = normalizePrices({});
+  }
+  renderPriceGrid();
+}
+
+function normalizePrices(raw = {}) {
+  const out = {};
+  Object.entries(ROUTES).forEach(([key, r]) => {
+    const v = Number(raw[key]);
+    out[key] = Number.isFinite(v) && v >= 0 ? v : r.defaultFare;
+  });
+  return out;
+}
+
+function renderPriceGrid() {
+  document.getElementById('price-grid').innerHTML = Object.entries(ROUTES).map(([key, r]) =>
+    `<div class="price-item">
+      <label>${r.label}</label>
+      <input type="number" min="0" step="1" data-price-key="${key}" value="${currentPrices[key] ?? r.defaultFare}">
+    </div>`
+  ).join('');
+}
+
+window.savePrecios = async function () {
+  const data = {};
+  let invalid = false;
+  document.querySelectorAll('[data-price-key]').forEach(el => {
+    const n = Number(el.value);
+    if (!Number.isFinite(n) || n < 0) invalid = true;
+    data[el.dataset.priceKey] = n;
+  });
+  const daysText = document.getElementById('days-text').value.trim() || DAYS_TEXT_DEFAULT;
+  data.availableDaysText = daysText;
+  if (invalid) { showAlert('price-alert', 'Revisá los precios antes de guardar', 'error'); return; }
+  try {
+    await setDoc(PRICE_DOC, data, { merge: true });
+    currentPrices = normalizePrices(data);
+    showAlert('price-alert', '✅ Precios guardados correctamente en Firebase', 'success');
+  } catch (e) { showAlert('price-alert', 'Error: ' + e.message, 'error'); }
+};
+
+window.resetPrecios = async function () {
+  if (!confirm('¿Restablecer todos los precios a los valores por defecto?')) return;
+  currentPrices = normalizePrices({});
+  renderPriceGrid();
+  try {
+    await setDoc(PRICE_DOC, { ...currentPrices, availableDaysText: DAYS_TEXT_DEFAULT }, { merge: true });
+    document.getElementById('days-text').value = DAYS_TEXT_DEFAULT;
+    showAlert('price-alert', '✅ Precios restablecidos', 'success');
+  } catch (e) { showAlert('price-alert', 'Error: ' + e.message, 'error'); }
+};
+
+window.saveDaysText = async function () {
+  const val = document.getElementById('days-text').value.trim();
+  if (!val) { showAlert('days-alert', 'Escribí el texto de días', 'error'); return; }
+  try {
+    await setDoc(PRICE_DOC, { availableDaysText: val }, { merge: true });
+    showAlert('days-alert', '✅ Días guardados', 'success');
+  } catch (e) { showAlert('days-alert', 'Error: ' + e.message, 'error'); }
+};
+
+// ── COLORES ───────────────────────────────────────────────────────────────────
+function renderColorGrid(vals = {}) {
+  document.getElementById('color-grid').innerHTML = COLOR_VARS.map(c => {
+    const val = vals[c.key] || c.default;
+    // Convert css var with alpha to solid for color input
+    const cleanVal = val.startsWith('#') && val.length <= 7 ? val : c.default;
+    return `<div class="color-item">
+      <label>${c.label}</label>
+      <input type="color" data-color-key="${c.key}" value="${cleanVal}" title="${c.key}">
+    </div>`;
+  }).join('');
+
+  // Live preview
+  document.querySelectorAll('[data-color-key]').forEach(el => {
+    el.addEventListener('input', () => {
+      document.documentElement.style.setProperty(el.dataset.colorKey, el.value);
+    });
+  });
+}
+
+async function loadColores() {
+  try {
+    const snap = await getDoc(COLORS_DOC);
+    currentColors = snap.exists() ? snap.data() : {};
+  } catch (e) { currentColors = {}; }
+  // Apply loaded colors
+  Object.entries(currentColors).forEach(([k, v]) => document.documentElement.style.setProperty(k, v));
+  renderColorGrid(currentColors);
+}
+
+window.saveColores = async function () {
+  const data = {};
+  document.querySelectorAll('[data-color-key]').forEach(el => { data[el.dataset.colorKey] = el.value; });
+  try {
+    await setDoc(COLORS_DOC, data, { merge: true });
+    currentColors = data;
+    showAlert('color-alert', '✅ Colores guardados — aplican en todo el sitio', 'success');
+  } catch (e) { showAlert('color-alert', 'Error: ' + e.message, 'error'); }
+};
+
+window.resetColores = async function () {
+  if (!confirm('¿Restablecer todos los colores a los valores por defecto?')) return;
+  COLOR_VARS.forEach(c => document.documentElement.style.setProperty(c.key, c.default));
+  renderColorGrid({});
+  try {
+    const defaults = Object.fromEntries(COLOR_VARS.map(c => [c.key, c.default]));
+    await setDoc(COLORS_DOC, defaults, { merge: true });
+    showAlert('color-alert', '✅ Colores restablecidos', 'success');
+  } catch (e) { showAlert('color-alert', 'Error: ' + e.message, 'error'); }
+};
+// ── EMPRENDIMIENTOS ──────────────────────────────────────────────────────────
+const SLOT_CONFIG = {
+  gratuito:  { icon: '🎁', label: 'Gratuito',  color: 'green' },
+  destacado: { icon: '⭐', label: 'Destacado', color: 'accent' },
+  basico:    { icon: '📦', label: 'Básico',    color: '' }
+};
+
+function subscribeEmprendimientos() {
+  try {
+    onSnapshot(query(collection(db, 'emprendimientos'), orderBy('creadoEn', 'desc')), snap => {
+      const emps = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderEmpList(emps);
+    });
+  } catch(e) { console.warn(e); }
+}
+
+function renderEmpList(emps) {
+  const el = document.getElementById('emp-list');
+  const badge = document.getElementById('emp-count-badge');
+  const activos = emps.filter(e => e.activo !== false);
+  badge.textContent = activos.length;
+  if (!emps.length) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:4px 0">Sin emprendimientos registrados</div>';
+    return;
+  }
+  el.innerHTML = emps.map(e => {
+    const s = SLOT_CONFIG[e.slot] || SLOT_CONFIG.basico;
+    const isActive = e.activo !== false;
+    const fechaInicio = e.fechaInicio || e.vencimiento || null;
+    const fechaFin = e.fechaFin || null;
+    let fechaStr = '';
+    if (fechaInicio && fechaFin) fechaStr = `· 📅 ${fechaInicio} → ${fechaFin}`;
+    else if (fechaInicio) fechaStr = `· 📅 desde ${fechaInicio}`;
+    else if (fechaFin) fechaStr = `· 📅 hasta ${fechaFin}`;
+    return `<div class="list-row">
+      <div class="status-dot ${isActive ? 'active' : 'inactive'}"></div>
+      <div style="font-size:1.4rem;flex-shrink:0">${e.emoji || '🏪'}</div>
+      <div class="list-row-main">
+        <div class="list-row-title">${e.nombre || '(sin nombre)'}</div>
+        <div class="list-row-sub">
+          <span class="badge ${s.color}">${s.icon} ${s.label}</span>
+          &nbsp;${isActive ? '✅ Activo' : '⏸ Inactivo'}
+          &nbsp;· ${e.contactoTipo || 'web'}: ${e.contactoValor || '—'}
+          ${e.link ? `&nbsp;· <a href="${e.link}" target="_blank" rel="noopener" style="color:var(--blue);font-size:11px">🔗 Ver más</a>` : ''}
+          ${fechaStr}
+        </div>
+      </div>
+      <div class="list-actions" style="flex-wrap:wrap;gap:4px">
+        <select style="background:var(--bg);color:var(--text);border:1px solid var(--border2);border-radius:6px;font-size:11px;padding:4px 6px;font-family:var(--font);cursor:pointer" onchange="window._changeSlotEmp('${e.id}',this.value)">
+          <option value="gratuito" ${e.slot==='gratuito'?'selected':''}>🎁 Gratuito</option>
+          <option value="destacado" ${e.slot==='destacado'?'selected':''}>⭐ Destacado</option>
+          <option value="basico" ${e.slot==='basico'?'selected':''}>📦 Básico</option>
+        </select>
+        <button class="btn-secondary" style="font-size:11px;padding:4px 10px" onclick="window._toggleEmp('${e.id}',${isActive})">${isActive ? 'Pausar' : 'Activar'}</button>
+        <button class="btn-danger" onclick="window._deleteEmp('${e.id}')">Eliminar</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+window.addEmprendimiento = async function() {
+  const nombre = document.getElementById('emp-nombre').value.trim();
+  const descripcion = document.getElementById('emp-descripcion').value.trim();
+  const slot = document.getElementById('emp-slot').value;
+  const emoji = document.getElementById('emp-emoji').value.trim() || '🏪';
+  const logo = document.getElementById('emp-logo').value.trim() || null;
+  const contactoTipo = document.getElementById('emp-contacto-tipo').value;
+  const contactoValor = document.getElementById('emp-contacto-valor').value.trim();
+  const fechaInicio = document.getElementById('emp-fecha-inicio').value || null;
+  const fechaFin = document.getElementById('emp-fecha-fin').value || null;
+  const link = document.getElementById('emp-link').value.trim() || null;
+
+  if (!nombre) { showAlert('emp-alert', 'El nombre es requerido', 'error'); return; }
+
+  // Validar slot gratuito único
+  if (slot === 'gratuito') {
+    try {
+      const snap = await import("https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js");
+      const { getDocs } = snap;
+      const existing = await getDocs(query(collection(db, 'emprendimientos')));
+      const gratuitoActivo = existing.docs.find(d => {
+        const data = d.data();
+        return data.slot === 'gratuito' && data.activo !== false;
+      });
+      if (gratuitoActivo) {
+        if (!confirm(`Ya hay un emprendimiento gratuito activo ("${gratuitoActivo.data().nombre}"). ¿Querés reemplazarlo? El anterior quedará inactivo.`)) return;
+        await updateDoc(doc(db, 'emprendimientos', gratuitoActivo.id), { activo: false });
+      }
+    } catch(e) { console.warn(e); }
+  }
+
+  try {
+    await addDoc(collection(db, 'emprendimientos'), {
+      nombre, descripcion, slot, emoji, logo, contactoTipo, contactoValor,
+      link, fechaInicio, fechaFin,
+      activo: true, creadoEn: Date.now()
+    });
+    document.getElementById('emp-nombre').value = '';
+    document.getElementById('emp-descripcion').value = '';
+    document.getElementById('emp-emoji').value = '';
+    document.getElementById('emp-logo').value = '';
+    document.getElementById('emp-contacto-valor').value = '';
+    document.getElementById('emp-link').value = '';
+    document.getElementById('emp-fecha-inicio').value = '';
+    document.getElementById('emp-fecha-fin').value = '';
+    showAlert('emp-alert', '✅ Emprendimiento agregado correctamente', 'success');
+  } catch(e) { showAlert('emp-alert', 'Error: ' + e.message, 'error'); }
+};
+
+window._toggleEmp = async function(id, isActive) {
+  try { await updateDoc(doc(db, 'emprendimientos', id), { activo: !isActive }); }
+  catch(e) { console.error(e); }
+};
+
+window._changeSlotEmp = async function(id, newSlot) {
+  // Si cambia a gratuito, verificar que no haya otro
+  if (newSlot === 'gratuito') {
+    try {
+      const { getDocs } = await import("https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js");
+      const existing = await getDocs(query(collection(db, 'emprendimientos')));
+      const gratuitoActivo = existing.docs.find(d => {
+        const data = d.data();
+        return d.id !== id && data.slot === 'gratuito' && data.activo !== false;
+      });
+      if (gratuitoActivo) {
+        if (!confirm(`Ya hay un gratuito activo ("${gratuitoActivo.data().nombre}"). ¿Reemplazarlo?`)) return;
+        await updateDoc(doc(db, 'emprendimientos', gratuitoActivo.id), { activo: false });
+      }
+    } catch(e) { console.warn(e); }
+  }
+  try { await updateDoc(doc(db, 'emprendimientos', id), { slot: newSlot }); }
+  catch(e) { console.error(e); }
+};
+
+window._deleteEmp = async function(id) {
+  if (!confirm('¿Eliminar este emprendimiento? Esta acción no se puede deshacer.')) return;
+  try { await deleteDoc(doc(db, 'emprendimientos', id)); }
+  catch(e) { console.error(e); }
+};
+
+// ── FERIAS ────────────────────────────────────────────────────────────────────
+function formatFechaAdmin(fecha) {
+  if (!fecha) return '—';
+  const [y, m, d] = fecha.split('-');
+  return `${d}/${m}/${y}`;
+}
+
+function feriaStatusAdmin(fecha) {
+  if (!fecha) return 'sin-fecha';
+  const hoy = new Date().toISOString().slice(0, 10);
+  if (fecha === hoy) return 'hoy';
+  if (fecha > hoy) return 'proxima';
+  return 'pasada';
+}
+
+const STATUS_LABEL = { hoy: '🟡 Hoy', proxima: '🟢 Próxima', pasada: '⬜ Pasada', 'sin-fecha': '❓ Sin fecha' };
+const STATUS_COLOR = { hoy: 'accent', proxima: 'green', pasada: '', 'sin-fecha': '' };
+
+function subscribeFerias() {
+  try {
+    onSnapshot(query(collection(db, 'ferias_emprendedores'), orderBy('creadoEn', 'desc')), snap => {
+      const ferias = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderFeriaList(ferias);
+    });
+  } catch(e) { console.warn('Ferias:', e); }
+}
+
+function renderFeriaList(ferias) {
+  const el = document.getElementById('feria-list');
+  const badge = document.getElementById('feria-count-badge');
+  if (!el) return;
+  badge.textContent = ferias.length;
+  if (!ferias.length) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:4px 0">Sin ferias registradas</div>';
+    return;
+  }
+  el.innerHTML = ferias.map(f => {
+    const status = feriaStatusAdmin(f.fecha);
+    const horaStr = f.hora_inicio ? ` · ${f.hora_inicio}${f.hora_fin ? '–' + f.hora_fin : ''}` : '';
+    const fechaStr = f.fecha_fin
+      ? `📅 ${formatFechaAdmin(f.fecha)} → ${formatFechaAdmin(f.fecha_fin)}`
+      : `📅 ${formatFechaAdmin(f.fecha)}`;
+    return `<div class="list-row">
+      <div class="list-row-main">
+        <div class="list-row-title">${f.nombre || '(sin nombre)'}</div>
+        <div class="list-row-sub">
+          <span class="badge ${STATUS_COLOR[status]}">${STATUS_LABEL[status]}</span>
+          &nbsp;${fechaStr}${horaStr}
+          ${f.lugar ? ` · 📍 ${f.lugar}` : ''}
+          ${(f.lat && f.lng) ? ` · 🗺️ ${Number(f.lat).toFixed(4)}, ${Number(f.lng).toFixed(4)}` : ' · ⚠️ Sin coords'}
+          ${f.link ? ` · <a href="${f.link}" target="_blank" rel="noopener" style="color:var(--blue);font-size:11px">🔗 Ver más</a>` : ''}
+        </div>
+        ${f.descripcion ? `<div style="font-size:11px;color:var(--muted);margin-top:3px">${f.descripcion}</div>` : ''}
+      </div>
+      <div class="list-actions">
+        <button class="btn-danger" onclick="window._deleteFeria('${f.id}')">Eliminar</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+window.addFeria = async function() {
+  const nombre = document.getElementById('feria-nombre')?.value.trim();
+  const fecha  = document.getElementById('feria-fecha')?.value;
+  const fechaFin = document.getElementById('feria-fecha-fin')?.value || null;
+  const horaInicio = document.getElementById('feria-hora-inicio')?.value;
+  const horaFin    = document.getElementById('feria-hora-fin')?.value;
+  const desc   = document.getElementById('feria-desc')?.value.trim() || null;
+  const lat    = parseFloat(document.getElementById('feria-lat')?.value);
+  const lng    = parseFloat(document.getElementById('feria-lng')?.value);
+  const lugar  = document.getElementById('feria-lugar')?.value.trim() || null;
+  const link   = document.getElementById('feria-link')?.value.trim() || null;
+
+  if (!nombre || !fecha) {
+    showAlert('feria-alert', '⚠️ Nombre y fecha son obligatorios', 'error');
+    return;
+  }
+  if (isNaN(lat) || isNaN(lng)) {
+    showAlert('feria-alert', '⚠️ Latitud y longitud son obligatorias', 'error');
+    return;
+  }
+
+  try {
+    await addDoc(collection(db, 'ferias_emprendedores'), {
+      nombre, fecha, fecha_fin: fechaFin,
+      hora_inicio: horaInicio || null,
+      hora_fin: horaFin || null,
+      descripcion: desc,
+      lat, lng, lugar, link,
+      activo: true,
+      creadoEn: Date.now()
+    });
+    ['feria-nombre','feria-fecha','feria-fecha-fin','feria-desc','feria-lat','feria-lng','feria-lugar','feria-link'].forEach(id => {
+      const el = document.getElementById(id); if (el) el.value = '';
+    });
+    showAlert('feria-alert', '✅ Feria agregada correctamente', 'success');
+  } catch(e) {
+    showAlert('feria-alert', 'Error: ' + e.message, 'error');
+  }
+};
+
+window._deleteFeria = async function(id) {
+  if (!confirm('¿Eliminar esta feria? Esta acción no se puede deshacer.')) return;
+  try { await deleteDoc(doc(db, 'ferias_emprendedores', id)); }
+  catch(e) { console.error(e); }
+};
+
+</script>
+</html>
